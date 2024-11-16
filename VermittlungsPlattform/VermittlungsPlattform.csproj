@@ -16,11 +16,20 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGenerators.Mvc" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Student\Data\" />
+    <Folder Include="Areas\Student\Models\" />
+    <Folder Include="Areas\Unternehmen\Data\" />
+    <Folder Include="Areas\Unternehmen\Models\" />
     <Folder Include="Models\Db\" />
+    <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\logo\" />
   </ItemGroup>
 
 </Project>

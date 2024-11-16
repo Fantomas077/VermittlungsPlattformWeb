@@ -15,6 +15,10 @@ public partial class VermittlungsplattformDbContext : DbContext
     {
     }
 
+    public virtual DbSet<CompanyProfile> CompanyProfiles { get; set; }
+
+    public virtual DbSet<CompanyProfileGallery> CompanyProfileGalleries { get; set; }
+
     public virtual DbSet<Menu> Menus { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -23,6 +27,45 @@ public partial class VermittlungsplattformDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<CompanyProfile>(entity =>
+        {
+            entity.ToTable("CompanyProfile");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Branche)
+                .HasMaxLength(10)
+                .IsFixedLength();
+            entity.Property(e => e.Description)
+                .HasMaxLength(3000)
+                .IsFixedLength();
+            entity.Property(e => e.Imagename)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.Link)
+                .HasMaxLength(50)
+                .IsFixedLength();
+            entity.Property(e => e.Location)
+                .HasMaxLength(50)
+                .IsFixedLength();
+            entity.Property(e => e.Name)
+                .HasMaxLength(50)
+                .IsFixedLength();
+            entity.Property(e => e.Webseite)
+                .HasMaxLength(200)
+                .IsFixedLength();
+        });
+
+        modelBuilder.Entity<CompanyProfileGallery>(entity =>
+        {
+            entity.ToTable("CompanyProfileGallery");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.CompanyProfileId).HasColumnName("CompanyProfileID");
+            entity.Property(e => e.ImageName)
+                .HasMaxLength(100)
+                .IsFixedLength();
+        });
+
         modelBuilder.Entity<Menu>(entity =>
         {
             entity.Property(e => e.Id).HasColumnName("ID");

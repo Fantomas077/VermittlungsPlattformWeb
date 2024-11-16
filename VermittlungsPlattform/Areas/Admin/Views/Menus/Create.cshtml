@@ -1,0 +1,82 @@
+﻿@model VermittlungsPlattform.Models.Db.Menu
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@* <h1>Create</h1>
+
+<h4>Menu</h4>
+<hr /> *@
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @* <div class="form-group">
+                <label asp-for="MenuTitle" class="control-label"></label>
+                <input asp-for="MenuTitle" class="form-control" />
+                <span asp-validation-for="MenuTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Link" class="control-label"></label>
+                <input asp-for="Link" class="form-control" />
+                <span asp-validation-for="Link" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <input asp-for="Type" class="form-control" />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div> *@
+            <div class="card border-secondray mb-3" style="max-width: 500rem;">
+                <div class="card-header bg-primary text-light">Create Menu</div>
+                <div class="card-body ">
+
+                    <div class=" form-floating mb-3">
+                        <input asp-for=MenuTitle class="form-control " placeholder="Thriller" />
+                        <label asp-for="MenuTitle"></label>
+                        <span asp-validation-for="MenuTitle" class="text-danger"></span>
+                    </div>
+                    <div class=" form-floating mb-3">
+                        <input asp-for=Link class="form-control " placeholder="Thriller" />
+                        <label asp-for="Link"></label>
+                        <span asp-validation-for="Link" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Type"></label>
+
+                        <select asp-for="Type" class="form-control">
+                            <option value="Top">Top</option>
+                            <option value="Bottom">Bottom</option>
+                        </select>
+                        <span asp-validation-for="Type" class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <button type="submit" class="btn btn-primary form-control">Create</button>
+
+                        </div>
+                        <div class="col-6">
+                            <a asp-controller="Menus" asp-action="Index" class="btn btn-outline-secondary form-control">Back to List </a>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@* <div>
+    <a asp-action="Index">Back to List</a>
+</div> *@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
