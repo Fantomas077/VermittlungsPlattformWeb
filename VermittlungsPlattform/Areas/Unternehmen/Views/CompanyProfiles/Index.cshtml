@@ -55,7 +55,9 @@
                 @Html.DisplayFor(modelItem => item.Webseite)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Imagename)
+            @*     @Html.DisplayFor(modelItem => item.Imagename) *@
+                    <img class="img-thumbnail" src="/images/LogoCompany/@item.Imagename" style="max-width:100px" />
+
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Link)

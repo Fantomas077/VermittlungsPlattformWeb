@@ -1,0 +1,115 @@
+﻿@model VermittlungsPlattform.Models.Db.UserUnternehmen
+
+@{
+    ViewData["Title"] = "RegisterUnternehmen";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Register</title>
+
+    <style>
+        body {
+            background: #f6f9fc;
+        }
+
+        .login-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+      
+            
+
+        .text-theme {
+            color: #5369f8 !important;
+        }
+
+        .btn-theme {
+            background-color: #5369f8;
+            border-color: #5369f8;
+            color: #fff;
+        }
+
+            .btn-theme:hover {
+                background-color: #4354c7;
+                border-color: #4354c7;
+                color: #fff;
+            }
+
+        
+    </style>
+</head>
+<body>
+
+    <div id="main-wrapper" class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-xl-10">
+                <div class="card border-0 ">
+                    <div class="card-body p-0">
+                        <div class="row no-gutters">
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="mb-5">
+                                        <h3 class="h4 font-weight-bold text-theme"><span style="color:#3498db;">Prakti</span><span style="color:#2ecc71;">Match</span> - Unternehmen</h3>
+                                    </div>
+                                    <h6 class="h5 mb-0">Start your journey with Praktimatch</h6>
+                                    <p class="text-muted mt-2 mb-5">A platform connecting students and companies for internship opportunities. Register to get started!</p>
+
+                                    <form asp-action="RegisterUnternehmen">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <div class="form-group">
+                                            <label asp-for="Name" class="control-label"></label>
+                                            <input asp-for="Name" class="form-control" id="yourName" />
+                                            <span asp-validation-for="Name" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label asp-for="Vorname" class="control-label"></label>
+                                            <input asp-for="Vorname" class="form-control" id="yourFirstName" />
+                                            <span asp-validation-for="Vorname" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label asp-for="Email" class="control-label"></label>
+                                            <input asp-for="Email" class="form-control" id="exampleInputEmail1" />
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group mb-5">
+                                            <label asp-for="Password" class="control-label">Password</label>
+                                            <input asp-for="Password" class="form-control" id="exampleInputPassword1" type="password" />
+                                            <span asp-validation-for="Password" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="login-actions">
+                                            <button type="submit" value="RegisterUnternehmen" class="btn btn-theme">Register</button>
+                                            <a href="/Account/RegisterStudent" class="forgot-password">Register Als Student?</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <img src="/logo.jpg" style="max-width:100%; max-height:100%"/>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- end card-body -->
+                </div>
+                <!-- end card -->
+                <p class="text-muted text-center mt-3 mb-0">Already have an account? <a href="/Account/LoginUnternehmen" class="text-primary ml-1">Login</a></p>
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- end main-wrapper -->
+
+</body>
+</html>

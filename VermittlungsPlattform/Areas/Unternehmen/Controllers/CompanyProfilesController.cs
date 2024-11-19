@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -54,12 +55,51 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Location,Branche,Description,Webseite,Imagename,Link")] CompanyProfile companyProfile)
+        public async Task<IActionResult> Create([Bind("Id,Name,Location,Branche,Description,Webseite,Imagename,Link")] CompanyProfile companyProfile, IFormFile? MainImage, IFormFile[]? GalleryImages)
         {
             if (ModelState.IsValid)
             {
+                //--------saving main image----------
+                if (MainImage != null)
+                {
+                    companyProfile.Imagename = Guid.NewGuid().ToString() + System.IO.Path.GetExtension(MainImage.FileName);
+                    string fn;
+                    fn = Directory.GetCurrentDirectory();
+                    string ImagePath = Path.Combine(fn + "\\wwwroot\\images\\LogoCompany\\" + companyProfile.Imagename);
+
+
+                    using (var stream = new FileStream(ImagePath, FileMode.Create))
+                    {
+                        MainImage.CopyTo(stream);
+                    }
+                }
+                //-----------------------------------
                 _context.Add(companyProfile);
                 await _context.SaveChangesAsync();
+
+                //============saving gallery images=====================
+                if (GalleryImages != null)
+                {
+                    foreach (var item in GalleryImages)
+                    {
+                        var newgallery = new CompanyProfileGallery();
+                        newgallery.CompanyProfileId = companyProfile.Id;
+                        //------------------------
+                        newgallery.ImageName = Guid.NewGuid().ToString() + System.IO.Path.GetExtension(item.FileName);
+                        string fn;
+                        fn = Directory.GetCurrentDirectory();
+                        string ImagePath = Path.Combine(fn + "\\wwwroot\\images\\LogoCompany\\" + newgallery.ImageName);
+
+                        using (var stream = new FileStream(ImagePath, FileMode.Create))
+                        {
+                            item.CopyTo(stream);
+                        }
+                        //------------------------
+                        _context.CompanyProfileGalleries.Add(newgallery);
+                    }
+                }
+                await _context.SaveChangesAsync();
+                //---------------------------------
                 return RedirectToAction(nameof(Index));
             }
             return View(companyProfile);
