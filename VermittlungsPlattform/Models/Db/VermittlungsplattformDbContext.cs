@@ -15,6 +15,8 @@ public partial class VermittlungsplattformDbContext : DbContext
     {
     }
 
+    public virtual DbSet<Banner> Banners { get; set; }
+
     public virtual DbSet<CompanyProfile> CompanyProfiles { get; set; }
 
     public virtual DbSet<CompanyProfileGallery> CompanyProfileGalleries { get; set; }
@@ -31,6 +33,28 @@ public partial class VermittlungsplattformDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Banner>(entity =>
+        {
+            entity.ToTable("Banner");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.ImageName)
+                .HasMaxLength(50)
+                .IsFixedLength();
+            entity.Property(e => e.Link)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.Position)
+                .HasMaxLength(50)
+                .IsFixedLength();
+            entity.Property(e => e.SubTitle)
+                .HasMaxLength(1000)
+                .IsFixedLength();
+            entity.Property(e => e.Title)
+                .HasMaxLength(200)
+                .IsFixedLength();
+        });
+
         modelBuilder.Entity<CompanyProfile>(entity =>
         {
             entity.ToTable("CompanyProfile");
@@ -104,7 +128,7 @@ public partial class VermittlungsplattformDbContext : DbContext
                 .IsFixedLength();
         });
 
-        modelBuilder.Entity<UserUnternehman>(entity =>
+        modelBuilder.Entity<UserUnternehmen>(entity =>
         {
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Email)
