@@ -9,10 +9,10 @@ builder.Services.AddDbContext<VermittlungsplattformDbContext>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        // Configuration de base
+        // base Configuration
         options.LogoutPath = "/Account/Logout";
 
-        // Gestion de redirection personnalisée
+        // Redirection 
         options.Events.OnRedirectToLogin = context =>
         {
             var path = context.Request.Path;
@@ -27,7 +27,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
             }
             else
             {
-                context.Response.Redirect("/Account/Login"); // Par défaut
+                context.Response.Redirect("/Account/Login"); // Default
             }
 
             return Task.CompletedTask;
