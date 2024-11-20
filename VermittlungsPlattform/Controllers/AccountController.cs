@@ -308,6 +308,101 @@ namespace VermittlungsPlattform.Controllers
 
             return RedirectToAction("LoginStudent");
         }
+        [HttpGet]
+        public IActionResult RecoveryPasswordUnternehmen()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult RecoveryPasswordUnternehmen(RecoveryPasswordViewModel recoveryPassword)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            ////-------------------------------------------
+
+            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            Match match = regex.Match(recoveryPassword.Email);
+            if (!match.Success)
+            {
+                ModelState.AddModelError("Email", "Email is not valid");
+                return View(recoveryPassword);
+            }
+
+            ////-------------------------------------------
+
+            var foundUser = _context.UserUnternehmen.FirstOrDefault(x => x.Email == recoveryPassword.Email.Trim());
+            if (foundUser == null)
+            {
+                ModelState.AddModelError("Email", "Email is not exist");
+                return View(recoveryPassword);
+            }
+
+            ////-------------------------------------------
+
+            foundUser.RecoveryCode = new Random().Next(10000, 100000);
+            _context.UserUnternehmen.Update(foundUser);
+            _context.SaveChanges();
+
+            ////-------------------------------------------
+
+            MailMessage mail = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+            mail.From = new MailAddress("nheltonn@gmail.com");
+            mail.To.Add(foundUser.Email);
+            mail.Subject = "Recovery code";
+            mail.Body = $"Hello {foundUser.Name}\nYour  recovery code:" + foundUser.RecoveryCode;
+
+            SmtpServer.Port = 587;
+            SmtpServer.Credentials = new System.Net.NetworkCredential("nheltonn@gmail.com", "ugju meqj olao siko");
+            SmtpServer.EnableSsl = true;
+
+            SmtpServer.Send(mail);
+
+            ////-------------------------------------------
+            return Redirect("/Account/ResetPasswordViewUnternehmen?email=" + foundUser.Email);
+        }
+
+
+        public IActionResult ResetPasswordViewUnternehmen(string email)
+        {
+            var resetPasswordModel = new ResetPasswordViewModel();
+            resetPasswordModel.Email = email;
+
+            return View(resetPasswordModel);
+        }
+
+        [HttpPost]
+        public IActionResult ResetPasswordViewUnternehmen(ResetPasswordViewModel resetPassword)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(resetPassword);
+            }
+
+            ////-------------------------------------------
+
+            var foundUser = _context.UserUnternehmen.FirstOrDefault(x => x.Email == resetPassword.Email && x.RecoveryCode == resetPassword.RecoveryCode);
+            if (foundUser == null)
+            {
+                ModelState.AddModelError("RecoveryCode", " recovery code is not valid");
+                return View(resetPassword);
+            }
+
+            ////-------------------------------------------
+
+            foundUser.Password = resetPassword.NewPassword;
+
+            _context.UserUnternehmen.Update(foundUser);
+            _context.SaveChanges();
+
+            ////-------------------------------------------
+
+            return RedirectToAction("LoginUnternehmen");
+        }
     }
 
     

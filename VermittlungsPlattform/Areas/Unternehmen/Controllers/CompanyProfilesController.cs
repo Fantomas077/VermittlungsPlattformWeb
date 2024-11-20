@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using VermittlungsPlattform.Models.Db;
 namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
 {
     [Area("Unternehmen")]
+    [Authorize]
     public class CompanyProfilesController : Controller
     {
         private readonly VermittlungsplattformDbContext _context;
