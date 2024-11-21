@@ -23,6 +23,8 @@ public partial class VermittlungsplattformDbContext : DbContext
 
     public virtual DbSet<Menu> Menus { get; set; }
 
+    public virtual DbSet<UnternehmenProfile> UnternehmenProfiles { get; set; }
+
     public virtual DbSet<UserStudent> UserStudents { get; set; }
 
     public virtual DbSet<UserUnternehmen> UserUnternehmen { get; set; }
@@ -105,6 +107,35 @@ public partial class VermittlungsplattformDbContext : DbContext
                 .IsFixedLength();
             entity.Property(e => e.Type)
                 .HasMaxLength(20)
+                .IsFixedLength();
+        });
+
+        modelBuilder.Entity<UnternehmenProfile>(entity =>
+        {
+            entity.ToTable("UnternehmenProfile");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Branche)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.Description)
+                .HasMaxLength(3000)
+                .IsFixedLength();
+            entity.Property(e => e.ImageName)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.Link)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.Location)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.Name)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+            entity.Property(e => e.Webseite)
+                .HasMaxLength(100)
                 .IsFixedLength();
         });
 

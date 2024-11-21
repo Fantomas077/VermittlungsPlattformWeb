@@ -1,4 +1,4 @@
-﻿@model VermittlungsPlattform.Models.Db.CompanyProfile
+﻿@model VermittlungsPlattform.Models.Db.UnternehmenProfile
 
 @{
     ViewData["Title"] = "Details";
@@ -7,9 +7,15 @@
 <h1>Details</h1>
 
 <div>
-    <h4>CompanyProfile</h4>
+    <h4>UnternehmenProfile</h4>
     <hr />
     <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UserId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserId)
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
@@ -17,16 +23,16 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Location)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Location)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Branche)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Branche)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Location)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Location)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
@@ -41,16 +47,16 @@
             @Html.DisplayFor(model => model.Webseite)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Imagename)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Imagename)
-        </dd>
-        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Link)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Link)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ImageName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ImageName)
         </dd>
     </dl>
 </div>
