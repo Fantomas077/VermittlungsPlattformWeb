@@ -23,6 +23,8 @@ public partial class VermittlungsplattformDbContext : DbContext
 
     public virtual DbSet<Menu> Menus { get; set; }
 
+    public virtual DbSet<Stelle> Stelles { get; set; }
+
     public virtual DbSet<UnternehmenProfile> UnternehmenProfiles { get; set; }
 
     public virtual DbSet<UserStudent> UserStudents { get; set; }
@@ -108,6 +110,37 @@ public partial class VermittlungsplattformDbContext : DbContext
             entity.Property(e => e.Type)
                 .HasMaxLength(20)
                 .IsFixedLength();
+        });
+
+        modelBuilder.Entity<Stelle>(entity =>
+        {
+            entity.ToTable("Stelle");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.ArbeitsTyp)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.Branche)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
+            entity.Property(e => e.Description)
+                .HasMaxLength(3000)
+                .IsFixedLength();
+            entity.Property(e => e.Gehalt).HasColumnType("money");
+            entity.Property(e => e.Location)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.Skills)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.Tags)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.Title)
+                .HasMaxLength(500)
+                .IsFixedLength();
+            entity.Property(e => e.UnternehmenProfileId).HasColumnName("UnternehmenProfileID");
         });
 
         modelBuilder.Entity<UnternehmenProfile>(entity =>
