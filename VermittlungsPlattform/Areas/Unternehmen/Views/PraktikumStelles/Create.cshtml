@@ -1,0 +1,134 @@
+﻿@model VermittlungsPlattform.Models.Db.PraktikumStelle
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+
+<div class="container-xl px-4 mt-4">
+    <style>
+        .card {
+            box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+        }
+
+        .form-control, .dataTable-input {
+            display: block;
+            width: 100%;
+            padding: 0.875rem 1.125rem;
+            font-size: 0.875rem;
+            font-weight: 400;
+            color: #69707a;
+            background-color: #fff;
+            border: 1px solid #c5ccd6;
+            border-radius: 0.35rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        textarea.form-control {
+            resize: none;
+        }
+    </style>
+
+    <!-- Stelle Creation Form -->
+    <form asp-action="Create" asp-controller="PraktikumStelles" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-xl-12">
+                <!-- Account details card-->
+                <div class="card mb-4">
+                    <div class="card-header">Create Stelle</div>
+                    <div class="card-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <!-- Stelle Title -->
+                        <div class="mb-3">
+                            <label class="small mb-1" asp-for="Title">Title</label>
+                            <input class="form-control" asp-for="Title" type="text" placeholder="Enter title">
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+
+                        <!-- Form Row -->
+                        <div class="row gx-3 mb-3">
+                            <!-- Industry -->
+                            <div class="col-md-6">
+                                <label class="small mb-1" asp-for="Branche">Industry</label>
+                                <input class="form-control" asp-for="Branche" type="text" placeholder="Enter industry">
+                                <span asp-validation-for="Branche" class="text-danger"></span>
+                            </div>
+
+                            <!-- Location -->
+                            <div class="col-md-6">
+                                <label class="small mb-1" asp-for="Location">Location</label>
+                                <input class="form-control" asp-for="Location" type="text" placeholder="Enter location">
+                                <span asp-validation-for="Location" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label class="small mb-1" asp-for="Description">Description</label>
+                            <textarea class="form-control" asp-for="Description" rows="3" placeholder="Enter a brief description"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <!-- Duration -->
+                        <div class="mb-3">
+                            <label class="small mb-1" asp-for="Dauer">Duration (in months)</label>
+                            <input class="form-control" asp-for="Dauer" type="number" placeholder="Enter duration">
+                            <span asp-validation-for="Dauer" class="text-danger"></span>
+                        </div>
+
+                        <!-- Skills -->
+                        <div class="mb-3">
+                            <label class="small mb-1" asp-for="Skills">Required Skills</label>
+                            <input class="form-control" asp-for="Skills" type="text" placeholder="Enter skills">
+                            <span asp-validation-for="Skills" class="text-danger"></span>
+                        </div>
+
+                        <!-- Tags -->
+                        <div class="mb-3">
+                            <label class="small mb-1" asp-for="Tags">Tags</label>
+                            <input class="form-control" asp-for="Tags" type="text" placeholder="Enter tags">
+                            <span asp-validation-for="Tags" class="text-danger"></span>
+                        </div>
+
+                        <!-- ArbeitsTyp -->
+                        <div class="mb-3">
+                            <label class="small mb-1" asp-for="Arbeitsyp">Type of Work</label>
+                            <select asp-for="Arbeitsyp" class="form-control">
+                                <option>On-Site</option>
+                                <option>Hybrid</option>
+                                <option>Remote</option>
+                            </select>
+                            <span asp-validation-for="Arbeitsyp" class="text-danger"></span>
+                        </div>
+
+                        <!-- Gehalt -->
+                        <div class="mb-3">
+                            <label class="small mb-1" asp-for="Gehalt">Salary</label>
+                            <input class="form-control" asp-for="Gehalt" type="number" step="0.01" placeholder="Enter salary">
+                            <span asp-validation-for="Gehalt" class="text-danger"></span>
+                        </div>
+
+                        <!-- Save changes button -->
+                        <div class="">
+                            <button class="btn btn-primary " type="submit">Create Stelle</button>
+                            <a class="btn btn-secondary" asp-action="index" asp-controller="PraktikumStelles">Cancel</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        });
+    </script>
+}

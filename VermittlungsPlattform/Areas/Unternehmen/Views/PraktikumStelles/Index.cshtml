@@ -1,4 +1,4 @@
-﻿@model IEnumerable<VermittlungsPlattform.Models.Db.Stelle>
+﻿@model IEnumerable<VermittlungsPlattform.Models.Db.PraktikumStelle>
 
 @{
     ViewData["Title"] = "Index";
@@ -12,9 +12,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UnternehmenProfileId)
-            </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.Title)
             </th>
@@ -28,19 +26,19 @@
                 @Html.DisplayNameFor(model => model.Branche)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Duration)
+                @Html.DisplayNameFor(model => model.Dauer)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Skills)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Tags)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.CreateDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ArbeitsTyp)
+                @Html.DisplayNameFor(model => model.Tags)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Arbeitsyp)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Gehalt)
@@ -51,9 +49,7 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UnternehmenProfileId)
-            </td>
+            
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
@@ -67,22 +63,22 @@
                 @Html.DisplayFor(modelItem => item.Branche)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Duration)
+                    @Html.DisplayFor(modelItem => item.Dauer) Monate
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Skills)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Tags)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.CreateDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ArbeitsTyp)
+                @Html.DisplayFor(modelItem => item.Tags)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Gehalt)
+                @Html.DisplayFor(modelItem => item.Arbeitsyp)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Gehalt) €
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

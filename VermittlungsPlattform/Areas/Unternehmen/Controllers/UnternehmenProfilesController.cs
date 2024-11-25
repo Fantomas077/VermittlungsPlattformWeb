@@ -25,7 +25,7 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
         // GET: Unternehmen/UnternehmenProfiles
         public async Task<IActionResult> Index()
         {
-            return View(await _context.UnternehmenProfiles.ToListAsync());
+            return View(await _context.UnternehmenProfiles.Where(x => x.UserId == Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier))).ToListAsync());
         }
 
         public IActionResult DeleteGallery(int id)

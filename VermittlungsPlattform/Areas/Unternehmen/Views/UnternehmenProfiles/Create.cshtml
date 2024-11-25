@@ -152,7 +152,11 @@
                             <span asp-validation-for="Link" class="text-danger"></span>
                         </div>
                         <!-- Save changes button-->
-                        <button class="btn btn-primary" type="submit">Create</button>
+                        <div class="">
+                            <button class="btn btn-primary " type="submit">Create</button>
+                            <a class="btn btn-secondary" asp-action="index" asp-controller="UnternehmenProfiles">Cancel</a>
+
+                        </div>
                     </div>
                 </div>
             </div>
