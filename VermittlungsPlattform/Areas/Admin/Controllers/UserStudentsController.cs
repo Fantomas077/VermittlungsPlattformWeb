@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,23 +10,22 @@ using VermittlungsPlattform.Models.Db;
 namespace VermittlungsPlattform.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles ="admin")]
-    public class MenusController : Controller
+    public class UserStudentsController : Controller
     {
         private readonly VermittlungsplattformDbContext _context;
 
-        public MenusController(VermittlungsplattformDbContext context)
+        public UserStudentsController(VermittlungsplattformDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/Menus
+        // GET: Admin/UserStudents
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Menus.ToListAsync());
+            return View(await _context.UserStudents.ToListAsync());
         }
 
-        // GET: Admin/Menus/Details/5
+        // GET: Admin/UserStudents/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,45 +33,39 @@ namespace VermittlungsPlattform.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var menu = await _context.Menus
+            var userStudent = await _context.UserStudents
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (menu == null)
+            if (userStudent == null)
             {
                 return NotFound();
             }
 
-            return View(menu);
+            return View(userStudent);
         }
 
-        // GET: Admin/Menus/Create
+        // GET: Admin/UserStudents/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Menus/Create
+        // POST: Admin/UserStudents/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MenuTitle,Link,Type")] Menu menu)
+        public async Task<IActionResult> Create([Bind("Id,Name,Vorname,Email,Password,IsAdmin,RegisterDate,RecoveryCode")] UserStudent userStudent)
         {
-
-            if (_context.Menus.Any(o => o.MenuTitle == menu.MenuTitle))
-            {
-                ModelState.AddModelError($"MenuTitle ", $"{menu.MenuTitle} exits already in the Category ");
-                return View(menu);
-            }
             if (ModelState.IsValid)
             {
-                _context.Add(menu);
+                _context.Add(userStudent);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(menu);
+            return View(userStudent);
         }
 
-        // GET: Admin/Menus/Edit/5
+        // GET: Admin/UserStudents/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,22 +73,22 @@ namespace VermittlungsPlattform.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var menu = await _context.Menus.FindAsync(id);
-            if (menu == null)
+            var userStudent = await _context.UserStudents.FindAsync(id);
+            if (userStudent == null)
             {
                 return NotFound();
             }
-            return View(menu);
+            return View(userStudent);
         }
 
-        // POST: Admin/Menus/Edit/5
+        // POST: Admin/UserStudents/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,MenuTitle,Link,Type")] Menu menu)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Vorname,Email,Password,IsAdmin,RegisterDate,RecoveryCode")] UserStudent userStudent)
         {
-            if (id != menu.Id)
+            if (id != userStudent.Id)
             {
                 return NotFound();
             }
@@ -105,12 +97,12 @@ namespace VermittlungsPlattform.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(menu);
+                    _context.Update(userStudent);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MenuExists(menu.Id))
+                    if (!UserStudentExists(userStudent.Id))
                     {
                         return NotFound();
                     }
@@ -121,10 +113,10 @@ namespace VermittlungsPlattform.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(menu);
+            return View(userStudent);
         }
 
-        // GET: Admin/Menus/Delete/5
+        // GET: Admin/UserStudents/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -132,34 +124,34 @@ namespace VermittlungsPlattform.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var menu = await _context.Menus
+            var userStudent = await _context.UserStudents
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (menu == null)
+            if (userStudent == null)
             {
                 return NotFound();
             }
 
-            return View(menu);
+            return View(userStudent);
         }
 
-        // POST: Admin/Menus/Delete/5
+        // POST: Admin/UserStudents/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var menu = await _context.Menus.FindAsync(id);
-            if (menu != null)
+            var userStudent = await _context.UserStudents.FindAsync(id);
+            if (userStudent != null)
             {
-                _context.Menus.Remove(menu);
+                _context.UserStudents.Remove(userStudent);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MenuExists(int id)
+        private bool UserStudentExists(int id)
         {
-            return _context.Menus.Any(e => e.Id == id);
+            return _context.UserStudents.Any(e => e.Id == id);
         }
     }
 }

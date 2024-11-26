@@ -201,7 +201,14 @@ namespace VermittlungsPlattform.Controllers
             // Sign in the user with the created principal
             HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
             //------------
-            return Redirect("/Student/");
+            if (foundUser.IsAdmin == true)
+            {
+                return Redirect("/Admin/");
+            }
+            else
+            {
+                return Redirect("/Student/");
+            }
         }
         /// <summary>
         /// 

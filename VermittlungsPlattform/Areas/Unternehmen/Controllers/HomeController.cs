@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
 {
     [Area("Unternehmen")]
-    [Authorize]
+    [Authorize(Roles = "unternehmen")]
     public class HomeController : Controller
     {
         public IActionResult Index()

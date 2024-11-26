@@ -12,7 +12,7 @@ using VermittlungsPlattform.Models.Db;
 namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
 {
     [Area("Unternehmen")]
-    [Authorize]
+    [Authorize (Roles = "unternehmen")]
     public class UnternehmenProfilesController : Controller
     {
         private readonly VermittlungsplattformDbContext _context;
@@ -63,7 +63,9 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
             {
                 return NotFound();
             }
-
+            //------------------
+            ViewData["gallery"] = _context.CompanyProfileGalleries.Where(x => x.CompanyProfileId == unternehmenProfile.Id).ToList();
+            //------------------
             return View(unternehmenProfile);
         }
 

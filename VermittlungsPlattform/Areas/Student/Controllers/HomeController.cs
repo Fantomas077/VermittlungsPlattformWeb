@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace VermittlungsPlattform.Areas.Student.Controllers
 {
     [Area("Student")]
-    [Authorize]
+    [Authorize(Roles = "student")]
     public class HomeController : Controller
     {
         public IActionResult Index()
