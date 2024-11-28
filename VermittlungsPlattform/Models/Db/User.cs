@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace VermittlungsPlattform.Models.Db;
 
-public partial class UserStudent
+public partial class User
 {
     public int Id { get; set; }
 
@@ -16,6 +16,10 @@ public partial class UserStudent
     public string Password { get; set; } = null!;
 
     public bool IsAdmin { get; set; }
+
+    public bool IsStudent { get; set; }
+
+    public bool IsCompany { get; set; }
 
     public DateTime? RegisterDate { get; set; }
 

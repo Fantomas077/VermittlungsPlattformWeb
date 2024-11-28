@@ -9,29 +9,9 @@ builder.Services.AddDbContext<VermittlungsplattformDbContext>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        // base Configuration
-        options.LogoutPath = "/Account/Logout";
 
-        // Redirection 
-        options.Events.OnRedirectToLogin = context =>
-        {
-            var path = context.Request.Path;
-
-            if (path.StartsWithSegments("/Unternehmen"))
-            {
-                context.Response.Redirect("/Account/LoginUnternehmen");
-            }
-            else if (path.StartsWithSegments("/Student"))
-            {
-                context.Response.Redirect("/Account/LoginStudent");
-            }
-            else
-            {
-                context.Response.Redirect("/Account/Login"); // Default
-            }
-
-            return Task.CompletedTask;
-        };
+        options.LoginPath = "/Account/Login";
+        options.LogoutPath = "/Account/logout";
     });
 
 

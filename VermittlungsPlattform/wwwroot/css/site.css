@@ -20,3 +20,112 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.header-section {
+    background-image: url('/images/Logo/logo3.jpg'); /* Correction du chemin */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 100px 0;
+    text-align: center;
+}
+
+
+.search-bar {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #353b48;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.stats {
+    margin-top: 40px;
+}
+
+.stat-item {
+    text-align: center;
+    margin-top: 20px;
+}
+
+    .stat-item h3 {
+        font-size: 24px;
+        color: #28a745;
+    }
+
+    .stat-item p {
+        font-size: 18px;
+    }
+
+     .features {
+        background-color: #f8f9fa; /* Fond léger pour faire ressortir la section */
+        padding: 50px 0;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .features h2 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #3498db; /* Bleu de la marque */
+        margin-bottom: 30px;
+    }
+
+    /* Design des éléments de la fonctionnalité */
+    .features .col-md-4 {
+        padding: 20px;
+        margin-bottom: 30px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Effet de hover pour les éléments de fonctionnalité */
+    .features .col-md-4:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .features .col-md-4 i {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        transition: color 0.3s ease;
+    }
+
+    .features .col-md-4:hover i {
+        color: #2ecc71; /* Change l'icône en vert au hover */
+    }
+
+    .features .col-md-4 h4 {
+        font-size: 1.6rem;
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .features .col-md-4 p {
+        font-size: 1rem;
+        color: #666;
+        line-height: 1.5;
+        transition: color 0.3s ease;
+    }
+
+    .features .col-md-4:hover p {
+        color: #3498db; /* Change la couleur du texte au hover */
+    }
+
+    /* Amélioration des espacements pour les colonnes */
+    @media (max-width: 767px) {
+        .features .col-md-4 {
+            margin-bottom: 20px;
+        }
+    }
+
+    /* Icones plus grandes sur les petits écrans */
+    @media (max-width: 576px) {
+        .features .col-md-4 i {
+            font-size: 4rem; /* Plus grandes icônes sur mobile */
+        }
+    }

@@ -27,8 +27,6 @@
     <Folder Include="Areas\Student\Models\" />
     <Folder Include="Areas\Unternehmen\Data\" />
     <Folder Include="Areas\Unternehmen\Models\" />
-    <Folder Include="wwwroot\images\LogoCompany\" />
-    <Folder Include="wwwroot\logo\" />
   </ItemGroup>
 
 </Project>

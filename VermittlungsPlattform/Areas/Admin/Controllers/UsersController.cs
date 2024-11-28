@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,22 +11,23 @@ using VermittlungsPlattform.Models.Db;
 namespace VermittlungsPlattform.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class UserStudentsController : Controller
+    [Authorize(Roles = "admin")]
+    public class UsersController : Controller
     {
         private readonly VermittlungsplattformDbContext _context;
 
-        public UserStudentsController(VermittlungsplattformDbContext context)
+        public UsersController(VermittlungsplattformDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/UserStudents
+        // GET: Admin/Users
         public async Task<IActionResult> Index()
         {
-            return View(await _context.UserStudents.ToListAsync());
+            return View(await _context.Users.ToListAsync());
         }
 
-        // GET: Admin/UserStudents/Details/5
+        // GET: Admin/Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +35,39 @@ namespace VermittlungsPlattform.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var userStudent = await _context.UserStudents
+            var user = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (userStudent == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(userStudent);
+            return View(user);
         }
 
-        // GET: Admin/UserStudents/Create
+        // GET: Admin/Users/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/UserStudents/Create
+        // POST: Admin/Users/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Vorname,Email,Password,IsAdmin,RegisterDate,RecoveryCode")] UserStudent userStudent)
+        public async Task<IActionResult> Create([Bind("Id,Name,Vorname,Email,Password,IsAdmin,IsStudent,IsCompany,RegisterDate,RecoveryCode")] User user)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(userStudent);
+                _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(userStudent);
+            return View(user);
         }
 
-        // GET: Admin/UserStudents/Edit/5
+        // GET: Admin/Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +75,22 @@ namespace VermittlungsPlattform.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var userStudent = await _context.UserStudents.FindAsync(id);
-            if (userStudent == null)
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
             {
                 return NotFound();
             }
-            return View(userStudent);
+            return View(user);
         }
 
-        // POST: Admin/UserStudents/Edit/5
+        // POST: Admin/Users/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Vorname,Email,Password,IsAdmin,RegisterDate,RecoveryCode")] UserStudent userStudent)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Vorname,Email,Password,IsAdmin,IsStudent,IsCompany,RegisterDate,RecoveryCode")] User user)
         {
-            if (id != userStudent.Id)
+            if (id != user.Id)
             {
                 return NotFound();
             }
@@ -97,12 +99,12 @@ namespace VermittlungsPlattform.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(userStudent);
+                    _context.Update(user);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserStudentExists(userStudent.Id))
+                    if (!UserExists(user.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +115,10 @@ namespace VermittlungsPlattform.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(userStudent);
+            return View(user);
         }
 
-        // GET: Admin/UserStudents/Delete/5
+        // GET: Admin/Users/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +126,34 @@ namespace VermittlungsPlattform.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var userStudent = await _context.UserStudents
+            var user = await _context.Users
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (userStudent == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(userStudent);
+            return View(user);
         }
 
-        // POST: Admin/UserStudents/Delete/5
+        // POST: Admin/Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var userStudent = await _context.UserStudents.FindAsync(id);
-            if (userStudent != null)
+            var user = await _context.Users.FindAsync(id);
+            if (user != null)
             {
-                _context.UserStudents.Remove(userStudent);
+                _context.Users.Remove(user);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserStudentExists(int id)
+        private bool UserExists(int id)
         {
-            return _context.UserStudents.Any(e => e.Id == id);
+            return _context.Users.Any(e => e.Id == id);
         }
     }
 }

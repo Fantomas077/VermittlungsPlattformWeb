@@ -17,12 +17,22 @@ namespace VermittlungsPlattform.Controllers
             _context = context;
             
         }
+        /// <summary>
+        /// Register unternehmen
+        /// </summary>
+        /// <returns></returns>
         public IActionResult RegisterUnternehmen()
         {
             return View();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost]
-        public IActionResult RegisterUnternehmen(UserUnternehmen user)
+        
+        public IActionResult RegisterUnternehmen(User user)
         {
             user.RegisterDate = DateTime.Now;
             user.IsAdmin = false;
@@ -31,6 +41,8 @@ namespace VermittlungsPlattform.Controllers
             user.Name = user.Name?.Trim();
             user.Vorname = user.Vorname?.Trim();
             user.RecoveryCode = 0;
+            user.IsStudent = false;
+            user.IsCompany = true;
             //------------------------
             if (!ModelState.IsValid)
             {
@@ -45,73 +57,19 @@ namespace VermittlungsPlattform.Controllers
                 return View(user);
             }
             //-----------Duplictae Email Checking-------------
-            var prevUser = _context.UserUnternehmen.Any(x => x.Email == user.Email);
+            var prevUser = _context.Users.Any(x => x.Email == user.Email);
             if (prevUser)
             {
                 ModelState.AddModelError("Email", "Email is used");
                 return View(user);
             }
             //------------------------------------------------
-            _context.UserUnternehmen.Add(user);
+            _context.Users.Add(user);
             _context.SaveChanges();
             //------------------------
-            return RedirectToAction("LoginUnternehmen");
+            return RedirectToAction("Login");
         }
-        public IActionResult LoginUnternehmen()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult LoginUnternehmen(LoginViewModel user)
-        {
-            //------------
-            if (!ModelState.IsValid)
-            {
-                return View(user);
-            }
-            //------------
-            var foundUser = _context.UserUnternehmen.FirstOrDefault(x => x.Email == user.Email.Trim() && x.Password == user.Password.Trim());
-            //-----
-            if (foundUser == null)
-            {
-                ModelState.AddModelError("Email", "Email or Password  not exist");
-                return View(user);
-            }
-            //------------
-            // Create claims for the authenticated user
-            var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, foundUser.Id.ToString()));
-            claims.Add(new Claim(ClaimTypes.Name, foundUser.Name));
-            claims.Add(new Claim(ClaimTypes.Email, foundUser.Email));
-            //------------
-            if (foundUser.IsAdmin == true)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, "admin"));
-            }
-            else
-            {
-                claims.Add(new Claim(ClaimTypes.Role, "unternehmen"));
-            }
-            //------------
-            // Create an identity based on the claims
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            //------------
-            // Create a principal based on the identity
-            var principal = new ClaimsPrincipal(identity);
-            //------------
-            // Sign in the user with the created principal
-            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
-            //------------
-            return Redirect("/Unternehmen/");
-        }
-
-        public IActionResult Logout()
-        {
-            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("LoginUnternehmen", "Account");
-        }
-
+        
 
         //------------Student---------
         public IActionResult RegisterStudent()
@@ -119,7 +77,7 @@ namespace VermittlungsPlattform.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult RegisterStudent(UserStudent user)
+        public IActionResult RegisterStudent(User user)
         {
             user.RegisterDate = DateTime.Now;
             user.IsAdmin = false;
@@ -128,6 +86,8 @@ namespace VermittlungsPlattform.Controllers
             user.Name = user.Name?.Trim();
             user.Vorname = user.Vorname?.Trim();
             user.RecoveryCode = 0;
+            user.IsCompany = false;
+            user.IsStudent=true;
             //------------------------
             if (!ModelState.IsValid)
             {
@@ -142,26 +102,26 @@ namespace VermittlungsPlattform.Controllers
                 return View(user);
             }
             //-----------Duplictae Email Checking-------------
-            var prevUser = _context.UserStudents.Any(x => x.Email == user.Email);
+            var prevUser = _context.Users.Any(x => x.Email == user.Email);
             if (prevUser)
             {
                 ModelState.AddModelError("Email", "Email is used");
                 return View(user);
             }
             //------------------------------------------------
-            _context.UserStudents.Add(user);
+            _context.Users.Add(user);
             _context.SaveChanges();
             //------------------------
-            return RedirectToAction("LoginStudent");
+            return RedirectToAction("Login");
         }
 
-        public IActionResult LoginStudent()
+        public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult LoginStudent(LoginViewModel user)
+        public IActionResult Login(LoginViewModel user)
         {
             //------------
             if (!ModelState.IsValid)
@@ -169,7 +129,7 @@ namespace VermittlungsPlattform.Controllers
                 return View(user);
             }
             //------------
-            var foundUser = _context.UserStudents.FirstOrDefault(x => x.Email == user.Email.Trim() && x.Password == user.Password.Trim());
+            var foundUser = _context.Users.FirstOrDefault(x => x.Email == user.Email.Trim() && x.Password == user.Password.Trim());
             //-----
             if (foundUser == null)
             {
@@ -188,8 +148,14 @@ namespace VermittlungsPlattform.Controllers
                 claims.Add(new Claim(ClaimTypes.Role, "admin"));
             }
             else
+            if(foundUser.IsStudent==true)
             {
                 claims.Add(new Claim(ClaimTypes.Role, "student"));
+            }
+            else
+            {
+
+                claims.Add(new Claim(ClaimTypes.Role, "unternehmen"));
             }
             //------------
             // Create an identity based on the claims
@@ -206,27 +172,32 @@ namespace VermittlungsPlattform.Controllers
                 return Redirect("/Admin/");
             }
             else
+            if(foundUser.IsStudent==true)
             {
                 return Redirect("/Student/");
+            }
+            else
+            {
+                return Redirect("/Unternehmen/");
             }
         }
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public IActionResult LogoutStudent()
+        public IActionResult Logout()
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("LoginStudent", "Account");
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpGet]
-        public IActionResult RecoveryPasswordStudent()
+        public IActionResult RecoveryPassword()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult RecoveryPasswordStudent(RecoveryPasswordViewModel recoveryPassword)
+        public IActionResult RecoveryPassword(RecoveryPasswordViewModel recoveryPassword)
         {
             if (!ModelState.IsValid)
             {
@@ -245,7 +216,7 @@ namespace VermittlungsPlattform.Controllers
 
             ////-------------------------------------------
 
-            var foundUser = _context.UserStudents.FirstOrDefault(x => x.Email == recoveryPassword.Email.Trim());
+            var foundUser = _context.Users.FirstOrDefault(x => x.Email == recoveryPassword.Email.Trim());
             if (foundUser == null)
             {
                 ModelState.AddModelError("Email", "Email is not exist");
@@ -255,7 +226,7 @@ namespace VermittlungsPlattform.Controllers
             ////-------------------------------------------
 
             foundUser.RecoveryCode = new Random().Next(10000, 100000);
-            _context.UserStudents.Update(foundUser);
+            _context.Users.Update(foundUser);
             _context.SaveChanges();
 
             ////-------------------------------------------
@@ -275,11 +246,11 @@ namespace VermittlungsPlattform.Controllers
             SmtpServer.Send(mail);
 
             ////-------------------------------------------
-            return Redirect("/Account/ResetPasswordViewStudent?email=" + foundUser.Email);
+            return Redirect("/Account/ResetPasswordView?email=" + foundUser.Email);
         }
 
 
-        public IActionResult ResetPasswordViewStudent(string email)
+        public IActionResult ResetPasswordView(string email)
         {
             var resetPasswordModel = new ResetPasswordViewModel();
             resetPasswordModel.Email = email;
@@ -288,7 +259,7 @@ namespace VermittlungsPlattform.Controllers
         }
 
         [HttpPost]
-        public IActionResult ResetPasswordViewStudent(ResetPasswordViewModel resetPassword)
+        public IActionResult ResetPasswordView(ResetPasswordViewModel resetPassword)
         {
             if (!ModelState.IsValid)
             {
@@ -297,7 +268,7 @@ namespace VermittlungsPlattform.Controllers
 
             ////-------------------------------------------
 
-            var foundUser = _context.UserStudents.FirstOrDefault(x => x.Email == resetPassword.Email && x.RecoveryCode == resetPassword.RecoveryCode);
+            var foundUser = _context.Users.FirstOrDefault(x => x.Email == resetPassword.Email && x.RecoveryCode == resetPassword.RecoveryCode);
             if (foundUser == null)
             {
                 ModelState.AddModelError("RecoveryCode", " recovery code is not valid");
@@ -308,109 +279,15 @@ namespace VermittlungsPlattform.Controllers
 
             foundUser.Password = resetPassword.NewPassword;
 
-            _context.UserStudents.Update(foundUser);
+            _context.Users.Update(foundUser);
             _context.SaveChanges();
 
             ////-------------------------------------------
 
-            return RedirectToAction("LoginStudent");
-        }
-        [HttpGet]
-        public IActionResult RecoveryPasswordUnternehmen()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult RecoveryPasswordUnternehmen(RecoveryPasswordViewModel recoveryPassword)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
-
-            ////-------------------------------------------
-
-            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-            Match match = regex.Match(recoveryPassword.Email);
-            if (!match.Success)
-            {
-                ModelState.AddModelError("Email", "Email is not valid");
-                return View(recoveryPassword);
-            }
-
-            ////-------------------------------------------
-
-            var foundUser = _context.UserUnternehmen.FirstOrDefault(x => x.Email == recoveryPassword.Email.Trim());
-            if (foundUser == null)
-            {
-                ModelState.AddModelError("Email", "Email is not exist");
-                return View(recoveryPassword);
-            }
-
-            ////-------------------------------------------
-
-            foundUser.RecoveryCode = new Random().Next(10000, 100000);
-            _context.UserUnternehmen.Update(foundUser);
-            _context.SaveChanges();
-
-            ////-------------------------------------------
-
-            MailMessage mail = new MailMessage();
-            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-
-            mail.From = new MailAddress("nheltonn@gmail.com");
-            mail.To.Add(foundUser.Email);
-            mail.Subject = "Recovery code";
-            mail.Body = $"Hello {foundUser.Name}\nYour  recovery code:" + foundUser.RecoveryCode;
-
-            SmtpServer.Port = 587;
-            SmtpServer.Credentials = new System.Net.NetworkCredential("nheltonn@gmail.com", "ugju meqj olao siko");
-            SmtpServer.EnableSsl = true;
-
-            SmtpServer.Send(mail);
-
-            ////-------------------------------------------
-            return Redirect("/Account/ResetPasswordViewUnternehmen?email=" + foundUser.Email);
-        }
-
-
-        public IActionResult ResetPasswordViewUnternehmen(string email)
-        {
-            var resetPasswordModel = new ResetPasswordViewModel();
-            resetPasswordModel.Email = email;
-
-            return View(resetPasswordModel);
-        }
-
-        [HttpPost]
-        public IActionResult ResetPasswordViewUnternehmen(ResetPasswordViewModel resetPassword)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(resetPassword);
-            }
-
-            ////-------------------------------------------
-
-            var foundUser = _context.UserUnternehmen.FirstOrDefault(x => x.Email == resetPassword.Email && x.RecoveryCode == resetPassword.RecoveryCode);
-            if (foundUser == null)
-            {
-                ModelState.AddModelError("RecoveryCode", " recovery code is not valid");
-                return View(resetPassword);
-            }
-
-            ////-------------------------------------------
-
-            foundUser.Password = resetPassword.NewPassword;
-
-            _context.UserUnternehmen.Update(foundUser);
-            _context.SaveChanges();
-
-            ////-------------------------------------------
-
-            return RedirectToAction("LoginUnternehmen");
+            return RedirectToAction("Login");
         }
     }
+    
 
     
 }

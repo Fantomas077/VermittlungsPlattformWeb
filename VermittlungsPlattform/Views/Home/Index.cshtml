@@ -1,14 +1,159 @@
 ﻿@{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Willkommen bei PraktiMatch";
 }
 
-<div style="max-width: 962px">
-    <div class="card border-0 rounded-0 banner-06 hover-zoom-in hover-shine">
-        <img class="lazy-image w-100 card-img object-fit-cover" src="~/images/LogoCompany/3044005d-5778-4c6b-9f39-c645f2b3cff5.jpg" data-src="./images/LogoCompany/3044005d-5778-4c6b-9f39-c645f2b3cff5.jpg" width="930" height="420" alt="Discover Our Autumn Skincare">
-        <div class="card-img-overlay p-md-12 m-2 p-9">
-            <h5 class="card-subtitle ls-1 mb-4 fw-semibold fs-18px text-white fw-bold">NEW COLLECTION</h5>
-            <h3 class="card-title card-title lh-45px fs-3 text-white font-primary fw-normal mw-lg-60 pe-xl-25 pe-lg-10 pe-md-0 pe-sm-20">Discover Our Autumn Skincare</h3>
-            <div class="mt-7"><a href="#" class="btn btn-white">Explore More</a></div>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PraktiMatch</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+</head>
+<body>
+
+    <!-- Header Section -->
+    <section class="header-section">
+        <div class="container">
+            <h1 class="display-3">Finde dein Praktikum mit <span style="color:#3498db;">Prakti</span><span style="color:#2ecc71;">Match</span></h1>
+            <p class="lead">Verbinde dich mit führenden Unternehmen und sichere dir dein Traumpraktikum..</p>
+
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <form class="row g-3">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="Stellentitel, Stichwort oder Unternehmen">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="Stadt">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-success w-100">Finden</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-</div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats container mt-5">
+        <div class="row">
+            <div class="col-md-4 stat-item">
+                <h3>500+</h3>
+                <p>Partnerunternehmen</p>
+            </div>
+            <div class="col-md-4 stat-item">
+                <h3>2.000+</h3>
+                <p>Vernetzte Studierende</p>
+            </div>
+            <div class="col-md-4 stat-item">
+                <h3>100+</h3>
+                <p>Aktive Praktikumsangebote</p>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="features container mt-5 ">
+        @* <h2 class="text-center mb-4">Unsere Funktionen</h2> *@
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <i class="bi bi-search text-primary" style="font-size: 2rem;"></i>
+                <h4>Einfaches Suchen</h4>
+                <p>Finden Sie Praktika nach Titel, Unternehmen oder Standort mit unserer leistungsstarken Suchmaschine.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <i class="bi bi-person-check text-success" style="font-size: 2rem;"></i>
+                <h4>Personalisierte Empfehlungen</h4>
+                <p>Erhalten Sie Praktikumsempfehlungen, die auf Ihr Profil und Ihre Fähigkeiten abgestimmt sind.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <i class="bi bi-briefcase text-warning" style="font-size: 2rem;"></i>
+                <h4>Partner-Möglichkeiten</h4>
+                <p>Greifen Sie auf exklusive Praktikumsangebote unserer führenden Industriepartner zu.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="partners container mt-5 mb-5">
+        <h2 class="text-center mb-4" style="color: #3498db;">Unsere Partnerunternehmen</h2>
+
+        <!-- Carousel -->
+        <div id="partnerCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="row justify-content-center">
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="partner-box p-4 rounded shadow-sm" style="background-color: #f4f6f9;">
+                                <img src="/images/partner1-logo.png" alt="Partner 1" style="max-width: 100px; height: auto;">
+                                <h4 class="mt-3" style="color: #2c3e50;">Unternehmen A</h4>
+                                <p style="color: #7f8c8d;">Beschreibung des Unternehmens A, ein führendes Unternehmen im Bereich der IT-Entwicklung und innovativen Lösungen.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="partner-box p-4 rounded shadow-sm" style="background-color: #f4f6f9;">
+                                <img src="/images/partner2-logo.png" alt="Partner 2" style="max-width: 100px; height: auto;">
+                                <h4 class="mt-3" style="color: #2c3e50;">Unternehmen B</h4>
+                                <p style="color: #7f8c8d;">Beschreibung von Unternehmen B, einem globalen Marktführer im Bereich Maschinenbau und industrieller Fertigung.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="partner-box p-4 rounded shadow-sm" style="background-color: #f4f6f9;">
+                                <img src="/images/partner3-logo.png" alt="Partner 3" style="max-width: 100px; height: auto;">
+                                <h4 class="mt-3" style="color: #2c3e50;">Unternehmen C</h4>
+                                <p style="color: #7f8c8d;">Beschreibung von Unternehmen C, einem innovativen Startup, das sich auf nachhaltige Energielösungen spezialisiert hat.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="row justify-content-center">
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="partner-box p-4 rounded shadow-sm" style="background-color: #f4f6f9;">
+                                <img src="/images/partner4-logo.png" alt="Partner 4" style="max-width: 100px; height: auto;">
+                                <h4 class="mt-3" style="color: #2c3e50;">Unternehmen D</h4>
+                                <p style="color: #7f8c8d;">Beschreibung von Unternehmen D, einem internationalen Unternehmen im Bereich der Automobilindustrie.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="partner-box p-4 rounded shadow-sm" style="background-color: #f4f6f9;">
+                                <img src="/images/partner5-logo.png" alt="Partner 5" style="max-width: 100px; height: auto;">
+                                <h4 class="mt-3" style="color: #2c3e50;">Unternehmen E</h4>
+                                <p style="color: #7f8c8d;">Beschreibung von Unternehmen E, einem führenden Anbieter von Gesundheitsdienstleistungen.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center mb-4">
+                            <div class="partner-box p-4 rounded shadow-sm" style="background-color: #f4f6f9;">
+                                <img src="/images/partner6-logo.png" alt="Partner 6" style="max-width: 100px; height: auto;">
+                                <h4 class="mt-3" style="color: #2c3e50;">Unternehmen F</h4>
+                                <p style="color: #7f8c8d;">Beschreibung von Unternehmen F, einem internationalen Beratungsunternehmen mit einem Fokus auf nachhaltige Entwicklung.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#partnerCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Zurück</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#partnerCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Weiter</span>
+            </button>
+        </div>
+    </section>
+
+
+
+    
+
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
