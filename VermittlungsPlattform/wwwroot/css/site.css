@@ -129,3 +129,17 @@ body {
             font-size: 4rem; /* Plus grandes icônes sur mobile */
         }
     }
+
+.card {
+    border: none;
+}
+
+.card-img {
+    opacity: 0.8; /* Légèrement transparent pour faire ressortir le bouton */
+}
+
+.card-img-overlay {
+    text-align: center;
+}
+
+

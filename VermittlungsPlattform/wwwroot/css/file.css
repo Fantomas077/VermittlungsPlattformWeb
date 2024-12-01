@@ -1,0 +1,24 @@
+﻿.breadcrumb {
+    background-color: transparent; /* Pas de fond pour le fil d'Ariane */
+    padding: 10px 0; /* Espacement supérieur et inférieur */
+    font-size: 1rem; /* Taille du texte */
+}
+
+    .breadcrumb a {
+        color: #3498db; /* Couleur des liens (bleu) */
+        text-decoration: none; /* Suppression du soulignement par défaut */
+    }
+
+        .breadcrumb a:hover {
+            text-decoration: underline; /* Soulignement au survol */
+        }
+
+    .breadcrumb .breadcrumb-item.active {
+        color: #7f8c8d; /* Couleur de l'élément actif (gris) */
+    }
+
+    /* Espacement supplémentaire entre les éléments de la liste */
+    .breadcrumb .breadcrumb-item + .breadcrumb-item::before {
+        content: ">"; /* Séparateur entre les éléments */
+        color: #bdc3c7; /* Couleur du séparateur (gris clair) */
+        padding: 0 10px;
