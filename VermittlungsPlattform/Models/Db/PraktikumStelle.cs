@@ -30,4 +30,6 @@ public partial class PraktikumStelle
     public string Arbeitsyp { get; set; } = null!;
 
     public decimal Gehalt { get; set; }
+
+   
 }

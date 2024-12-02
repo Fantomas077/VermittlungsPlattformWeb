@@ -268,6 +268,9 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
             {
                 return NotFound();
             }
+            //------------------
+            ViewData["gallery"] = _context.CompanyProfileGalleries.Where(x => x.CompanyProfileId == unternehmenProfile.Id).ToList();
+            //------------------
 
             return View(unternehmenProfile);
         }

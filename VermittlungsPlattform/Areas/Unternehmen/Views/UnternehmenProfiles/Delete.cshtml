@@ -4,66 +4,192 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>UnternehmenProfile</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserId)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Branche)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Branche)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Location)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Location)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Webseite)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Webseite)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Link)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Link)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ImageName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ImageName)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+<div class="container-xl px-4 mt-4">
+    <style>
+      
+
+        .img-account-profile {
+            height: 10rem;
+        }
+
+        .rounded-circle {
+            border-radius: 50% !important;
+        }
+
+        .card {
+            box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+        }
+
+            .card .card-header {
+                font-weight: 500;
+            }
+
+        .form-control, .dataTable-input {
+            display: block;
+            width: 100%;
+            padding: 0.875rem 1.125rem;
+            font-size: 0.875rem;
+            font-weight: 400;
+            color: #69707a;
+            background-color: #fff;
+            border: 1px solid #c5ccd6;
+            border-radius: 0.35rem;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        textarea.form-control {
+            resize: none;
+        }
+
+        .nav-borders .nav-link.active {
+            color: #0061f2;
+            border-bottom-color: #0061f2;
+        }
+
+        .nav-borders .nav-link {
+            color: #69707a;
+            border-bottom-width: 0.125rem;
+            border-bottom-style: solid;
+            border-bottom-color: transparent;
+            padding: 0.5rem;
+            margin: 0 1rem;
+        }
+
+        .gallery-images {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+            .gallery-images img {
+                width: 100%;
+                max-width: 100px;
+                height: 100px;
+                object-fit: cover;
+                border-radius: 8px;
+                box-shadow: 0 0.15rem 0.5rem 0 rgb(33 40 50 / 10%);
+            }
+    </style>
+
+    <!-- Company Profile Navigation -->
+    <form asp-action="Delete" enctype="multipart/form-data">
+
+        <div class="row">
+            <div class="col-xl-4">
+                <!-- Profile picture card-->
+                <div class="card mb-4 mb-xl-0">
+                    <div class="card-header">Company Logo</div>
+                    <div class="card-body text-center">
+                        <!-- Profile picture image-->
+                        <img class="img-account-profile rounded-circle mb-2" src="/images/LogoCompany/@Model.ImageName" alt="Logo Image" />
+                        <!-- Profile picture help block-->
+                        <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                        <!-- Profile picture upload button-->
+                        @* <input type="file" name="MainImage" class="form-control" readonly/> *@
+
+                    </div>
+                </div>
+                <!-- Company Gallery -->
+                <div class="card mt-4">
+                    <div class="card-header">Company Gallery</div>
+                    <div class="card-body">
+                        @{
+                            var galleries = ViewData["gallery"] as List<VermittlungsPlattform.Models.Db.CompanyProfileGallery>;
+                            <div class="row">
+                                @if (galleries != null)
+                                {
+                                    foreach (var item in galleries)
+                                    {
+                                        <div class="gallery-images  col-md-3 col-12" id="@item.Id">
+                                            <img src="/images/LogoCompany/@item.ImageName" />
+
+                                        </div>
+                                        // <div id="@item.Id">
+                                        //     <img src="/images/LogoCompany/@item.ImageName" />
+                                        //     <a class="btn btn-danger " style="max-width:100px" href="/Unternehmen/UnternehmenProfiles/DeleteGallery?id=@item.Id">
+                                        //         <i class="bi bi-trash"></i>
+                                        //     </a>
+                                        // </div>
+                                    }
+                                }
+                            </div>
+                        }
+
+                        @* <input type="file" name="GalleryImages" multiple class="form-control mt-2" readonly/> *@
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8">
+
+                <!-- Account details card-->
+                <div class="card mb-4">
+                    <div class="card-header">Delete Company</div>
+                    <div class="card-body">
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="ImageName" />
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <!-- Company Name -->
+                        <div class="mb-3">
+                            <label class="small mb-1" asp-for="Name">Company Name</label>
+                            <input class="form-control" asp-for="Name" id="inputCompanyName" type="text" placeholder="Enter company name" readonly>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <!-- Form Row -->
+                        <div class="row gx-3 mb-3">
+                            <!-- Industry -->
+                            <div class="col-md-6">
+                                <label class="small mb-1" asp-for="Branche">Industry</label>
+                                <input class="form-control" asp-for="Branche" id="inputIndustry" type="text" placeholder="Enter industry" readonly>
+                                <span asp-validation-for="Branche" class="text-danger"></span>
+                            </div>
+                            <!-- Location -->
+                            <div class="col-md-6">
+                                <label class="small mb-1" asp-for="Location">Location</label>
+                                <input class="form-control" asp-for="Location" id="inputLocation" type="text" placeholder="Enter location" readonly>
+                                <span asp-validation-for="Location" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label class="small mb-1" asp-for="Description">Description</label>
+                            <textarea class="form-control" asp-for="Description" id="inputDescription" rows="3" placeholder="Enter a brief description about your company" readonly></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <!-- Website -->
+                        <div class="mb-3">
+                            <label class="small mb-1" asp-for="Webseite">Website</label>
+                            <input class="form-control" asp-for="Webseite" id="inputWebsite" type="url" placeholder="Enter your website URL" readonly>
+                            <span asp-validation-for="Webseite" class="text-danger"></span>
+                        </div>
+                        <!-- Link -->
+                        <div class="mb-3">
+                            <label class="small mb-1" asp-for="Link">Link</label>
+                            <input class="form-control" asp-for="Link" id="inputWebsite" type="url" placeholder="Enter Link " readonly>
+                            <span asp-validation-for="Link" class="text-danger"></span>
+                        </div>
+                        <!-- Save changes button-->
+                        <div class="">
+                            <input type="submit" value="Delete" class="btn btn-danger" />
+                            <a class="btn btn-secondary" asp-action="index" asp-controller="UnternehmenProfiles">Cancel</a>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
 </div>
+
+@section Scripts {
+    <script>
+        tinymce.init({
+            readonly,
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        });
+    </script>
+}
+

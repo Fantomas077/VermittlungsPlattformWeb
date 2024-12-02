@@ -22,4 +22,6 @@ public partial class UnternehmenProfile
     public string? Link { get; set; }
 
     public string? ImageName { get; set; }
+
+   
 }

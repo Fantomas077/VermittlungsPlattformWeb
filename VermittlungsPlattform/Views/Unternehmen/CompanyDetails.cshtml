@@ -154,37 +154,45 @@
                         </div>
 
                         
-
-                        <div class="bg-light rounded p-5 wow slideInUp mt-4 mb-4" data-wow-delay="0.1s">
-                            <div class="card text-center shadow-sm border-0">
+                        @if(Stelle.Any())
+                        {
+                            <div class="bg-light rounded p-5 wow slideInUp mt-4 mb-4" data-wow-delay="0.1s">
                                 <div class="card text-center shadow-sm border-0">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Stellenangebote</h5>
-                                        <p class="card-text">
-                                            <span class="display-4 text-primary">@Stelle.Count()</span>
-                                        </p>
-                                        <a href="/Unternehmen/Stellenangebote/@Model.Id" class="btn btn-outline-primary">Zu den Stellenangeboten</a>
+                                    <div class="card text-center shadow-sm border-0">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Stellenangebote</h5>
+                                            <p class="card-text">
+                                                <span class="display-4 text-primary">@Stelle.Count()</span>
+                                            </p>
+                                            <a href="/Stelleangebote/ByCompany/@Model.Id" class="btn btn-outline-primary">Zu den Stellenangeboten</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Galerie d'images (Slider) -->
-                        <div class="mb-5">
-                            <h4 class="mb-4">Galerie</h4>
-                            <div class="slider">
-                                <div class="slides">
-                                    @if (gallery.Any())
-                                    {
-                                        @foreach (var item in gallery.OrderBy(x => x.Id))
+                            
+                        }
+                        @if(gallery.Any())
+                        {
+                            <!-- Galerie d'images (Slider) -->
+                            <div class="mb-5">
+                                <h4 class="mb-4">Galerie</h4>
+                                <div class="slider">
+                                    <div class="slides">
+                                        @if (gallery.Any())
                                         {
-                                            <img src="/images/LogoCompany/@item.ImageName" alt="Gallery Image">
+                                            @foreach (var item in gallery.OrderBy(x => x.Id))
+                                            {
+                                                <img src="/images/LogoCompany/@item.ImageName" alt="Gallery Image">
+                                            }
                                         }
-                                    }
+                                    </div>
+                                    <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+                                    <button class="next" onclick="moveSlide(1)">&#10095;</button>
                                 </div>
-                                <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
-                                <button class="next" onclick="moveSlide(1)">&#10095;</button>
                             </div>
-                        </div>
+                        }
+
+                        
                     </div>
 
                 </div>
