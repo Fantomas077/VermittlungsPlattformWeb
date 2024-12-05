@@ -1,0 +1,186 @@
+﻿@using VermittlungsPlattform.Models.Db
+@model VermittlungsPlattform.Models.Db.PraktikumStelle
+@{
+    ViewData["Title"] = "StelleDetails";
+    var Company = ViewData["Company"] as List<VermittlungsPlattform.Models.Db.UnternehmenProfile>;
+    var Stelle = ViewData["Company"] as List<VermittlungsPlattform.Models.Db.PraktikumStelle>;
+   
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Company details page for " name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Styles -->
+    <style>
+        .slider {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+            .slides img {
+                width: 100%;
+                border-radius: 5px;
+                height: 300px;
+            }
+
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header End -->
+    <div class="container-xxl ">
+        <div class="container rounded-3 p-5 my-4" style="background-color:darkslategrey; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">@Model.Title</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb text-uppercase">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/Stelleangebote">Stelleangebote</a></li>
+                    <li class="breadcrumb-item text-white active" aria-current="page">@Model.Title</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <!-- Header End -->
+    <!-- Job Detail Start -->
+    <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="row gy-5 gx-4">
+                <div class="col-lg-8">
+                    <div class="d-flex align-items-center mb-5">
+                        @{
+                            var obj = Company.Where(x => x.Id == Model.UnternehmenProfileId);
+                            foreach (var item in obj)
+                            {
+                                <a href="/Unternehmen/CompanyDetails/@item.Id"><img class="flex-shrink-0 img-fluid border rounded" src="/images/LogoCompany/@item.ImageName" alt="@item.Name Logo" style="width: 100px; height: 100px;"></a>
+
+        
+                            }
+                        }
+                      
+                        
+                        
+                        
+                        <div class="text-start ps-4">
+                            <h3 class="mb-3">@Model.Title</h3>
+                            <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>@Model.Location</span>
+                            <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>@Model.Arbeitsyp</span>
+                            <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>@((int)Model.Gehalt)€ </span>
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <p>@Html.Raw( Model.Description)</p>
+                    </div>
+
+                    <div class="">
+                        <h4 class="mb-4">Apply For The Job</h4>
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" class="form-control" placeholder="Your Name">
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input type="email" class="form-control" placeholder="Your Email">
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input type="text" class="form-control" placeholder="Portfolio Website">
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <input type="file" class="form-control bg-white">
+                                </div>
+                                <div class="col-12">
+                                    <textarea class="form-control" rows="5" placeholder="Coverletter"></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-primary w-100" type="submit">Apply Now</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="bg-light rounded p-5 mb-4 wow slideInUp" data-wow-delay="0.1s">
+                        <h4 class="mb-4">Job Summery</h4>
+                        <p><i class="fa fa-angle-right text-primary me-2"></i>Published On: @Model.CreateDate</p>
+                        <p><i class="fa fa-angle-right text-primary me-2"></i>Branche: @Model.Branche</p>
+                        <p><i class="fa fa-angle-right text-primary me-2"></i>Job Nature: @Model.Arbeitsyp</p>
+                        <p><i class="fa fa-angle-right text-primary me-2"></i>Salary: $123 - $456</p>
+                        <p><i class="fa fa-angle-right text-primary me-2"></i>Location: New York, USA</p>
+                        <p class="m-0"><i class="fa fa-angle-right text-primary me-2"></i>Date Line: 01 Jan, 2045</p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Job Detail End -->
+   
+       
+    
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>
+
+

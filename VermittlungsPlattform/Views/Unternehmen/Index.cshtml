@@ -1,7 +1,88 @@
-﻿@model VermittlungsPlattform.Models.Db.UnternehmenProfile
+﻿@model List<VermittlungsPlattform.Models.Db.UnternehmenProfile>
 @{
     ViewData["Title"] = "Index";
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unternehmen Cards</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .company-card {
+            margin: 20px;
+            text-align: center;
+        }
 
-<h1>Index</h1>
+        .company-logo {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <section class="header-section py-5 bg-light">
+        <div class="container text-center">
+            <h1 class="display-3">Finde dein Praktikum mit <span style="color:#3498db;">Prakti</span><span style="color:#2ecc71;">Match</span></h1>
+            <p class="lead">Verbinde dich mit führenden Unternehmen und sichere dir dein Traumpraktikum.</p>
 
+            <!-- Search Bar -->
+            <div class="search-bar my-4">
+                <form class="row g-3" action="/Stelleangebote/Search">
+                    <!-- Search by Title, Tags, or Keywords -->
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="Searchtext" placeholder="Stellentitel, Stichwort oder Tags">
+                    </div>
+
+                    <!-- Search by City -->
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" name="City" placeholder="Stadt">
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-success w-100">Finden</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <div class="container">
+        <h4 class="title mb-4">Finde den perfekten Praktikumsplatz</h4>
+        <p class="text-muted">Beginne deine Karriere mit spannenden Praktikumsstellen von führenden Unternehmen.</p>
+    
+        <div class="row">
+            
+            <!-- Card 1 -->
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4">
+
+                    <div class="card company-card">
+                        <img class="img-fluid" src="/images/LogoCompany/@item.ImageName" alt="@item.Name" style="max-width:contain; max-height: 150px;">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Name</h5>
+                        </div>
+                    </div>
+                </div>
+            }
+            
+
+         
+
+            <!-- Add more cards as needed -->
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    
+
+</body>
+</html>
