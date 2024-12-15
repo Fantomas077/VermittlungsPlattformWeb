@@ -17,8 +17,10 @@ public partial class VermittlungsplattformDbContext : DbContext
 
     public virtual DbSet<Banner> Banners { get; set; }
 
+    public virtual DbSet<Comment> Comments { get; set; }
+
    
-    public virtual DbSet<CompanyProfileGallery> CompanyProfileGalleries { get; set; }
+    public virtual DbSet<CompanyGallery> CompanyGalleries { get; set; }
 
     public virtual DbSet<Menu> Menus { get; set; }
 
@@ -26,11 +28,11 @@ public partial class VermittlungsplattformDbContext : DbContext
 
     public virtual DbSet<Stelle> Stelles { get; set; }
 
+    public virtual DbSet<StudentProfile> StudentProfiles { get; set; }
+
     public virtual DbSet<UnternehmenProfile> UnternehmenProfiles { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
-
-   
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -60,11 +62,24 @@ public partial class VermittlungsplattformDbContext : DbContext
                 .IsFixedLength();
         });
 
-
-
-        modelBuilder.Entity<CompanyProfileGallery>(entity =>
+        modelBuilder.Entity<Comment>(entity =>
         {
-            entity.ToTable("CompanyProfileGallery");
+            entity.ToTable("Comment");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.CommentText)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.CreateDate).HasColumnType("datetime");
+            entity.Property(e => e.UnternehmenId).HasColumnName("UnternehmenID");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
+        });
+
+        
+
+        modelBuilder.Entity<CompanyGallery>(entity =>
+        {
+            entity.ToTable("CompanyGallery");
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.CompanyProfileId).HasColumnName("CompanyProfileID");
@@ -150,6 +165,56 @@ public partial class VermittlungsplattformDbContext : DbContext
             entity.Property(e => e.UnternehmenProfileId).HasColumnName("UnternehmenProfileID");
         });
 
+        modelBuilder.Entity<StudentProfile>(entity =>
+        {
+            entity.ToTable("StudentProfile");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Abschluss)
+                .HasMaxLength(50)
+                .IsFixedLength();
+            entity.Property(e => e.Apropos)
+                .HasMaxLength(1000)
+                .IsFixedLength();
+            entity.Property(e => e.Cvname)
+                .HasMaxLength(100)
+                .IsFixedLength()
+                .HasColumnName("CVName");
+            entity.Property(e => e.Facebook)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.Fachrichtung)
+                .HasMaxLength(50)
+                .IsFixedLength();
+            entity.Property(e => e.Geschlecht)
+                .HasMaxLength(50)
+                .IsFixedLength();
+            entity.Property(e => e.Github)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.Instagram)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.Linkedin)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.Location)
+                .HasMaxLength(50)
+                .IsFixedLength();
+            entity.Property(e => e.Schwerpunkte)
+                .HasMaxLength(50)
+                .IsFixedLength();
+            entity.Property(e => e.Skills)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.Studiengang)
+                .HasMaxLength(50)
+                .IsFixedLength();
+            entity.Property(e => e.Twitter)
+                .HasMaxLength(100)
+                .IsFixedLength();
+        });
+
         modelBuilder.Entity<UnternehmenProfile>(entity =>
         {
             entity.ToTable("UnternehmenProfile");
@@ -198,10 +263,6 @@ public partial class VermittlungsplattformDbContext : DbContext
                 .HasMaxLength(50)
                 .IsFixedLength();
         });
-
-
-
-       
 
         OnModelCreatingPartial(modelBuilder);
     }

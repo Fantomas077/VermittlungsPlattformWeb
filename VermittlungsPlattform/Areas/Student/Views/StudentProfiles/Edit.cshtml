@@ -1,0 +1,101 @@
+﻿@model VermittlungsPlattform.Models.Db.StudentProfile
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>StudentProfile</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Apropos" class="control-label"></label>
+                <input asp-for="Apropos" class="form-control" />
+                <span asp-validation-for="Apropos" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Fachrichtung" class="control-label"></label>
+                <input asp-for="Fachrichtung" class="form-control" />
+                <span asp-validation-for="Fachrichtung" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Studiengang" class="control-label"></label>
+                <input asp-for="Studiengang" class="form-control" />
+                <span asp-validation-for="Studiengang" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Schwerpunkte" class="control-label"></label>
+                <input asp-for="Schwerpunkte" class="form-control" />
+                <span asp-validation-for="Schwerpunkte" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Skills" class="control-label"></label>
+                <input asp-for="Skills" class="form-control" />
+                <span asp-validation-for="Skills" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Geschlecht" class="control-label"></label>
+                <input asp-for="Geschlecht" class="form-control" />
+                <span asp-validation-for="Geschlecht" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Abschluss" class="control-label"></label>
+                <input asp-for="Abschluss" class="form-control" />
+                <span asp-validation-for="Abschluss" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cvname" class="control-label"></label>
+                <input asp-for="Cvname" class="form-control" />
+                <span asp-validation-for="Cvname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Instagram" class="control-label"></label>
+                <input asp-for="Instagram" class="form-control" />
+                <span asp-validation-for="Instagram" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Github" class="control-label"></label>
+                <input asp-for="Github" class="form-control" />
+                <span asp-validation-for="Github" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Linkedin" class="control-label"></label>
+                <input asp-for="Linkedin" class="form-control" />
+                <span asp-validation-for="Linkedin" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Facebook" class="control-label"></label>
+                <input asp-for="Facebook" class="form-control" />
+                <span asp-validation-for="Facebook" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Twitter" class="control-label"></label>
+                <input asp-for="Twitter" class="form-control" />
+                <span asp-validation-for="Twitter" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

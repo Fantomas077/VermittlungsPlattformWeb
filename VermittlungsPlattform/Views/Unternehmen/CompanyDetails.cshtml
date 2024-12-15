@@ -2,18 +2,10 @@
 @model VermittlungsPlattform.Models.Db.UnternehmenProfile
 @{
     ViewData["Title"] = "CompanyDetails";
-    List<VermittlungsPlattform.Models.Db.PraktikumStelle>? Stelle = new List<VermittlungsPlattform.Models.Db.PraktikumStelle>();
-    if (ViewData["Stelle"] != null)
-    {
-        Stelle = ViewData["Stelle"] as List<PraktikumStelle>;
-    }
-    List<VermittlungsPlattform.Models.Db.CompanyProfileGallery>? gallery = new List<VermittlungsPlattform.Models.Db.CompanyProfileGallery>();
-    if (ViewData["gallery"] != null)
-    {
-        gallery = ViewData["gallery"] as List<CompanyProfileGallery>;
-    }
-
-    
+    List<VermittlungsPlattform.Models.Db.PraktikumStelle>? Stelle = ViewData["Stelle"] as List<PraktikumStelle> ?? new List<PraktikumStelle>();
+    List<VermittlungsPlattform.Models.Db.CompanyGallery>? gallery = ViewData["gallery"] as List<CompanyGallery> ?? new List<CompanyGallery>();
+    List<VermittlungsPlattform.Models.Db.Comment>? comment = ViewData["comment"] as List<Comment> ?? new List<Comment>();
+    List<VermittlungsPlattform.Models.Db.User>? user = ViewData["User"] as List<User> ?? new List<User>();
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -24,31 +16,14 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Company details page for @Model.Name" name="description">
 
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
-
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="lib/animate/animate.min.css" rel="stylesheet">
-    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-
-    <!-- Styles -->
+    <!-- Custom Styles -->
     <style>
         .slider {
             position: relative;
-            width: 100%;
-            max-width: 500px;
-            margin: auto;
             overflow: hidden;
-
         }
 
         .slides {
@@ -58,8 +33,8 @@
 
             .slides img {
                 width: 100%;
-                border-radius: 5px;
-                height:300px;
+                border-radius: 8px;
+                height: 300px;
             }
 
         .prev, .next {
@@ -71,6 +46,7 @@
             border: none;
             padding: 10px;
             cursor: pointer;
+            z-index: 1;
         }
 
         .prev {
@@ -83,135 +59,112 @@
     </style>
 </head>
 
-<body>
-    <div class="container-xxl  p-0">
-        <div class="container rounded-3 p-5 my-4" style="background-color:darkslategrey; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-            <h1 class="display-3 text-white mb-3 animated slideInDown">@Model.Name</h1>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4">
+        <!-- Header Section -->
+        <div class="bg-gray-800 text-white rounded-lg p-6 mb-8 shadow-lg">
+            <h1 class="text-3xl font-bold">@Model.Name</h1>
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb text-uppercase">
-                    <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item"><a href="/Unternehmen">Unternehmen</a></li>
-                    <li class="breadcrumb-item text-white active" aria-current="page">@Model.Name</li>
+                <ol class="flex space-x-2">
+                    <li><a href="/" class="hover:underline">Home</a></li>
+                    <li>/</li>
+                    <li><a href="/Unternehmen" class="hover:underline">Unternehmen</a></li>
+                    <li>/</li>
+                    <li>@Model.Name</li>
                 </ol>
             </nav>
         </div>
 
-        <!-- Company Details Start -->
-        <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="container">
-                
-                <div class="row gy-5 gx-4">
-                    <div class="col-lg-8">
-                        <div class="d-flex align-items-center mb-5">
-                            <img class="flex-shrink-0 img-fluid border rounded" src="/images/LogoCompany/@Model.ImageName" alt="@Model.Name Logo" style="width: 100px; height: 100px;">
-                            <div class="text-start ps-4">
-                                <h3 class="mb-3">@Model.Name</h3>
-                                <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>@Model.Location</span>
-                            </div>
-                        </div>
-
-                        <!-- Description de l'entreprise -->
-                        <div class="mb-5">
-                            <p>@Html.Raw(Model.Description)</p>
-                        </div>
-
-                        
-
-                        <!-- Section de commentaires -->
-                        <div class="mb-5">
-                            <h4 class="mb-4">Kommentare</h4>
-
-                            <!-- Formulaire pour ajouter un commentaire -->
-                            <form action="/Unternehmen/AddComment" method="post">
-                                <div class="mb-3">
-                                    <label for="comment" class="form-label">Ihr Kommentar</label>
-                                    <textarea class="form-control" id="comment" name="comment" rows="4"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Envoyer</button>
-                            </form>
-
-                            <!-- Affichage des commentaires -->
-                            <div class="mt-4">
-                                <div class="comment mb-3">
-                                    <p><strong>Utilisateur 1:</strong> Très bonne entreprise, expérience enrichissante !</p>
-                                </div>
-                                <div class="comment mb-3">
-                                    <p><strong>Utilisateur 2:</strong> Bonne opportunité de stage, équipe accueillante.</p>
-                                </div>
-                                <!-- Autres commentaires -->
-                            </div>
-                        </div>
-
+        <!-- Main Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column: Company Info and Description -->
+            <div class="col-span-2 bg-white p-6 rounded-lg shadow-lg">
+                <div class="flex items-center mb-6">
+                    <img src="/images/LogoCompany/@Model.ImageName" alt="@Model.Name Logo" class="w-24 h-24 rounded-lg mr-4">
+                    <div>
+                        <h3 class="text-xl font-semibold">@Model.Name</h3>
+                        <p class="text-gray-600"><i class="fa fa-map-marker-alt text-blue-500 mr-2"></i>@Model.Location</p>
                     </div>
+                </div>
 
-                    <!-- Sidebar de droite avec les informations et offres de l'entreprise -->
-                    <div class="col-lg-4">
-                        <div class="bg-light rounded p-5 mb-4 wow slideInUp" data-wow-delay="0.1s">
-                            <h4 class="mb-4">Company Info</h4>
-                            <p><i class="fa fa-angle-right text-primary me-2"></i>Branche: @Model.Branche </p>
-                            <p><i class="fa fa-angle-right text-primary me-2"></i>Founded: </p>
-                            <p><i class="fa fa-angle-right text-primary me-2"></i>Employees: </p>
-                            <p><i class="fa fa-angle-right text-primary me-2"></i>Website: <a href="@Model.Webseite">@Model.Webseite</a></p>
-                        </div>
+                <div class="mb-6">
+                    <p>@Html.Raw(Model.Description)</p>
+                </div>
 
+                <!-- Affichage des commentaires -->
+                <div class="mt-6">
+                    <h5 class="text-md font-semibold mb-4">Kommentare</h5>
+               
+                @foreach (var item in comment)
+                    {
+                        var userObj = user.FirstOrDefault(x => x.Id == item.UserId);
                         
-                        @if(Stelle.Any())
-                        {
-                            <div class="bg-light rounded p-5 wow slideInUp mt-4 mb-4" data-wow-delay="0.1s">
-                                <div class="card text-center shadow-sm border-0">
-                                    <div class="card text-center shadow-sm border-0">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Stellenangebote</h5>
-                                            <p class="card-text">
-                                                <span class="display-4 text-primary">@Stelle.Count()</span>
-                                            </p>
-                                            <a href="/Stelleangebote/ByCompany/@Model.Id" class="btn btn-outline-primary">Zu den Stellenangeboten</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        }
-                        @if(gallery.Any())
-                        {
-                            <!-- Galerie d'images (Slider) -->
-                            <div class="mb-5">
-                                <h4 class="mb-4">Galerie</h4>
-                                <div class="slider">
-                                    <div class="slides">
-                                        @if (gallery.Any())
-                                        {
-                                            @foreach (var item in gallery.OrderBy(x => x.Id))
-                                            {
-                                                <img src="/images/LogoCompany/@item.ImageName" alt="Gallery Image">
-                                            }
-                                        }
-                                    </div>
-                                    <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
-                                    <button class="next" onclick="moveSlide(1)">&#10095;</button>
-                                </div>
-                            </div>
-                        }
-
                         
+                        <ul class="space-y-4">
+                            <li class="bg-gray-50 p-4 rounded-lg shadow-md">
+                                <p><strong>@userObj?.Name</strong> <span class="text-sm text-gray-500"> | @item.CreateDate</span></p>
+                                <p>@item.CommentText</p>
+                            </li>
+                        </ul>
+                    }
+                  
+                </div>
+
+                <!-- Formulaire de commentaires -->
+                <div class="mt-12 flex justify-center">
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-md w-full ">
+                        
+                        <form asp-action="SubmitComment" method="post" asp-controller="Unternehmen">
+                            <input type="hidden" name="UnternehmenId" value="@Model.Id" />
+                            <div class="mb-4">
+                                <label class="block text-gray-700">Ihr Kommentar</label>
+                                <textarea class="w-full p-3 border border-gray-300 rounded-lg" id="comment" name="comment" rows="4"></textarea>
+                            </div>
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg w-full">Senden</button>
+                        </form>
                     </div>
-
                 </div>
             </div>
+
+            <!-- Right Column: Sidebar with Company Info and Job Offers -->
+            <div class="col-span-1">
+                <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
+                    <h4 class="text-lg font-semibold mb-4">Company Info</h4>
+                    <p><i class="fa fa-angle-right text-blue-500 mr-2"></i>Branche: @Model.Branche</p>
+                    <p><i class="fa fa-angle-right text-blue-500 mr-2"></i>Website: <a href="@Model.Webseite" class="text-blue-500 hover:underline">@Model.Webseite</a></p>
+                </div>
+
+                <!-- Job Offers -->
+                @if (Stelle.Any())
+                {
+                    <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
+                        <h4 class="text-lg font-semibold mb-4">Stellenangebote</h4>
+                        <p class="text-4xl font-bold text-blue-500">@Stelle.Count()</p>
+                        <a href="/Stelleangebote/ByCompany/@Model.Id" class="bg-blue-500 text-white px-4 py-2 rounded-lg inline-block mt-4">Zu den Stellenangeboten</a>
+                    </div>
+                }
+
+                <!-- Image Gallery (Slider) -->
+                @if (gallery.Any())
+                {
+                    <div class="mb-6">
+                        <h4 class="text-lg font-semibold mb-4">Galerie</h4>
+                        <div class="slider">
+                            <div class="slides">
+                                @foreach (var item in gallery.OrderBy(x => x.Id))
+                                {
+                                    <img src="/images/LogoCompany/@item.ImageName" alt="Gallery Image">
+                                }
+                            </div>
+                            <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+                            <button class="next" onclick="moveSlide(1)">&#10095;</button>
+                        </div>
+                    </div>
+                }
+            </div>
         </div>
-        <!-- Company Details End -->
     </div>
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
     <!-- JavaScript pour le slider -->
     <script>
         let currentIndex = 0;

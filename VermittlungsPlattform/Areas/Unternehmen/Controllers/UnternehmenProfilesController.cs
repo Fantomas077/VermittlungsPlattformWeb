@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,7 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
 
         public IActionResult DeleteGallery(int id)
         {
-            var gallery = _context.CompanyProfileGalleries.FirstOrDefault(x => x.Id == id);
+            var gallery = _context.CompanyGalleries.FirstOrDefault(x => x.Id == id);
             if (gallery == null)
             {
                 return NotFound();
@@ -64,7 +65,7 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
                 return NotFound();
             }
             //------------------
-            ViewData["gallery"] = _context.CompanyProfileGalleries.Where(x => x.CompanyProfileId == unternehmenProfile.Id).ToList();
+            ViewData["gallery"] = _context.CompanyGalleries.Where(x => x.CompanyProfileId == unternehmenProfile.Id).ToList();
             //------------------
             return View(unternehmenProfile);
         }
@@ -121,7 +122,7 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
                 {
                     foreach (var item in GalleryImages)
                     {
-                        var newgallery = new CompanyProfileGallery();
+                        var newgallery = new CompanyGallery();
                         newgallery.CompanyProfileId = unternehmenProfile.Id;
                         //------------------------
                         newgallery.ImageName = Guid.NewGuid().ToString() + System.IO.Path.GetExtension(item.FileName);
@@ -134,7 +135,7 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
                             item.CopyTo(stream);
                         }
                         //------------------------
-                        _context.CompanyProfileGalleries.Add(newgallery);
+                        _context.CompanyGalleries.Add(newgallery);
                     }
                 }
                 await _context.SaveChangesAsync();
@@ -158,7 +159,7 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
                 return NotFound();
             }
             //------------------
-            ViewData["gallery"] = _context.CompanyProfileGalleries.Where(x => x.CompanyProfileId == unternehmenProfile.Id).ToList();
+            ViewData["gallery"] = _context.CompanyGalleries.Where(x => x.CompanyProfileId == unternehmenProfile.Id).ToList();
             //------------------
             return View(unternehmenProfile);
         }
@@ -226,11 +227,11 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
                                 item.CopyTo(stream);
                             }
                             //------------------------------------------------
-                            var galleryItem = new CompanyProfileGallery();
+                            var galleryItem = new CompanyGallery();
                             galleryItem.ImageName = imageName;
                             galleryItem.CompanyProfileId = unternehmenProfile.Id;
                             //------------------------------------------------
-                            _context.CompanyProfileGalleries.Add(galleryItem);
+                            _context.CompanyGalleries.Add(galleryItem);
                         }
                     }
                     //========================================================
@@ -269,7 +270,7 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
                 return NotFound();
             }
             //------------------
-            ViewData["gallery"] = _context.CompanyProfileGalleries.Where(x => x.CompanyProfileId == unternehmenProfile.Id).ToList();
+            ViewData["gallery"] = _context.CompanyGalleries.Where(x => x.CompanyProfileId == unternehmenProfile.Id).ToList();
             //------------------
 
             return View(unternehmenProfile);
@@ -289,7 +290,7 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
+        
         private bool UnternehmenProfileExists(int id)
         {
             return _context.UnternehmenProfiles.Any(e => e.Id == id);

@@ -27,7 +27,7 @@ namespace VermittlungsPlattform.Controllers
             ViewData["Stelle"] = Stelle;
 
 
-            var Student = _context.Users.Where(x=>x.IsStudent==true).ToList();
+            var Student = _context.StudentProfiles.ToList();
             ViewData["Student"] = Student;
 
             return View();

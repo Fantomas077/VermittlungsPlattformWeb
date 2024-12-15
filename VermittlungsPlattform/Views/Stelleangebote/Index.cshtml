@@ -87,9 +87,7 @@
                     <h4 class="title mb-4">Finde den perfekten Praktikumsplatz</h4>
                     <p class="text-muted">Beginne deine Karriere mit spannenden Praktikumsstellen von führenden Unternehmen.</p>
                 </div>
-                <div class="col-md-4 text-end">
-                    <a href="#" class="text-primary">Mehr Jobs anzeigen <i class="fa fa-arrow-right"></i></a>
-                </div>
+                
             </div>
 
             <!-- Job Cards -->
@@ -104,13 +102,13 @@
                             <h5>@item.Title</h5>
                             <div class="job-details mt-2">
                                 <span>
-                                    <i class="fa fa-building"></i> <a href="#" class="text-muted">
-                                        @foreach (var x in obj)
-                                        {
-                                            @x.Name
-                                        }
-                                        </a>
-                                    </span>
+                                    <i class="fa fa-building"></i> @foreach (var x in obj)
+                                    {
+                                        @x.Name
+                                    }
+                                        
+                                        
+                                </span>
 
                                            <br>
                                 <span><i class="fa fa-map-marker"></i> @item.Location</span>

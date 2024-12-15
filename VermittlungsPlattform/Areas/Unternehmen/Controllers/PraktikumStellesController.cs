@@ -72,6 +72,7 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
                     return BadRequest("No company profile found for this user.");
                 }
 
+
                 // Assigner l'ID du profil de l'entreprise
                 praktikumStelle.UnternehmenProfileId = unternehmenProfile.Id;
                 praktikumStelle.UserId = userId;

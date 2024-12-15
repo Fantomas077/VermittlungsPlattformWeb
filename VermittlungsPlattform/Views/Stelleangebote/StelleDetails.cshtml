@@ -30,6 +30,8 @@
     <!-- Libraries Stylesheet -->
     <link href="lib/animate/animate.min.css" rel="stylesheet">
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
 
     <!-- Styles -->
     <style>
@@ -73,20 +75,23 @@
     </style>
 </head>
 
-<body>
+<body class="bg-gray-100">
     <!-- Header End -->
-    <div class="container-xxl ">
-        <div class="container rounded-3 p-5 my-4" style="background-color:darkslategrey; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-            <h1 class="display-3 text-white mb-3 animated slideInDown">@Model.Title</h1>
+    <div class="container-xxl mt-3">
+        <div class="bg-gray-800 text-white rounded-lg p-6 mb-8 shadow-lg">
+            <h1 class="text-3xl font-bold">@Model.Title</h1>
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb text-uppercase">
-                    <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item"><a href="/Stelleangebote">Stelleangebote</a></li>
-                    <li class="breadcrumb-item text-white active" aria-current="page">@Model.Title</li>
+                <ol class="flex space-x-2">
+                    <li><a href="/" class="hover:underline">Home</a></li>
+                    <li>/</li>
+                    <li><a href="/Unternehmen" class="hover:underline">Stelleangebote</a></li>
+                    <li>/</li>
+                    <li>@Model.Title</li>
                 </ol>
             </nav>
         </div>
     </div>
+    
     <!-- Header End -->
     <!-- Job Detail Start -->
     <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
@@ -112,6 +117,7 @@
                             <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>@Model.Location</span>
                             <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>@Model.Arbeitsyp</span>
                             <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>@((int)Model.Gehalt)€ </span>
+
                         </div>
                     </div>
 
@@ -154,7 +160,26 @@
                         <p><i class="fa fa-angle-right text-primary me-2"></i>Job Nature: @Model.Arbeitsyp</p>
                         <p><i class="fa fa-angle-right text-primary me-2"></i>Salary: $123 - $456</p>
                         <p><i class="fa fa-angle-right text-primary me-2"></i>Location: New York, USA</p>
-                        <p class="m-0"><i class="fa fa-angle-right text-primary me-2"></i>Date Line: 01 Jan, 2045</p>
+                        
+                            @if (!string.IsNullOrEmpty(Model.Tags))
+                            {
+                                var tags = Model.Tags.Split(",");
+                                <div class="d-flex flex-wrap">
+                                <p>
+                                   <i class="fa fa-angle-right text-primary me-2"></i>Tags: 
+                                    @foreach (var item in tags)
+                                    {
+                                        <div class="me-2">
+                                       
+                                            <a href="/Stelleangebote/Search?SearchText=@item">
+                                                <span class="badge bg-primary"> @item </span>
+                                            </a>
+                                        
+                                        </div>
+                                    }
+                                </p>
+                                </div>
+                            }
                     </div>
                     
                 </div>

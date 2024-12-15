@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using System.Xml.Linq;
 using VermittlungsPlattform.Models.Db;
 
 namespace VermittlungsPlattform.Controllers
@@ -55,8 +57,56 @@ namespace VermittlungsPlattform.Controllers
                 return NotFound();
             }
             ViewData["Stelle"] = _context.PraktikumStelles.Where(x => x.UnternehmenProfileId == Id).ToList();
-            ViewData["gallery"] = _context.CompanyProfileGalleries.Where(x => x.CompanyProfileId == Id).ToList();
+            ViewData["gallery"] = _context.CompanyGalleries.Where(x => x.CompanyProfileId == Id).ToList();
+            //-------------Data comment---- -
+            ViewData["comment"] = _context.Comments.Where(x => x.UnternehmenId == Id).OrderByDescending(x => x.CreateDate).ToList();
+            ViewData["user"] = _context.Users.ToList();
+
             return View(obj);
         }
+        [HttpPost]
+        public IActionResult SubmitComment(string comment, int UnternehmenId)
+        {
+            // Vérifie si les champs requis sont présents
+            if (!string.IsNullOrEmpty(comment) && UnternehmenId != 0)
+            {
+                // Récupérer les informations de l'utilisateur connecté via les claims
+                var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                if (userIdString == null)
+                {
+                    return Unauthorized();  // Gérer le cas où l'utilisateur n'est pas connecté
+                }
+                int userId = int.Parse(userIdString);  // Convertir le string en int
+
+
+
+                // Créer un nouveau commentaire
+                Comment newComment = new Comment
+                {
+                    CommentText = comment,
+                    UnternehmenId = UnternehmenId,
+                    CreateDate = DateTime.Now,
+                    UserId = userId // Associe le nom de l'utilisateur récupéré
+                };
+
+                // Ajoute le commentaire dans la base de données
+                _context.Comments.Add(newComment);
+                _context.SaveChanges();
+
+                // Message de succès
+                TempData["SuccessMessage"] = "Votre commentaire a été soumis avec succès.";
+                return Redirect("/Unternehmen/CompanyDetails/" + UnternehmenId);
+
+
+            }
+            else
+            {
+                // Message d'erreur en cas d'information incomplète
+                TempData["ErrorMessage"] = "Veuillez compléter toutes les informations.";
+                return Redirect("/Unternehmen/CompanyDetails/" + UnternehmenId);
+            }
+        }
+
     }
 }
