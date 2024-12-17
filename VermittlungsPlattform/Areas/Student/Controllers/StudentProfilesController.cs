@@ -23,7 +23,7 @@ namespace VermittlungsPlattform.Areas.Student.Controllers
         // GET: Student/StudentProfiles
         public async Task<IActionResult> Index()
         {
-            return View(await _context.StudentProfiles.ToListAsync());
+            return View(await _context.StudentProfiles.Where(x => x.UserId == Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier))).ToListAsync());
         }
 
         // GET: Student/StudentProfiles/Details/5

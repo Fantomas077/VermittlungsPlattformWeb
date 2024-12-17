@@ -190,7 +190,7 @@
                 @foreach (var item in Stelle)
                 {
                     // Cherche les étudiants dont les compétences correspondent à celles du stage
-                    var matchedStudents = Student.Where(x => item.Skills.Split(',').Any(skill => x.Skills.Contains(skill.Trim()))).Take(6);
+                    var matchedStudents = Student.Where(x => item.Skills.Split(',').Any(skill => x.Skills.Contains(skill.Trim()))).Take(3);
                     var obj = Company.Where(x => x.Id == item.UnternehmenProfileId);
                     // Si des étudiants ont des compétences correspondantes, afficher le stage
                     if (matchedStudents.Any())
