@@ -16,8 +16,11 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Company details page for @Model.Name" name="description">
 
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEJ02Xx3h4TbCkBoV8c2S21tMvshhLdQT2XGbqlkF1OYh02mjNvjFopZlTzYf" crossorigin="anonymous">
+
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
     <!-- Custom Styles -->
     <style>
@@ -59,101 +62,96 @@
     </style>
 </head>
 
-<body class="bg-gray-100">
-    <div class="container mx-auto p-4">
+<body class="bg-light">
+    <div class="container py-4">
         <!-- Header Section -->
-        <div class="bg-gray-800 text-white rounded-lg p-6 mb-8 shadow-lg">
-            <h1 class="text-3xl font-bold">@Model.Name</h1>
+        <div class="bg-dark text-white rounded-lg p-4 mb-4 shadow-sm">
+            <h1 class="display-4">@Model.Name</h1>
             <nav aria-label="breadcrumb">
-                <ol class="flex space-x-2">
-                    <li><a href="/" class="hover:underline">Home</a></li>
-                    <li>/</li>
-                    <li><a href="/Unternehmen/Index" class="hover:underline">Unternehmen</a></li>
-                    <li>/</li>
-                    <li>@Model.Name</li>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/" class="text-white">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/Unternehmen/Index" class="text-white">Unternehmen</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
                 </ol>
             </nav>
         </div>
 
         <!-- Main Content -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="row">
             <!-- Left Column: Company Info and Description -->
-            <div class="col-span-2 bg-white p-6 rounded-lg shadow-lg">
-                <div class="flex items-center mb-6">
-                    <img src="/images/LogoCompany/@Model.ImageName" alt="@Model.Name Logo" class="w-24 h-24 rounded-lg mr-4">
-                    <div>
-                        <h3 class="text-xl font-semibold">@Model.Name</h3>
-                        <p class="text-gray-600"><i class="fa fa-map-marker-alt text-blue-500 mr-2"></i>@Model.Location</p>
+            <div class="col-lg-8 col-md-12">
+                <div class="bg-white p-4 rounded-lg shadow-sm">
+                    <div class="d-flex align-items-center mb-4">
+                        <img src="/images/LogoCompany/@Model.ImageName" alt="@Model.Name Logo" class="img-fluid w-25 h-auto rounded-circle mr-4">
+                        <div>
+                            <h3 class="h4">@Model.Name</h3>
+                            <p><i class="fas fa-map-marker-alt text-primary mr-2"></i> @Model.Location</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="mb-6">
-                    <p>@Html.Raw(Model.Description)</p>
-                </div>
+                    <div class="bg-white p-4 rounded-lg shadow-sm mb-4">
+                        <h4 class="h5">Job Description</h4>
+                        <p class="text-muted">@Html.Raw(Model.Description)</p>
+                    </div>
 
-                <!-- Affichage des commentaires -->
-                <div class="mt-6">
-                    <h5 class="text-md font-semibold mb-4">Kommentare</h5>
-               
-                @foreach (var item in comment)
-                    {
-                        var userObj = user.FirstOrDefault(x => x.Id == item.UserId);
-                        
-                        
-                        <ul class="space-y-4">
-                            <li class="bg-gray-50 p-4 rounded-lg shadow-md">
-                                <p><strong>@userObj?.Name</strong> <span class="text-sm text-gray-500"> | @item.CreateDate</span></p>
+                    <!-- Affichage des commentaires -->
+                    <div class="mt-4 bg-white p-4 rounded-lg shadow-sm">
+                        <h5 class="h6 font-weight-bold mb-4">Kommentare</h5>
+                        @foreach (var item in comment)
+                        {
+                            var userObj = user.FirstOrDefault(x => x.Id == item.UserId);
+                            <div class="bg-light p-3 rounded mb-3">
+                                <p><strong>@userObj?.Name</strong> <span class="text-muted small"> | @item.CreateDate</span></p>
                                 <p>@item.CommentText</p>
-                            </li>
-                        </ul>
-                    }
-                  
-                </div>
+                            </div>
+                        }
+                    </div>
+               
 
-                <!-- Formulaire de commentaires -->
-                <div class="mt-12 flex justify-center">
-                    <div class="bg-gray-50 p-6 rounded-lg shadow-md w-full ">
-                        
+
+                    <!-- Formulaire de commentaires -->
+                    <div class="mt-4">
+                        <h5 class="h6 font-weight-bold mb-4">Add a Comment</h5>
                         <form asp-action="SubmitComment" method="post" asp-controller="Unternehmen">
                             <input type="hidden" name="UnternehmenId" value="@Model.Id" />
-                            <div class="mb-4">
-                                <label class="block text-gray-700">Ihr Kommentar</label>
-                                <textarea class="w-full p-3 border border-gray-300 rounded-lg" id="comment" name="comment" rows="4"></textarea>
+                            <div class="mb-3">
+                                <label for="comment" class="form-label">Ihr Kommentar</label>
+                                <textarea class="form-control" id="comment" name="comment" rows="4"></textarea>
                             </div>
-                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg w-full">Senden</button>
+                            <button type="submit" class="btn btn-primary w-100">Senden</button>
                         </form>
                     </div>
                 </div>
             </div>
 
             <!-- Right Column: Sidebar with Company Info and Job Offers -->
-            <div class="col-span-1">
-                <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
-                    <h4 class="text-lg font-semibold mb-4">Company Info</h4>
-                    <p><i class="fa fa-angle-right text-blue-500 mr-2"></i>Branche: @Model.Branche</p>
-                    <p><i class="fa fa-angle-right text-blue-500 mr-2"></i>Website: <a href="@Model.Webseite" class="text-blue-500 hover:underline">@Model.Webseite</a></p>
+            <div class="col-lg-4 col-md-12">
+                <div class="bg-white p-4 rounded-lg shadow-sm mb-4">
+                    <h5 class="h6 font-weight-bold mb-3">Company Info</h5>
+                    <p><i class="fas fa-angle-right text-primary mr-2"></i>Branche: @Model.Branche</p>
+                    <p><i class="fas fa-angle-right text-primary mr-2"></i>Website: <a href="@Model.Webseite" class="text-primary">@Model.Webseite</a></p>
                 </div>
 
                 <!-- Job Offers -->
                 @if (Stelle.Any())
                 {
-                    <div class="bg-white p-6 rounded-lg shadow-lg mb-8">
-                        <h4 class="text-lg font-semibold mb-4">Stellenangebote</h4>
-                        <p class="text-4xl font-bold text-blue-500">@Stelle.Count()</p>
-                        <a href="/Stelleangebote/ByCompany/@Model.Id" class="bg-blue-500 text-white px-4 py-2 rounded-lg inline-block mt-4">Zu den Stellenangeboten</a>
+                    <div class="bg-white p-4 rounded-lg shadow-sm mb-4">
+                        <h5 class="h6 font-weight-bold mb-3">Stellenangebote</h5>
+                        <p class="text-primary h2 font-weight-bold">@Stelle.Count()</p>
+                        <a href="/Stelleangebote/ByCompany/@Model.Id" class="btn btn-primary">Zu den Stellenangeboten</a>
                     </div>
                 }
 
                 <!-- Image Gallery (Slider) -->
                 @if (gallery.Any())
                 {
-                    <div class="mb-6">
-                        <h4 class="text-lg font-semibold mb-4">Galerie</h4>
+                    <div class="bg-white p-4 rounded-lg shadow-sm mb-4">
+                        <h5 class="h6 font-weight-bold mb-3">Galerie</h5>
                         <div class="slider">
                             <div class="slides">
                                 @foreach (var item in gallery.OrderBy(x => x.Id))
                                 {
-                                    <img src="/images/LogoCompany/@item.ImageName" alt="Gallery Image">
+                                    <img src="/images/LogoCompany/@item.ImageName" alt="Gallery Image" class="img-fluid">
                                 }
                             </div>
                             <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
@@ -164,6 +162,10 @@
             </div>
         </div>
     </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9gyb2nEGkBlKQAK3A4k6KYlYYU6D9RYfz7/8yFTrFk0joovw46" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0g6dB7V7+K8n8D5vREk0zlbQ/ujtiJ0g6vT4Jc+ygPaH6FzH" crossorigin="anonymous"></script>
 
     <!-- JavaScript pour le slider -->
     <script>

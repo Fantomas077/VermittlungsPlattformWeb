@@ -1,0 +1,194 @@
+﻿@{
+    ViewData["Title"] = "StudentDetails";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Profile</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f4f8;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .profile-header {
+            background-color: #34495e;
+            color: white;
+            padding: 50px 0;
+        }
+
+        .profile-sidebar, .profile-section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .profile-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            border-bottom: 2px solid #2980b9;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        .skills-tag {
+            margin-right: 10px;
+            margin-bottom: 10px;
+            background-color: #2980b9;
+            border-radius: 20px;
+            padding: 10px 15px;
+            color: white;
+        }
+
+        .btn-outline-primary {
+            border-color: #2980b9;
+            color: #2980b9;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+            .btn-outline-primary:hover {
+                background-color: #2980b9;
+                color: white;
+            }
+
+        .profile-sidebar img {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .location-map {
+            height: 200px;
+            width: 100%;
+            border-radius: 8px;
+            background-color: #dcdcdc;
+        }
+
+        form .form-control {
+            border-radius: 8px;
+        }
+
+        button[type="submit"] {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px;
+            transition: background-color 0.3s;
+        }
+
+            button[type="submit"]:hover {
+                background-color: #219150;
+            }
+
+        .breadcrumb-item a {
+            color: #ecf0f1;
+            text-decoration: none;
+        }
+
+            .breadcrumb-item a:hover {
+                color: #bdc3c7;
+                text-decoration: underline;
+            }
+    </style>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <div class="container bg-dark text-center mt-3 p-3">
+        <h1 class="display-5 text-white">Candidate Profile</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb justify-content-center">
+                <li class="breadcrumb-item"><a href="#" class="text-white">Home</a> /</li>
+                <li class="breadcrumb-item active text-white" aria-current="page">Candidate Profile</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-lg-8">
+                <!-- Overview Section -->
+                <div class="profile-section">
+                    <h2 class="profile-title">Overview</h2>
+                    <p>Hello my name is Ariana Gande Conor and I'm a Financial Supervisor from Netherlands, Rotterdam. In pharetra orci dignissim, blandit mi semper, ultricies diam. Suspendisse malesuada suscipit nunc non volutpat.</p>
+                    <p>Mauris nec erat ut libero vulputate pulvinar. Aliquam ante erat, blandit at pretium at, accumsan ac est. Integer vehicula rhoncus molestie.</p>
+                </div>
+
+                <!-- Intro Section (Image) -->
+                <div class="profile-section">
+                    <h2 class="profile-title">Intro</h2>
+                    <img src="https://via.placeholder.com/800x400" alt="Intro image" class="img-fluid rounded">
+                </div>
+
+                <!-- Skills Section -->
+                <div class="profile-section">
+                    <h2 class="profile-title">Skills</h2>
+                    <div class="d-flex flex-wrap">
+                        <span class="badge bg-primary skills-tag">Figma</span>
+                        <span class="badge bg-primary skills-tag">HTML5</span>
+                        <span class="badge bg-primary skills-tag">Adobe Photoshop</span>
+                        <span class="badge bg-primary skills-tag">WordPress</span>
+                        <span class="badge bg-primary skills-tag">CSS</span>
+                        <span class="badge bg-primary skills-tag">JavaScript</span>
+                        <span class="badge bg-primary skills-tag">Adobe XD</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Sidebar -->
+            <div class="col-lg-4">
+                <!-- Profile Sidebar -->
+                <div class="profile-sidebar mb-4">
+                    <div class="text-center">
+                        <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" alt="Candidate photo">
+                        <h5 class="mb-0">Rashed Kabir</h5>
+                        <a href="#" class="btn btn-outline-primary btn-sm mt-2">Invite</a>
+                    </div>
+                    <hr>
+                    <p><strong>Location:</strong> Spain, Barcelona</p>
+                    <p><strong>Age:</strong> 28</p>
+                    <p><strong>Email:</strong> me@support.com</p>
+                    <p><strong>Qualification:</strong> Master Degree</p>
+                    <p><strong>Gender:</strong> Male</p>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="profile-sidebar">
+                    <h4 class="profile-title">Email Rashed Kabir</h4>
+                    <form>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

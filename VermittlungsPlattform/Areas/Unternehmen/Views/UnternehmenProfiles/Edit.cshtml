@@ -99,7 +99,7 @@
                     <div class="card-header">Company Gallery</div>
                     <div class="card-body">
                         @{
-                            var galleries = ViewData["gallery"] as List<VermittlungsPlattform.Models.Db.CompanyProfileGallery>;
+                            var galleries = ViewData["gallery"] as List<VermittlungsPlattform.Models.Db.CompanyGallery>;
                             <div class="row">
                                 @if (galleries != null)
                                 {
@@ -111,12 +111,7 @@
                                                 <i class="bi bi-trash"></i>
                                             </a>
                                         </div>
-                                        // <div id="@item.Id">
-                                        //     <img src="/images/LogoCompany/@item.ImageName" />
-                                        //     <a class="btn btn-danger " style="max-width:100px" href="/Unternehmen/UnternehmenProfiles/DeleteGallery?id=@item.Id">
-                                        //         <i class="bi bi-trash"></i>
-                                        //     </a>
-                                        // </div>
+                                        
                                     }
                                 }
                             </div>

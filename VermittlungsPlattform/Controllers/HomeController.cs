@@ -29,6 +29,8 @@ namespace VermittlungsPlattform.Controllers
 
             var Student = _context.StudentProfiles.ToList();
             ViewData["Student"] = Student;
+            var Userr = _context.Users.ToList();
+            ViewData["Userr"] = Userr;
 
             return View();
         }

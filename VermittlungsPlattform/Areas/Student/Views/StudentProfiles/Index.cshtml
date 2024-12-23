@@ -4,120 +4,81 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Apropos)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Fachrichtung)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Studiengang)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Schwerpunkte)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Skills)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Location)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Geschlecht)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Abschluss)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cvname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Instagram)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Github)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Linkedin)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Facebook)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Twitter)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Apropos)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Fachrichtung)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Studiengang)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Schwerpunkte)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Skills)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Geschlecht)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Abschluss)
-            </td>
-            <td>
-                    <a href="/uploads/@item.Cvname" target="_blank">
-                        voir pdf
+<div class="card border-primary mb-3 shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h4>Mein Profil</h4>
+    </div>
+    <div class="card-body">
+        <div class="container">
+            <div class="row pt-3 pb-3">
+                <div class="col-12 text-end">
+                    <a asp-action="Create" class="btn btn-success shadow-sm">
+                        <i class="bi bi-plus-circle"></i> Create
                     </a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Instagram)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Github)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Linkedin)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Facebook)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Twitter)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                </div>
+            </div>
 
+            <table class="table table-bordered table-striped table-hover table-responsive-sm">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Über mich</th>
+                        <th>@Html.DisplayNameFor(model => model.Fachrichtung)</th>
+                        <th>@Html.DisplayNameFor(model => model.Studiengang)</th>
+                        <th>@Html.DisplayNameFor(model => model.Schwerpunkte)</th>
+                        <th>@Html.DisplayNameFor(model => model.Skills)</th>
+                        <th>@Html.DisplayNameFor(model => model.Location)</th>
+                        <th>@Html.DisplayNameFor(model => model.Geschlecht)</th>
+                        <th>@Html.DisplayNameFor(model => model.Abschluss)</th>
+                        <th>Mein Cv</th>
+                        <th>@Html.DisplayNameFor(model => model.Instagram)</th>
+                        <th>@Html.DisplayNameFor(model => model.Github)</th>
+                        <th>@Html.DisplayNameFor(model => model.Linkedin)</th>
+                        <th>@Html.DisplayNameFor(model => model.Facebook)</th>
+                        <th>@Html.DisplayNameFor(model => model.Twitter)</th>
+                        <th></th>
+                    </tr>
+                </thead>
 
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.Raw(item.Apropos)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Fachrichtung)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Studiengang)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Schwerpunkte)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Skills)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Location)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Geschlecht)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Abschluss)</td>
+                            <td>
+                                <a href="/uploads/@item.Cvname" target="_blank" class="btn btn-outline-info btn-sm">
+                                    Voir CV <i class="bi bi-file-earmark-pdf"></i>
+                                </a>
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.Instagram)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Github)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Linkedin)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Facebook)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Twitter)</td>
+
+                            <td style="width:300px">
+                                <div class="btn-group d-flex justify-content-center">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary me-2">
+                                        <i class="bi bi-pencil-square"></i> Editer
+                                    </a>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success me-2">
+                                        <i class="bi bi-info-circle"></i> Détails
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

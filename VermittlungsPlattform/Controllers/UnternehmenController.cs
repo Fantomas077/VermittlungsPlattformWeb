@@ -24,17 +24,15 @@ namespace VermittlungsPlattform.Controllers
         public IActionResult Search(string Searchtext, string City)
         {
             // Commence par une requête de base incluant toutes les données
-            var query = _context.PraktikumStelles.AsQueryable();
-            var company = _context.UnternehmenProfiles.ToList();
-            ViewData["Company"] = company;
+            var query = _context.UnternehmenProfiles.AsQueryable();
 
             // Applique le filtre sur le titre, les tags ou la branche si le Searchtext n'est pas vide
             if (!string.IsNullOrEmpty(Searchtext))
             {
                 query = query.Where(x =>
-                    EF.Functions.Like(x.Title, "%" + Searchtext + "%") ||
-                    EF.Functions.Like(x.Tags, "%" + Searchtext + "%") ||
+                    EF.Functions.Like(x.Name, "%" + Searchtext + "%") ||
                     EF.Functions.Like(x.Branche, "%" + Searchtext + "%"));
+                  
             }
 
             // Applique le filtre sur la ville si la City n'est pas vide
@@ -44,8 +42,9 @@ namespace VermittlungsPlattform.Controllers
             }
 
             // Trie les résultats par titre
-            var result = query.OrderBy(x => x.Title).ToList();
-           
+            var result = query.OrderBy(x => x.Name).ToList();
+            var company = _context.UnternehmenProfiles.ToList();
+            ViewData["Company"] = company;
             // Renvoie la vue "Index" avec les résultats filtrés
             return View("Index", result);
         }
