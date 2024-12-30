@@ -1,7 +1,9 @@
 ﻿@model IEnumerable<VermittlungsPlattform.Models.Db.PraktikumStelle>
+@using VermittlungsPlattform.Utilities
 
 @{
     ViewData["Title"] = "Index";
+    var truncator = new Truncate();
 }
 
 <h1>Index</h1>
@@ -54,7 +56,7 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.Raw(item.Description)
+                @Html.Raw(truncator.TruncateText(item.Description,50))...
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Location)

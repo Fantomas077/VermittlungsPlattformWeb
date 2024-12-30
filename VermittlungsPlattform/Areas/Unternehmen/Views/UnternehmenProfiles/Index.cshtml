@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<VermittlungsPlattform.Models.Db.UnternehmenProfile>
 @using System.Security.Claims
+@using VermittlungsPlattform.Utilities
 
 @{
     ViewData["Title"] = "Index";
+    var truncator = new Truncate();
 }
 
 
@@ -50,11 +52,12 @@
                 <tbody>
                     @foreach (var obj in Model.OrderBy(u => u.Name))
                     {
+                        
                         <tr>
                             <td>@obj.Name</td>
                             <td>@obj.Branche</td>
                             <td>@obj.Location</td>
-                            <td> @Html.Raw(obj.Description)</td>
+                            <td> @Html.Raw(truncator.TruncateText(obj.Description,50))...</td>
                             <td>@obj.Webseite</td>
                             <td>@obj.Link</td>
                             <td><img class="img-thumbnail" src="/images/LogoCompany/@obj.ImageName" style="max-width:70px; max-height:70px" /></td>

@@ -174,7 +174,7 @@ namespace VermittlungsPlattform.Controllers
             else
             if(foundUser.IsStudent==true)
             {
-                return Redirect("/Student/");
+                return Redirect("/Home/");
             }
             else
             {
