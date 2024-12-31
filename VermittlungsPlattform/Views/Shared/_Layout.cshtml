@@ -31,15 +31,14 @@
 
                     <!-- Dropdown aligné à droite -->
                     <ul class="navbar-nav ms-auto">
-                        @if (User.Identity.IsAuthenticated)
-                        {
+                       
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-light"  id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-person"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                    
-                                    
+                                   
                                         <li><a class="dropdown-item" href="/student/studentprofiles">Student Profile</a></li>
                                         <li><a class="dropdown-item" href="/Unternehmen/PraktikumStelles">Bewerbung</a></li>
                                     
@@ -48,17 +47,8 @@
                                     <li><a class="dropdown-item" href="/Account/Logout">Log Out</a></li>
                                 </ul>
                             </li>
-                        }
-                        else
-                        {
-                            <!-- Si l'utilisateur n'est pas connecté, afficher les options de connexion et inscription -->
-                            <li class="nav-item">
-                                <a class="nav-link text-light" href="/Account/Login">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-light" href="Account/RegisterStudent">Register</a>
-                            </li>
-                        }
+                        
+                        
                     </ul>
                 </div>
             </div>
@@ -73,7 +63,7 @@
 
     <footer class="border-top footer text-muted bg-dark">
         <div class="container text-center text-light">
-            &copy; 2024 - BookVerse -
+            &copy; 2025 - PraktiMatch -
         </div>
     </footer>
 

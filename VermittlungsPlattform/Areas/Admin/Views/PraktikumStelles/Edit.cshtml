@@ -1,0 +1,86 @@
+﻿@model VermittlungsPlattform.Models.Db.PraktikumStelle
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>PraktikumStelle</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UnternehmenProfileId" class="control-label"></label>
+                <input asp-for="UnternehmenProfileId" class="form-control" />
+                <span asp-validation-for="UnternehmenProfileId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Location" class="control-label"></label>
+                <input asp-for="Location" class="form-control" />
+                <span asp-validation-for="Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Branche" class="control-label"></label>
+                <input asp-for="Branche" class="form-control" />
+                <span asp-validation-for="Branche" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Dauer" class="control-label"></label>
+                <input asp-for="Dauer" class="form-control" />
+                <span asp-validation-for="Dauer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Skills" class="control-label"></label>
+                <input asp-for="Skills" class="form-control" />
+                <span asp-validation-for="Skills" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreateDate" class="control-label"></label>
+                <input asp-for="CreateDate" class="form-control" />
+                <span asp-validation-for="CreateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tags" class="control-label"></label>
+                <input asp-for="Tags" class="form-control" />
+                <span asp-validation-for="Tags" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Arbeitsyp" class="control-label"></label>
+                <input asp-for="Arbeitsyp" class="form-control" />
+                <span asp-validation-for="Arbeitsyp" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gehalt" class="control-label"></label>
+                <input asp-for="Gehalt" class="form-control" />
+                <span asp-validation-for="Gehalt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

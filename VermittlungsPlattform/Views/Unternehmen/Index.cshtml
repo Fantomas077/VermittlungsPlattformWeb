@@ -53,30 +53,34 @@
             </div>
         </div>
     </section>
-    <div class="container">
-        
-        <div class="row">
-            
-            <!-- Card 1 -->
-            @foreach (var item in Model)
-            {
-                <div class="col-md-4">
 
-                    <div class="card company-card">
-                        <img class="img-fluid" src="/images/LogoCompany/@item.ImageName" alt="@item.Name" style="max-width:contain; max-height: 150px;">
-                        <div class="card-body">
-                            <h5 class="card-title">@item.Name</h5>
+    <section>
+        <div class="container">
+            <div class="row">
+
+                <!-- Card 1 -->
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-4">
+                        <input type="hidden" asp-for="@item.Id" />
+                        <div class="card company-card">
+                            <a href="/Unternehmen/CompanyDetails/@item.Id">
+                                <!-- Ajouter l'URL de destination si nécessaire -->
+                                <img class="img-fluid" src="/images/LogoCompany/@item.ImageName" alt="@item.Name" style="max-width:contain; max-height: 150px">
+                            </a>
+                            <div class="card-body">
+                                <h5 class="card-title">@item.Name</h5>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-            
+                }
 
-         
-
-            <!-- Add more cards as needed -->
+            </div>
         </div>
-    </div>
+    </section>
+
+
+ 
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

@@ -8,6 +8,7 @@ using VermittlungsPlattform.Models.Db;
 namespace VermittlungsPlattform.Controllers
 {
     [Authorize]
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -22,6 +23,17 @@ namespace VermittlungsPlattform.Controllers
 
         public IActionResult Index()
         {
+            if (User.IsInRole("admin"))
+            {
+                return RedirectToAction("Index", "Home", new { area = "Admin" });
+            }
+            else if (User.IsInRole("unternehmen"))
+            {
+                return RedirectToAction("Index", "Home", new { area = "Unternehmen" });
+            }
+
+
+
             var Company = _context.UnternehmenProfiles.OrderByDescending(x => x.Id).Take(8).ToList();
             ViewData["Company"] = Company;
 

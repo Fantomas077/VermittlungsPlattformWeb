@@ -1,7 +1,270 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
+﻿﻿@{
+    ViewData["Title"] = "Willkommen bei PraktiMatch";
+    var Company = ViewData["Company"] as List<VermittlungsPlattform.Models.Db.UnternehmenProfile>;
+    var Stelle = ViewData["Stelle"] as List<VermittlungsPlattform.Models.Db.PraktikumStelle>;
+    var Student = ViewData["Student"] as List<VermittlungsPlattform.Models.Db.StudentProfile>;
+    var Userr = ViewData["Userr"] as List<VermittlungsPlattform.Models.Db.User>;
 }
 
-<h1>Home Unternehnem</h1>
 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PraktiMatch</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/file.css" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        .job-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+
+            .job-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+
+            .job-card h5 {
+                font-size: 1.1rem;
+                font-weight: bold;
+            }
+
+        .badge {
+            font-size: 0.85rem;
+            padding: 5px 10px;
+        }
+
+        .job-details {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .view-btn {
+            margin-top: 10px;
+        }
+
+        .card {
+            margin-bottom: 24px;
+            box-shadow: 0 2px 3px #e4e8f0;
+        }
+
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid #eff0f2;
+            border-radius: 1rem;
+        }
+
+        .avatar-md {
+            height: 4rem;
+            width: 4rem;
+        }
+
+        .rounded-circle {
+            border-radius: 50% !important;
+        }
+
+        .img-thumbnail {
+            padding: 0.25rem;
+            background-color: #f1f3f7;
+            border: 1px solid #eff0f2;
+            border-radius: 0.75rem;
+        }
+
+        .avatar-title {
+            align-items: center;
+            background-color: #3b76e1;
+            color: #fff;
+            display: flex;
+            font-weight: 500;
+            height: 100%;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .bg-soft-primary {
+            background-color: rgba(59,118,225,.25) !important;
+        }
+
+        a {
+            text-decoration: none !important;
+        }
+
+        .badge-soft-danger {
+            color: #f56e6e !important;
+            background-color: rgba(245,110,110,.1);
+        }
+
+        .badge-soft-success {
+            color: #63ad6f !important;
+            background-color: rgba(99,173,111,.1);
+        }
+
+        .mb-0 {
+            margin-bottom: 0 !important;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25em 0.6em;
+            font-size: 75%;
+            font-weight: 500;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.75rem;
+        }
+    </style>
+
+</head>
+<body>
+
+    <section>
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Student Card -->
+                <div class="bg-blue-500 text-white shadow-lg rounded-lg p-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-3xl font-bold">13436</h3>
+                            <p>Student</p>
+                        </div>
+                        <div class="text-5xl">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                    </div>
+                    <a href="#" class="block mt-4 text-sm text-white opacity-75 hover:opacity-100 transition">
+                        View More <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+
+                <!-- Kommentare Card -->
+                <div class="bg-green-500 text-white shadow-lg rounded-lg p-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-3xl font-bold">₹185358</h3>
+                            <p>Kommentare</p>
+                        </div>
+                        <div class="text-5xl">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                    </div>
+                    <a href="#" class="block mt-4 text-sm text-white opacity-75 hover:opacity-100 transition">
+                        View More <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+
+                <!-- Unternehmen Card -->
+                <div class="bg-yellow-500 text-white shadow-lg rounded-lg p-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-3xl font-bold">5464</h3>
+                            <p>Unternehmen</p>
+                        </div>
+                        <div class="text-5xl">
+                            <i class="fas fa-building"></i>
+                        </div>
+                    </div>
+                    <a href="#" class="block mt-4 text-sm text-white opacity-75 hover:opacity-100 transition">
+                        View More <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+
+    <section class="container mt-5">
+        <div class="row align-items-center mb-4">
+            <div class="col-md-8">
+                <h4 class="title mb-4">Profile, die gut zu Ihrem Stelle passen können</h4>
+                <p class="text-muted">Beginne deine Karriere mit spannenden Praktikumsstellen von führenden Unternehmen.</p>
+            </div>
+
+        </div>
+        <div class="row">
+            @foreach (var item in Student)
+            {
+                <div class="col-xl-3 col-sm-6">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <!-- Profile Info -->
+                            <input type="hidden" asp-for="@item.Id" />
+                            <div class="d-flex align-items-center">
+                                <div>
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="avatar-md rounded-circle img-thumbnail" />
+                                </div>
+                                <div class="flex-1 ms-3">
+                                    <h5 class="font-size-16 mb-1">
+                                        <a href="#" class="text-dark">
+                                            @foreach (var x in Userr.Where(x => x.Id == item.UserId))
+                                            {
+                                                @x.Vorname @x.Name
+                                            }
+                                        </a>
+                                    </h5>
+                                    <span class="badge badge-soft-success mb-0">@item.Studiengang Student</span>
+                                </div>
+                            </div>
+
+                            <!-- Skills Section -->
+                            <div class="mt-4 text-center">
+
+                                <div class="d-flex justify-content-center flex-wrap gap-2">
+                                    @foreach (var skill in item.Skills.Split(','))
+                                    {
+                                        <span class="badge bg-info text-dark">@skill</span>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="d-flex gap-2 pt-4">
+                                <a type="button" class="btn btn-outline-primary btn-sm w-50" href="/Unternehmen/Student/Studentdetails/@item.Id">
+                                    <i class="bx bx-user me-1"></i> Profile
+                                </a>
+
+                                <a type="button" class="btn btn-primary btn-sm w-50">
+                                    <i class="bx bx-message-square-dots me-1"></i> Kontact
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+
+
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>

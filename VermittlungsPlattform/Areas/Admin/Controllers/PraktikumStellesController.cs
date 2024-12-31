@@ -12,22 +12,22 @@ namespace VermittlungsPlattform.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "admin")]
-    public class CommentsController : Controller
+    public class PraktikumStellesController : Controller
     {
         private readonly VermittlungsplattformDbContext _context;
 
-        public CommentsController(VermittlungsplattformDbContext context)
+        public PraktikumStellesController(VermittlungsplattformDbContext context)
         {
             _context = context;
         }
 
-        // GET: Admin/Comments
+        // GET: Admin/PraktikumStelles
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Comments.ToListAsync());
+            return View(await _context.PraktikumStelles.ToListAsync());
         }
 
-        // GET: Admin/Comments/Details/5
+        // GET: Admin/PraktikumStelles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,39 +35,39 @@ namespace VermittlungsPlattform.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var comment = await _context.Comments
+            var praktikumStelle = await _context.PraktikumStelles
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (comment == null)
+            if (praktikumStelle == null)
             {
                 return NotFound();
             }
 
-            return View(comment);
+            return View(praktikumStelle);
         }
 
-        // GET: Admin/Comments/Create
+        // GET: Admin/PraktikumStelles/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/Comments/Create
+        // POST: Admin/PraktikumStelles/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserId,CommentText,CreateDate,UnternehmenId")] Comment comment)
+        public async Task<IActionResult> Create([Bind("Id,UserId,UnternehmenProfileId,Title,Description,Location,Branche,Dauer,Skills,CreateDate,Tags,Arbeitsyp,Gehalt")] PraktikumStelle praktikumStelle)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(comment);
+                _context.Add(praktikumStelle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(comment);
+            return View(praktikumStelle);
         }
 
-        // GET: Admin/Comments/Edit/5
+        // GET: Admin/PraktikumStelles/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +75,22 @@ namespace VermittlungsPlattform.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var comment = await _context.Comments.FindAsync(id);
-            if (comment == null)
+            var praktikumStelle = await _context.PraktikumStelles.FindAsync(id);
+            if (praktikumStelle == null)
             {
                 return NotFound();
             }
-            return View(comment);
+            return View(praktikumStelle);
         }
 
-        // POST: Admin/Comments/Edit/5
+        // POST: Admin/PraktikumStelles/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,CommentText,CreateDate,UnternehmenId")] Comment comment)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,UnternehmenProfileId,Title,Description,Location,Branche,Dauer,Skills,CreateDate,Tags,Arbeitsyp,Gehalt")] PraktikumStelle praktikumStelle)
         {
-            if (id != comment.Id)
+            if (id != praktikumStelle.Id)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace VermittlungsPlattform.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(comment);
+                    _context.Update(praktikumStelle);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CommentExists(comment.Id))
+                    if (!PraktikumStelleExists(praktikumStelle.Id))
                     {
                         return NotFound();
                     }
@@ -115,10 +115,10 @@ namespace VermittlungsPlattform.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(comment);
+            return View(praktikumStelle);
         }
 
-        // GET: Admin/Comments/Delete/5
+        // GET: Admin/PraktikumStelles/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,34 +126,34 @@ namespace VermittlungsPlattform.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var comment = await _context.Comments
+            var praktikumStelle = await _context.PraktikumStelles
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (comment == null)
+            if (praktikumStelle == null)
             {
                 return NotFound();
             }
 
-            return View(comment);
+            return View(praktikumStelle);
         }
 
-        // POST: Admin/Comments/Delete/5
+        // POST: Admin/PraktikumStelles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var comment = await _context.Comments.FindAsync(id);
-            if (comment != null)
+            var praktikumStelle = await _context.PraktikumStelles.FindAsync(id);
+            if (praktikumStelle != null)
             {
-                _context.Comments.Remove(comment);
+                _context.PraktikumStelles.Remove(praktikumStelle);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CommentExists(int id)
+        private bool PraktikumStelleExists(int id)
         {
-            return _context.Comments.Any(e => e.Id == id);
+            return _context.PraktikumStelles.Any(e => e.Id == id);
         }
     }
 }

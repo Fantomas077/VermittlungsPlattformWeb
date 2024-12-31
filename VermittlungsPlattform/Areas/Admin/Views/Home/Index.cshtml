@@ -1,5 +1,14 @@
 ﻿@{
     ViewData["Title"] = "Index";
+    var Userr = ViewData["Userr"] as List<VermittlungsPlattform.Models.Db.User>;
+    var Comment = ViewData["Comment"] as List<VermittlungsPlattform.Models.Db.Comment>;
+    var Stelle = ViewData["Stelle"] as List<VermittlungsPlattform.Models.Db.PraktikumStelle>;
+    var Company = ViewData["Company"] as List<VermittlungsPlattform.Models.Db.UnternehmenProfile>;
+
+    var user = Userr.Count();
+    var comment = Comment.Count();
+    var stelle = Stelle.Count();
+    var company = Company.Count();
 }
 
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -7,18 +16,19 @@
 
 <div class="container mx-auto px-4">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Student Card -->
+        <!-- Affichage du nombre total d'étudiants -->
         <div class="bg-blue-500 text-white shadow-lg rounded-lg p-6">
             <div class="flex justify-between items-center">
                 <div>
-                    <h3 class="text-3xl font-bold">13436</h3>
-                    <p>Student</p>
+                    <h3 class="text-3xl font-bold">@user</h3>
+                    <p>Users</p>
                 </div>
                 <div class="text-5xl">
                     <i class="fas fa-user-graduate"></i>
+                    <i class="fas fa-building"></i>
                 </div>
             </div>
-            <a href="#" class="block mt-4 text-sm text-white opacity-75 hover:opacity-100 transition">
+            <a href="/Admin/Users/Index" class="block mt-4 text-sm text-white opacity-75 hover:opacity-100 transition">
                 View More <i class="fas fa-arrow-circle-right"></i>
             </a>
         </div>
@@ -27,14 +37,14 @@
         <div class="bg-green-500 text-white shadow-lg rounded-lg p-6">
             <div class="flex justify-between items-center">
                 <div>
-                    <h3 class="text-3xl font-bold">₹185358</h3>
+                    <h3 class="text-3xl font-bold">@comment</h3>
                     <p>Kommentare</p>
                 </div>
                 <div class="text-5xl">
                     <i class="fas fa-comments"></i>
                 </div>
             </div>
-            <a href="#" class="block mt-4 text-sm text-white opacity-75 hover:opacity-100 transition">
+            <a href="/Admin/Comments/Index" class="block mt-4 text-sm text-white opacity-75 hover:opacity-100 transition">
                 View More <i class="fas fa-arrow-circle-right"></i>
             </a>
         </div>
@@ -43,22 +53,35 @@
         <div class="bg-yellow-500 text-white shadow-lg rounded-lg p-6">
             <div class="flex justify-between items-center">
                 <div>
-                    <h3 class="text-3xl font-bold">5464</h3>
-                    <p>Unternehmen</p>
+                    <h3 class="text-3xl font-bold">@stelle</h3>
+                    <p>Stelleangebote</p>
                 </div>
                 <div class="text-5xl">
-                    <i class="fas fa-building"></i>
+                    <i class="fas fa-briefcase"></i> <!-- Icône de travail -->
                 </div>
             </div>
-            <a href="#" class="block mt-4 text-sm text-white opacity-75 hover:opacity-100 transition">
+            <a href="/Admin/PraktikumStelles/Index" class="block mt-4 text-sm text-white opacity-75 hover:opacity-100 transition">
+                View More <i class="fas fa-arrow-circle-right"></i>
+            </a>
+        </div>
+
+        <!-- Unternehmen Card -->
+        <div class="bg-gray-500 text-white shadow-lg rounded-lg p-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h3 class="text-3xl font-bold">@company</h3>
+                    <p>Unternhemen</p>
+                </div>
+                <div class="text-5xl">
+                    <i class="fas fa-building"></i><!-- Icône de travail -->
+                </div>
+            </div>
+            <a href="/Admin/UnternehmenProfiles/Index" class="block mt-4 text-sm text-white opacity-75 hover:opacity-100 transition">
                 View More <i class="fas fa-arrow-circle-right"></i>
             </a>
         </div>
     </div>
-
-   
 </div>
 
 <!-- Inclure Font Awesome pour les icônes -->
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-

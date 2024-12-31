@@ -169,7 +169,7 @@ namespace VermittlungsPlattform.Controllers
             //------------
             if (foundUser.IsAdmin == true)
             {
-                return Redirect("/Admin/");
+                return RedirectToAction("Index", "Home", new { area = "Admin" });
             }
             else
             if(foundUser.IsStudent==true)
@@ -178,7 +178,7 @@ namespace VermittlungsPlattform.Controllers
             }
             else
             {
-                return Redirect("/Unternehmen/");
+                return RedirectToAction("Index", "Home", new { area = "Unternehmen" });
             }
         }
         /// <summary>

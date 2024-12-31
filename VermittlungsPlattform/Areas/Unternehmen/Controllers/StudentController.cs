@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VermittlungsPlattform.Models.Db;
 
-namespace VermittlungsPlattform.Controllers
+namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
 {
+    [Area("Unternehmen")]
     public class StudentController : Controller
     {
         private readonly VermittlungsplattformDbContext _context;
@@ -15,6 +16,7 @@ namespace VermittlungsPlattform.Controllers
         public IActionResult Index()
         {
             List<StudentProfile> obj = _context.StudentProfiles.OrderByDescending(x => x.Id).ToList();
+            
             return View(obj);
         }
         public IActionResult StudentDetails(int Id)
@@ -24,7 +26,11 @@ namespace VermittlungsPlattform.Controllers
             {
                 return NotFound();
             }
-           
+            ViewData["user"] = _context.Users.ToList();
+            var Student = _context.StudentProfiles.ToList();
+            ViewData["Student"] = Student;
+
+
             return View(obj);
         }
     }
