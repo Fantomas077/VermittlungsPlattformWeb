@@ -22,6 +22,8 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
 
             var Stelle = _context.PraktikumStelles.ToList();
             ViewData["Stelle"] = Stelle;
+            var StelleBewerbung = _context.StelleBewerbungs.ToList();
+            ViewData["StelleBewerbung"] = StelleBewerbung;
 
 
             var Student = _context.StudentProfiles.ToList();

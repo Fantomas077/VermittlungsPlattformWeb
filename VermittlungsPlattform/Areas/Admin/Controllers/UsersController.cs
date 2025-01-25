@@ -141,15 +141,61 @@ namespace VermittlungsPlattform.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Id == id);
+
             if (user != null)
             {
+               
+                if (user.IsStudent)
+                {
+                    var studentProfile = await _context.StudentProfiles
+                        .FirstOrDefaultAsync(sp => sp.UserId == user.Id); 
+                    if (studentProfile != null)
+                    {
+                        _context.StudentProfiles.Remove(studentProfile);  
+                    }
+
+                    var applications = await _context.StelleBewerbungs
+                        .Where(a => a.UserId == user.Id)
+                        .ToListAsync();
+
+                    foreach (var application in applications)
+                    {
+                        _context.StelleBewerbungs.Remove(application);  
+                    }
+                }
+
+                if (user.IsCompany)
+                {
+                    var companyProfile = await _context.UnternehmenProfiles
+                        .FirstOrDefaultAsync(c => c.UserId == user.Id);  
+                    if (companyProfile != null)
+                    {
+                        _context.UnternehmenProfiles.Remove(companyProfile);  
+                    }
+
+                    var jobOffers = await _context.PraktikumStelles
+                        .Where(j => j.UserId == user.Id)
+                        .ToListAsync();
+
+                    foreach (var jobOffer in jobOffers)
+                    {
+                        _context.PraktikumStelles.Remove(jobOffer);  
+                    }
+                }
+
+                
                 _context.Users.Remove(user);
+
+              
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+
 
         private bool UserExists(int id)
         {

@@ -206,6 +206,7 @@
         {
             <h2 class="text-center mb-4" style="color: #3498db;">Unsere Partnerunternehmen</h2>
 
+
             <!-- Carousel -->
             <div id="partnerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="20000">
                 <div class="carousel-inner">
@@ -261,7 +262,7 @@
                         <p class="text-muted">Beginne deine Karriere mit spannenden Praktikumsstellen von führenden Unternehmen.</p>
                     </div>
                     <div class="col-md-4 text-end">
-                        <a href="/Stelleangebote/Index" class="text-primary">Mehr Jobs anzeigen <i class="fa fa-arrow-right"></i></a>
+                        <a href="/Stelleangebote/Index" class="text-primary">Mehr Stelle anzeigen <i class="fa fa-arrow-right"></i></a>
                     </div>
                 </div>
 
@@ -269,10 +270,9 @@
                 <div class="row">
                     @foreach (var item in Stelle.Take(3))
                     {
-                        // Cherche les étudiants dont les compétences correspondent à celles du stage
+                        
                         var matchedStudents = Student.Where(x => item.Skills.Split(',').Any(skill => x.Skills.Contains(skill.Trim())));
 
-                        // Si des étudiants ont des compétences correspondantes, afficher le stage
                         if (matchedStudents.Any())
                         {
                             <div class="col-lg-4 col-md-6 mb-4">

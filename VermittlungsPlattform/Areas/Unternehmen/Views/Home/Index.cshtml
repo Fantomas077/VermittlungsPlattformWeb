@@ -1,9 +1,24 @@
-﻿﻿@{
+﻿@using System.Security.Claims;﻿
+@{
     ViewData["Title"] = "Willkommen bei PraktiMatch";
     var Company = ViewData["Company"] as List<VermittlungsPlattform.Models.Db.UnternehmenProfile>;
     var Stelle = ViewData["Stelle"] as List<VermittlungsPlattform.Models.Db.PraktikumStelle>;
     var Student = ViewData["Student"] as List<VermittlungsPlattform.Models.Db.StudentProfile>;
     var Userr = ViewData["Userr"] as List<VermittlungsPlattform.Models.Db.User>;
+    var StelleBewerbung = ViewData["StelleBewerbung"] as List<VermittlungsPlattform.Models.Db.StelleBewerbung>;
+    var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+    int userId = int.Parse(userIdString);  // Convertir le string en int
+    var entrepriseConnectee = Company.FirstOrDefault(x => x.UserId == userId);
+
+    // Vérifier si une entreprise est trouvée
+    int candidaturesRecues = 0;
+    if (entrepriseConnectee != null)
+    {
+        // Compter le nombre de candidatures reçues pour les stages de cette entreprise
+        candidaturesRecues = StelleBewerbung.Where(sb => sb.UnternhemenId == entrepriseConnectee.Id).Count();
+    }
+    
 }
 
 
@@ -143,58 +158,57 @@
     <section>
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Student Card -->
+                <!-- Student Card (Candidatures reçues) -->
                 <div class="bg-blue-500 text-white shadow-lg rounded-lg p-6">
                     <div class="flex justify-between items-center">
                         <div>
-                            <h3 class="text-3xl font-bold">13436</h3>
-                            <p>Student</p>
+                            <h3 class="text-3xl font-bold">@candidaturesRecues</h3>
+                            <p>Eingegangene Bewerbungen</p>
                         </div>
                         <div class="text-5xl">
-                            <i class="fas fa-user-graduate"></i>
+                            <i class="fas fa-folder-open"></i> <!-- Icône modifiée -->
                         </div>
                     </div>
-                    <a href="#" class="block mt-4 text-sm text-white opacity-75 hover:opacity-100 transition">
+                    <a href="/Unternehmen/Eingegangenebewerbung" class="block mt-4 text-sm text-white opacity-75 hover:opacity-100 transition">
                         View More <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
 
-                <!-- Kommentare Card -->
+                <!-- Kommentare Card (Mes postes) -->
                 <div class="bg-green-500 text-white shadow-lg rounded-lg p-6">
                     <div class="flex justify-between items-center">
                         <div>
-                            <h3 class="text-3xl font-bold">₹185358</h3>
-                            <p>Kommentare</p>
+                            <h3 class="text-3xl font-bold">@Stelle.Where(x=>x.UserId==userId).Count()</h3>
+                            <p>Meine Stelle</p>
                         </div>
                         <div class="text-5xl">
-                            <i class="fas fa-comments"></i>
+                            <i class="fas fa-briefcase"></i> <!-- Icône modifiée -->
                         </div>
                     </div>
-                    <a href="#" class="block mt-4 text-sm text-white opacity-75 hover:opacity-100 transition">
+                    <a href="/Unternehmen/PraktikumStelles" class="block mt-4 text-sm text-white opacity-75 hover:opacity-100 transition">
                         View More <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
 
-                <!-- Unternehmen Card -->
+                <!-- Unternehmen Card (Entreprises) -->
                 <div class="bg-yellow-500 text-white shadow-lg rounded-lg p-6">
                     <div class="flex justify-between items-center">
                         <div>
-                            <h3 class="text-3xl font-bold">5464</h3>
+                            <h3 class="text-3xl font-bold">@Company.Where(x => x.UserId == userId).Count()</h3>
                             <p>Unternehmen</p>
                         </div>
                         <div class="text-5xl">
-                            <i class="fas fa-building"></i>
+                            <i class="fas fa-building"></i> <!-- Icône conservée -->
                         </div>
                     </div>
-                    <a href="#" class="block mt-4 text-sm text-white opacity-75 hover:opacity-100 transition">
+                    <a href="/Unternehmen/UnternehmenProfiles" class="block mt-4 text-sm text-white opacity-75 hover:opacity-100 transition">
                         View More <i class="fas fa-arrow-circle-right"></i>
                     </a>
                 </div>
             </div>
-
-
         </div>
     </section>
+
 
 
     <section class="container mt-5">

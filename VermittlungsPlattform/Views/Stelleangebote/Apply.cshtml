@@ -1,0 +1,180 @@
+﻿@using VermittlungsPlattform.Models.Db
+@model VermittlungsPlattform.Models.Db.PraktikumStelle
+@using System.Security.Claims;
+
+@{
+    ViewData["Title"] = "WeiterBewerbung";
+    
+    var Company = ViewData["Company"] as List<VermittlungsPlattform.Models.Db.UnternehmenProfile>;
+    var Student = ViewData["Student"] as List<VermittlungsPlattform.Models.Db.StudentProfile>;
+
+    
+    var company = Company.FirstOrDefault(x => x.Id == Model.UnternehmenProfileId);
+}
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeiterBewerbung</title>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .card {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+        }
+
+        .card-header {
+            background-color: #212529;
+            color: white;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            padding: 1.5rem;
+        }
+
+            .card-header img {
+                border-radius: 50%;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease;
+            }
+
+                .card-header img:hover {
+                    transform: scale(1.1);
+                }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+                transform: translateY(-2px);
+            }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .accordion-button::after {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: #343a40;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container ">
+        <div class="card">
+            @if (company != null)
+            {
+                <!-- En-tête avec le logo et le nom de l'entreprise -->
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title">@company.Name</h5>
+                    <span>Bewerbung für die Stelle @Model.Title</span>
+                    <a href="/Unternehmen/CompanyDetails/@company.Id">
+                        <img class="img-fluid" src="/images/LogoCompany/@company.ImageName" alt="@company.Name Logo" style="width: 80px; height: 80px;">
+                    </a>
+                </div>
+            }
+
+            <!-- Corps du formulaire avec les informations utilisateur -->
+            <div class="card-body">
+
+                <form method="post" asp-action="Apply" asp-controller="Stelleangebote" enctype="multipart/form-data">
+                    <input type="hidden" name="StelleId" value="@Model.Id" />
+                    <input type="hidden" name="UnternehmenId" value="@Model.UnternehmenProfileId" />
+                 @*    
+                    <!-- Upload CV -->
+                    <div class="mb-3">
+                        <label for="cv" class="form-label">Lebenslauf (CV)</label>
+                        <input type="file" class="form-control" id="cv" name="cv" accept=".pdf,.doc,.docx" required>
+                    </div> *@
+
+                    <!-- Zone de texte Anschreiben -->
+                    <div class="mb-3">
+                        <label for="anschreiben" class="form-label">Anschreiben</label>
+                        <textarea class="form-control" id="anschreiben" name="anschreiben" rows="10" required>
+                        </textarea>
+                    </div>
+
+                    <!-- Affichage des modèles d'Anschreiben -->
+
+                    <div class="mb-3">
+                        <span>Hier sind Musteranschreiben, die Ihnen helfen können</span>
+
+                        <!-- Navigation des onglets (tabs) -->
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="muster1-tab" data-bs-toggle="tab" data-bs-target="#muster1" type="button" role="tab" aria-controls="muster1" aria-selected="true">Muster 1</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="muster2-tab" data-bs-toggle="tab" data-bs-target="#muster2" type="button" role="tab" aria-controls="muster2" aria-selected="false">Muster 2</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="muster3-tab" data-bs-toggle="tab" data-bs-target="#muster3" type="button" role="tab" aria-controls="muster3" aria-selected="false">Muster 3</button>
+                            </li>
+                        </ul>
+
+                        <!-- Contenu des onglets -->
+                        <div class="tab-content" id="myTabContent">
+                            <!-- Contenu du premier tab (Muster 1) -->
+                            <div class="tab-pane fade show active" id="muster1" role="tabpanel" aria-labelledby="muster1-tab">
+                                
+                                <button type="button" class="btn btn-secondary w-100" onclick="insertMuster('Sehr geehrte Damen und Herren,\n\nMit großem Interesse habe ich die Möglichkeit für ein Praktikum als @Model.Title bei Ihrer Firma xxx gesehen. Ich bin überzeugt, dass meine Fähigkeiten und meine Lernbereitschaft einen wertvollen Beitrag zu Ihrem Team leisten können.\n\nWährend meines Studiums der/des [Fachbereich] habe ich wertvolle theoretische Kenntnisse in den Bereichen [relevante Bereiche] erworben, die ich nun in einem praktischen Umfeld wie dem Ihren weiter vertiefen möchte. Besonders schätze ich die Möglichkeit, von erfahrenen Fachleuten zu lernen und aktiv an spannenden Projekten mitzuwirken.\n\nIch bin motiviert, mich schnell in neue Aufgaben einzuarbeiten und bringe eine ausgeprägte Teamfähigkeit sowie eine hohe Eigeninitiative mit. Ich freue mich darauf, meine Fähigkeiten und Erfahrungen in Ihrem Unternehmen einbringen und erweitern zu können.\n\nÜber die Einladung zu einem persönlichen Gespräch freue ich mich sehr.\n\nMit freundlichen Grüßen,\n\n[Ihr Name]')">
+                                    Muster 1 Auswählen
+                                </button>
+                            </div>
+
+                            <!-- Contenu du deuxième tab (Muster 2) -->
+                            <div class="tab-pane fade" id="muster2" role="tabpanel" aria-labelledby="muster2-tab">
+                                
+                                <button type="button" class="btn btn-secondary w-100" onclick="insertMuster('Sehr geehrte Damen und Herren,\n\nMit großem Interesse bewerbe ich mich auf die von Ihnen ausgeschriebene Praktikumsstelle als @Model.Title in Ihrem Unternehmen. Besonders begeistert mich die Möglichkeit, in einem dynamischen Team wie dem Ihren wertvolle Erfahrungen zu sammeln und meine Fähigkeiten weiterzuentwickeln.\n\nWährend meiner bisherigen akademischen und beruflichen Laufbahn habe ich besonders Freude an der Teamarbeit und an der Zusammenarbeit in interdisziplinären Projekten gefunden. Ich bin überzeugt, dass meine kommunikative Art und meine Fähigkeit, effektiv mit anderen zusammenzuarbeiten, mich zu einer guten Ergänzung für Ihr Team machen.\n\nIn Ihrem Unternehmen sehe ich die Chance, meine theoretischen Kenntnisse in den Bereichen [relevante Bereiche] in die Praxis umzusetzen und gleichzeitig neue Erfahrungen zu sammeln. Ich freue mich darauf, gemeinsam mit Ihnen an innovativen Projekten zu arbeiten.\n\nÜber die Möglichkeit, mich in einem persönlichen Gespräch vorzustellen, freue ich mich sehr.\n\nMit freundlichen Grüßen,\n\n[Ihr Name]')">
+                                    Muster 2 Auswählen
+                                </button>
+                            </div>
+
+                            <!-- Contenu du troisième tab (Muster 3) -->
+                            <div class="tab-pane fade" id="muster3" role="tabpanel" aria-labelledby="muster3-tab">
+                                
+                                <button type="button" class="btn btn-secondary w-100" onclick="insertMuster('Sehr geehrte Damen und Herren,\n\nMit großem Interesse bewerbe ich mich auf die Praktikumsstelle im Bereich @Model.Title bei Ihrer Firma xxxx. Als Student/in der [Studienfach], habe ich fundierte theoretische Kenntnisse in den Bereichen [technische Kenntnisse] erworben und suche nun eine Möglichkeit, diese in einem professionellen Umfeld zu vertiefen.\n\nBesonders fasziniert mich die Möglichkeit, meine Fähigkeiten in den Bereichen [relevante Bereiche] zu erweitern und gleichzeitig an realen Projekten mitzuarbeiten. Ich habe bereits praktische Erfahrungen mit [Technologien/Methoden] gesammelt und bin sehr daran interessiert, diese in einem innovativen Unternehmen wie dem Ihren weiter auszubauen.\n\nIch freue mich auf die Gelegenheit, meine technischen Fähigkeiten in Ihrem Unternehmen einzusetzen und weiterzuentwickeln, und bin hochmotiviert, von Ihrem erfahrenen Team zu lernen.\n\nÜber eine Einladung zu einem persönlichen Gespräch würde ich mich sehr freuen.\n\nMit freundlichen Grüßen,\n\n[Ihr Name]')">
+                                    Muster 3 Auswählen
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+                    <!-- Bouton de soumission -->
+                    <button type="submit" class="btn btn-primary btn-lg w-100">Bewerbung Absenden</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour insérer le texte du modèle dans la zone de texte Anschreiben
+        function insertMuster(musterText) {
+            document.getElementById("anschreiben").value = musterText;
+        }
+    </script>
+
+</body>
+</html>

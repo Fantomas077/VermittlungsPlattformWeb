@@ -28,28 +28,31 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     
+                    @if(User.Identity.IsAuthenticated)
+                    {
+                        <ul class="navbar-nav ms-auto">
 
-                    <!-- Dropdown aligné à droite -->
-                    <ul class="navbar-nav ms-auto">
-                       
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-light"  id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle text-light" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="bi bi-person"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                   
-                                   
-                                        <li><a class="dropdown-item" href="/student/studentprofiles">Student Profile</a></li>
-                                        <li><a class="dropdown-item" href="/Unternehmen/PraktikumStelles">Bewerbung</a></li>
-                                    
+
+
+                                    <li><a class="dropdown-item" href="/Student/studentprofiles">Student Profile</a></li>
+                                    <li><a class="dropdown-item" href="/Student/MeineBewerbung/Index">Bewerbung</a></li>
+
 
                                     <li><hr class="dropdown-divider"></li>
                                     <li><a class="dropdown-item" href="/Account/Logout">Log Out</a></li>
                                 </ul>
                             </li>
-                        
-                        
-                    </ul>
+
+
+                        </ul>
+                    }
+                    <!-- Dropdown aligné à droite -->
+                   
                 </div>
             </div>
         </nav>

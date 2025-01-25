@@ -12,7 +12,7 @@ using VermittlungsPlattform.Models.Db;
 namespace VermittlungsPlattform.Areas.Student.Controllers
 {
     [Area("Student")]
-    [Authorize]
+    [Authorize(Roles = "student")]
     public class StudentProfilesController : Controller
     {
         private readonly VermittlungsplattformDbContext _context;
@@ -65,12 +65,12 @@ namespace VermittlungsPlattform.Areas.Student.Controllers
 
                 if (userIdString == null)
                 {
-                    return Unauthorized();  // Gérer le cas où l'utilisateur n'est pas connecté
+                    return Unauthorized();  
                 }
 
-                int userId = int.Parse(userIdString);  // Convertir le string en int
+                int userId = int.Parse(userIdString);  
 
-                studentProfile.UserId = userId;  // Assigner l'ID utilisateur converti
+                studentProfile.UserId = userId;  
 
                 //--------saving main image----------
                 if (pdfFile != null)

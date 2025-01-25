@@ -1,0 +1,80 @@
+﻿@model IEnumerable<VermittlungsPlattform.Models.Db.StelleBewerbung>
+
+@{
+    ViewData["Title"] = "Eingegangene Bewerbungen";
+    var Userr = ViewData["Userr"] as List<VermittlungsPlattform.Models.Db.User>;
+    var Stelle = ViewData["Stelle"] as List<VermittlungsPlattform.Models.Db.PraktikumStelle>;
+    var Company = ViewData["Company"] as List<VermittlungsPlattform.Models.Db.UnternehmenProfile>;
+}
+
+<h1 class="mb-4 text-center">@ViewData["Title"]</h1>
+
+<div class="table-responsive">
+    <table class="table table-hover table-bordered table-striped align-middle">
+        <thead class="bg-dark text-white">
+            <tr>
+                <th>Name</th>
+                <th>Stelle Name</th>
+                <th>Unternehmen Name</th>
+                <th>Studierender Profil</th>
+                <th>@Html.DisplayNameFor(model => model.Anschreiben)</th>
+                <th>@Html.DisplayNameFor(model => model.Status)</th>
+                <th>@Html.DisplayNameFor(model => model.ApplyDate)</th>
+                <th>Lebenslauf</th>
+                <th>Aktionen</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var obj = Userr.FirstOrDefault(x => x.Id == item.UserId);
+                var obj1 = Stelle.FirstOrDefault(x => x.Id == item.StelleId);
+                var obj2 = Company.FirstOrDefault(x => x.Id == item.UnternhemenId);
+
+                <tr>
+                    <td>@obj.Name @obj.Vorname</td>
+                    <td>@obj1.Title</td>
+                    <td>@obj2.Name</td>
+                    <td>
+                        <a href="/Unternehmen/Student/Studentdetails/@item.StudentProfilId" class="btn btn-sm btn-outline-primary" target="_blank">
+                            Sein Profil Anzeigen
+                        </a>
+                    </td>
+                    <td>
+                        <span data-toggle="tooltip" title="@item.Anschreiben" class="d-inline-block text-truncate" style="max-width: 150px;">
+                            @Html.DisplayFor(modelItem => item.Anschreiben)
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge
+                            @(item.Status == "Angenommen" ? "badge-success" :
+                             item.Status == "Abgelehnt" ? "badge-danger" :
+                             item.Status == "Anstehend" ? "badge-warning" : "badge-secondary")">
+                            @item.Status
+                        </span>
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.ApplyDate)</td>
+                    <td>
+                        <a href="/uploads/@item.Cv" target="_blank" class="btn btn-outline-info btn-sm">
+                            Lebenslauf <i class="bi bi-file-earmark-pdf"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success btn-sm">
+                            <i class="fas fa-check"></i> Zusagen
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-danger btn-sm">
+                            <i class="fas fa-times"></i> Absagen
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

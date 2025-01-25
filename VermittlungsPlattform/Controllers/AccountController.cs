@@ -53,14 +53,14 @@ namespace VermittlungsPlattform.Controllers
             Match match = regex.Match(user.Email);
             if (!match.Success)
             {
-                ModelState.AddModelError("Email", "Email is not valid");
+                ModelState.AddModelError("Email", "Email ist nicht valid");
                 return View(user);
             }
             //-----------Duplictae Email Checking-------------
             var prevUser = _context.Users.Any(x => x.Email == user.Email);
             if (prevUser)
             {
-                ModelState.AddModelError("Email", "Email is used");
+                ModelState.AddModelError("Email", "Email wurde schon registriert");
                 return View(user);
             }
             //------------------------------------------------
@@ -98,14 +98,14 @@ namespace VermittlungsPlattform.Controllers
             Match match = regex.Match(user.Email);
             if (!match.Success)
             {
-                ModelState.AddModelError("Email", "Email is not valid");
+                ModelState.AddModelError("Email", "Email ist nicht valid");
                 return View(user);
             }
             //-----------Duplictae Email Checking-------------
             var prevUser = _context.Users.Any(x => x.Email == user.Email);
             if (prevUser)
             {
-                ModelState.AddModelError("Email", "Email is used");
+                ModelState.AddModelError("Email", "Email wurde schon registriert");
                 return View(user);
             }
             //------------------------------------------------
@@ -133,7 +133,7 @@ namespace VermittlungsPlattform.Controllers
             //-----
             if (foundUser == null)
             {
-                ModelState.AddModelError("Email", "Email or Password  not exist");
+                ModelState.AddModelError("Email", "Email oder Password  existiert nicht");
                 return View(user);
             }
             //------------
@@ -147,14 +147,12 @@ namespace VermittlungsPlattform.Controllers
             {
                 claims.Add(new Claim(ClaimTypes.Role, "admin"));
             }
-            else
-            if(foundUser.IsStudent==true)
+            else if(foundUser.IsStudent==true)
             {
                 claims.Add(new Claim(ClaimTypes.Role, "student"));
             }
             else
             {
-
                 claims.Add(new Claim(ClaimTypes.Role, "unternehmen"));
             }
             //------------
@@ -167,18 +165,39 @@ namespace VermittlungsPlattform.Controllers
             // Sign in the user with the created principal
             HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
             //------------
-            if (foundUser.IsAdmin == true)
+            if (foundUser.IsAdmin)
             {
                 return RedirectToAction("Index", "Home", new { area = "Admin" });
             }
-            else
-            if(foundUser.IsStudent==true)
+            else if(foundUser.IsStudent)
             {
-                return Redirect("/Home/");
+                var studentProfile = _context.StudentProfiles.FirstOrDefault(x => x.UserId == foundUser.Id);
+                if (studentProfile != null)
+                {
+                    return Redirect("/Home/");
+                }
+                else
+                {
+                   
+                    return RedirectToAction("Create", "StudentProfiles", new { area = "Student" });
+                }
+                
             }
             else
             {
-                return RedirectToAction("Index", "Home", new { area = "Unternehmen" });
+               
+                var unternehmenProfile = _context.UnternehmenProfiles.FirstOrDefault(x => x.UserId == foundUser.Id);
+
+                if (unternehmenProfile != null)
+                {
+                    
+                    return RedirectToAction("Index", "Home", new { area = "Unternehmen" });
+                }
+                else
+                {
+                  
+                    return RedirectToAction("Create", "UnternehmenProfiles", new { area = "Unternehmen" });
+                }
             }
         }
         /// <summary>

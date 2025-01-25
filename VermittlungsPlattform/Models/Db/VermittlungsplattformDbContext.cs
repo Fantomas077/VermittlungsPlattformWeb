@@ -28,6 +28,8 @@ public partial class VermittlungsplattformDbContext : DbContext
 
     public virtual DbSet<Stelle> Stelles { get; set; }
 
+    public virtual DbSet<StelleBewerbung> StelleBewerbungs { get; set; }
+
     public virtual DbSet<StudentProfile> StudentProfiles { get; set; }
 
     public virtual DbSet<UnternehmenProfile> UnternehmenProfiles { get; set; }
@@ -75,7 +77,7 @@ public partial class VermittlungsplattformDbContext : DbContext
             entity.Property(e => e.UserId).HasColumnName("UserID");
         });
 
-        
+       
 
         modelBuilder.Entity<CompanyGallery>(entity =>
         {
@@ -163,6 +165,28 @@ public partial class VermittlungsplattformDbContext : DbContext
                 .HasMaxLength(500)
                 .IsFixedLength();
             entity.Property(e => e.UnternehmenProfileId).HasColumnName("UnternehmenProfileID");
+        });
+
+        modelBuilder.Entity<StelleBewerbung>(entity =>
+        {
+            entity.ToTable("StelleBewerbung");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Anschreiben)
+                .HasMaxLength(2000)
+                .IsFixedLength();
+            entity.Property(e => e.ApplyDate).HasColumnType("datetime");
+            entity.Property(e => e.Cv)
+                .HasMaxLength(100)
+                .IsFixedLength()
+                .HasColumnName("CV");
+            entity.Property(e => e.Status)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.StelleId).HasColumnName("StelleID");
+            entity.Property(e => e.StudentProfilId).HasColumnName("StudentProfilID");
+            entity.Property(e => e.UnternhemenId).HasColumnName("UnternhemenID");
+            entity.Property(e => e.UserId).HasColumnName("UserID");
         });
 
         modelBuilder.Entity<StudentProfile>(entity =>

@@ -1,0 +1,67 @@
+﻿@model IEnumerable<VermittlungsPlattform.Models.Db.StelleBewerbung>
+
+@{
+    ViewData["Title"] = "Meine Bewerbungen";
+    var Userr = ViewData["Userr"] as List<VermittlungsPlattform.Models.Db.User>;
+    var Stelle = ViewData["Stelle"] as List<VermittlungsPlattform.Models.Db.PraktikumStelle>;
+    var Company = ViewData["Company"] as List<VermittlungsPlattform.Models.Db.UnternehmenProfile>;
+}
+
+<h1 class="mb-4 text-center">@ViewData["Title"]</h1>
+
+<div class="table-responsive">
+    <table class="table table-hover table-bordered table-striped align-middle">
+        <thead class="bg-dark text-white">
+            <tr>
+               
+                <th>Stelle Name</th>
+                <th>Unternehmen Name</th>
+                <th>Status</th>
+              
+                <th>@Html.DisplayNameFor(model => model.ApplyDate)</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var obj = Userr.FirstOrDefault(x => x.Id == item.UserId);
+                var obj1 = Stelle.FirstOrDefault(x => x.Id == item.StelleId);
+                var obj2 = Company.FirstOrDefault(x => x.Id == item.UnternhemenId);
+
+                <tr>
+
+                    <td>
+                        <a href="/Stelleangebote/StelleDetails/@item.StelleId" class="btn btn-sm btn-outline-primary" target="_blank">
+                          @obj1.Title
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/Unternehmen/CompanyDetails/@item.UnternhemenId" class="btn btn-sm btn-outline-primary" target="_blank">
+                            @obj2.Name
+                        </a>
+                    </td>
+                   
+                    
+                    <td>
+                        <span class="badge
+                            @(item.Status == "Angenommen" ? "badge-success" :
+                             item.Status == "Abgelehnt" ? "badge-danger" :
+                             item.Status == "Anstehend" ? "badge-warning" : "badge-secondary")">
+                            @item.Status
+                        </span>
+                    </td>
+                    <td>@Html.DisplayFor(modelItem => item.ApplyDate)</td>
+                    
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

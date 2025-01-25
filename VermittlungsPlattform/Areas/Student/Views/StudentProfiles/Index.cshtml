@@ -6,129 +6,96 @@
     var truncator = new Truncate();
 }
 
-<div class="card border-primary mb-3 shadow-sm">
-    <div class="card-header bg-primary text-white">
-        <h4 class="mb-0">Mein Profil</h4>
-    </div>
+<div class="container mt-5">
+    <div class="card border-0 shadow-lg">
+        <div class="card-header bg-dark text-white text-center">
+            <h4 class="mb-0">Mein Profil</h4>
+        </div>
 
-    <div class="card-body">
-        <div class="container">
-            <!-- Action Button Section -->
-            <div class="row pt-3 pb-3">
-                <div class="col-12 text-end">
-                    <a asp-action="Create" class="btn btn-success shadow-sm">
-                        <i class="bi bi-plus-circle"></i> Create
-                    </a>
-                </div>
-            </div>
+        <div class="card-body">
+            
 
-            <!-- Table Section -->
-            <table class="table table-bordered table-hover table-striped table-responsive-sm">
-                <thead class="table-dark text-center">
-                    <tr>
-                        <th>Über mich</th>
-                        <th>@Html.DisplayNameFor(model => model.Fachrichtung)</th>
-                        <th>@Html.DisplayNameFor(model => model.Studiengang)</th>
-                        <th>@Html.DisplayNameFor(model => model.Schwerpunkte)</th>
-                        <th>@Html.DisplayNameFor(model => model.Skills)</th>
-                        <th>@Html.DisplayNameFor(model => model.Location)</th>
-                        <th>@Html.DisplayNameFor(model => model.Geschlecht)</th>
-                        <th>@Html.DisplayNameFor(model => model.Abschluss)</th>
-                        <th>Mein CV</th>
-                        <th>@Html.DisplayNameFor(model => model.Instagram)</th>
-                        <th>@Html.DisplayNameFor(model => model.Github)</th>
-                        <th>@Html.DisplayNameFor(model => model.Linkedin)</th>
-                        <th>@Html.DisplayNameFor(model => model.Facebook)</th>
-                        <th>@Html.DisplayNameFor(model => model.Twitter)</th>
-                        <th>Aktionen</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @foreach (var item in Model)
-                    {
+            <div class="table-responsive">
+                <table class="table table-hover table-borderless">
+                    <thead class="thead-dark">
                         <tr>
-                            <!-- About Me -->
-                            <td>@Html.Raw( truncator.TruncateText(item.Apropos,50))</td>
-                            <td>@Html.DisplayFor(modelItem => item.Fachrichtung)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Studiengang)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Schwerpunkte)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Skills)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Location)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Geschlecht)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Abschluss)</td>
-
-                            <!-- CV Link -->
-                            <td class="text-center">
-                                <a href="/uploads/@item.Cvname" target="_blank" class="btn btn-outline-info btn-sm">
-                                    CV <i class="bi bi-file-earmark-pdf"></i>
-                                </a>
-                            </td>
-
-                            <!-- Social Links -->
-                            <td class="text-center">
-                                @if (!string.IsNullOrEmpty(item.Instagram))
-                                {
-                                    <a href="@item.Instagram" target="_blank" class="text-dark">
-                                        <i class="bi bi-instagram"></i>
-                                    </a>
-                                }
-                            </td>
-
-                            <td class="text-center">
-                                @if (!string.IsNullOrEmpty(item.Github))
-                                {
-                                    <a href="@item.Github" target="_blank" class="text-dark">
-                                        <i class="bi bi-github"></i>
-                                    </a>
-                                }
-                            </td>
-
-                            <td class="text-center">
-                                @if (!string.IsNullOrEmpty(item.Linkedin))
-                                {
-                                    <a href="@item.Linkedin" target="_blank" class="text-dark">
-                                        <i class="bi bi-linkedin"></i>
-                                    </a>
-                                }
-                            </td>
-
-                            <td class="text-center">
-                                @if (!string.IsNullOrEmpty(item.Facebook))
-                                {
-                                    <a href="@item.Facebook" target="_blank" class="text-dark">
-                                        <i class="bi bi-facebook"></i>
-                                    </a>
-                                }
-                            </td>
-
-                            <td class="text-center">
-                                @if (!string.IsNullOrEmpty(item.Twitter))
-                                {
-                                    <a href="@item.Twitter" target="_blank" class="text-dark">
-                                        <i class="bi bi-twitter"></i>
-                                    </a>
-                                }
-                            </td>
-
-                            <!-- Action Buttons -->
-                            <td style="width: 300px;">
-                                <div class="btn-group d-flex justify-content-center">
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary me-2">
-                                        <i class="bi bi-pencil-square"></i> Edit
-                                    </a>
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success me-2">
-                                        <i class="bi bi-info-circle"></i> Details
-                                    </a>
-                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">
-                                        <i class="bi bi-trash"></i> Delete
-                                    </a>
-                                </div>
-                            </td>
+                            <th class="text-center">Über mich</th>
+                            <th>Fachrichtung</th>
+                            <th>Studiengang</th>
+                            <th>Schwerpunkte</th>
+                            <th>Skills</th>
+                            <th>Standort</th>
+                            <th>Geschlecht</th>
+                            <th>Abschluss</th>
+                            <th class="text-center">CV</th>
+                            <th colspan="5" class="text-center">Social</th>
+                            <th class="text-center">Aktionen</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="align-middle text-center">@Html.Raw(truncator.TruncateText(item.Apropos, 50))</td>
+                                <td class="align-middle">@Html.DisplayFor(modelItem => item.Fachrichtung)</td>
+                                <td class="align-middle">@Html.DisplayFor(modelItem => item.Studiengang)</td>
+                                <td class="align-middle">@Html.DisplayFor(modelItem => item.Schwerpunkte)</td>
+                                <td class="align-middle">@Html.DisplayFor(modelItem => item.Skills)</td>
+                                <td class="align-middle">@Html.DisplayFor(modelItem => item.Location)</td>
+                                <td class="align-middle">@Html.DisplayFor(modelItem => item.Geschlecht)</td>
+                                <td class="align-middle">@Html.DisplayFor(modelItem => item.Abschluss)</td>
+
+                                <!-- CV Link -->
+                                <td class="align-middle text-center">
+                                    <a href="/uploads/@item.Cvname" target="_blank" class="btn btn-outline-dark btn-sm rounded-pill">
+                                        <i class="bi bi-file-earmark-pdf"></i>
+                                    </a>
+                                </td>
+
+                                <!-- Social Links -->
+                                @foreach (var link in new[] { item.Instagram, item.Github, item.Linkedin, item.Facebook, item.Twitter })
+                                {
+                                    <td class="align-middle text-center">
+                                        @if (!string.IsNullOrEmpty(link))
+                                        {
+                                            <a href="@link" target="_blank" class="text-dark mx-2">
+                                                <i class="bi bi-@(GetIconName(link))"></i>
+                                            </a>
+                                        }
+                                    </td>
+                                }
+
+                                <!-- Action Buttons -->
+                                <td class="align-middle text-center">
+                                    <div class="btn-group" role="group">
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm rounded-pill">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info btn-sm rounded-pill">
+                                            <i class="bi bi-info-circle"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm rounded-pill">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
+
+@functions {
+    public string GetIconName(string url)
+    {
+        if (url.Contains("instagram")) return "instagram";
+        if (url.Contains("github")) return "github";
+        if (url.Contains("linkedin")) return "linkedin";
+        if (url.Contains("facebook")) return "facebook";
+        if (url.Contains("twitter")) return "twitter-x";
+        return "link";
+    }
+}

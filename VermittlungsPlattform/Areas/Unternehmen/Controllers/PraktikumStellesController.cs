@@ -61,7 +61,7 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Récupérer l'ID de l'utilisateur connecté et attribuer à UnternehmenProfileId
+                
                 var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)); // Par exemple, UserId de l'utilisateur connecté
                 var unternehmenProfile = await _context.UnternehmenProfiles
                     .FirstOrDefaultAsync(p => p.UserId == userId);
