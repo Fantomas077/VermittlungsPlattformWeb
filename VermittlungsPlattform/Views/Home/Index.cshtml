@@ -1,10 +1,18 @@
-﻿﻿@{
+﻿@using System.Security.Claims;﻿﻿
+@{
     ViewData["Title"] = "Willkommen bei PraktiMatch";
     var Company = ViewData["Company"] as List<VermittlungsPlattform.Models.Db.UnternehmenProfile>;
     var Stelle = ViewData["Stelle"] as List<VermittlungsPlattform.Models.Db.PraktikumStelle>;
     var Student = ViewData["Student"] as List<VermittlungsPlattform.Models.Db.StudentProfile>;
     var Userr = ViewData["Userr"] as List<VermittlungsPlattform.Models.Db.User>;
     var xo = Userr.Where(xo => xo.IsStudent == true).Count();
+    
+    var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+    int userId = int.Parse(userIdString);
+    var etudiantConnectee = Student.FirstOrDefault(x => x.UserId == userId);
+ 
+    var studentSkills = etudiantConnectee?.Skills?.Split(',').Select(s => s.Trim()).ToList() ?? new List<string>();
     bool hasStelle = Stelle.Any();
 }
 
@@ -241,37 +249,40 @@
     </section>
 
     <section>
-        @if(hasStelle)
+        @if (hasStelle && studentSkills.Any())
         {
+           
             <div class="container mt-5">
                 <div class="row align-items-center mb-4">
                     <div class="col-md-8">
                         <h4 class="title mb-4">Stelle, die gut zu Ihrem Profil passen können</h4>
-                        <p class="text-muted">Beginne deine Karriere mit spannenden Praktikumsstellen von führenden Unternehmen.</p>
+                        <p class="text-muted">Diese Angebote entsprechen deinen Fähigkeiten.</p>
                     </div>
                     <div class="col-md-4 text-end">
                         <a href="/Stelleangebote/Index" class="text-primary">Mehr Stelle anzeigen <i class="fa fa-arrow-right"></i></a>
                     </div>
                 </div>
 
-                <!-- Job Cards -->
+                
                 <div class="row">
-                    @foreach (var item in Stelle.Take(3))
+                    @foreach (var item in Stelle)
                     {
+                        var stelleSkills = item.Skills?.Split(',').Select(s => s.Trim()).ToList() ?? new List<string>();
 
-                        var matchedStudents = Student.Where(x => item.Skills.Split(',').Any(skill => x.Skills.Contains(skill.Trim())));
+                      
+                        var matchingSkills = studentSkills.Intersect(stelleSkills);
 
-
-                        if (matchedStudents.Any())
+                        if (matchingSkills.Any())  
                         {
                             <div class="col-lg-4 col-md-6 mb-4">
                                 <div class="job-card">
                                     <input type="hidden" asp-for="@item.Id" />
-                                    <span class="badge bg-primary float-end"> @item.Arbeitsyp</span>
+                                    <span class="badge bg-primary float-end">@item.Arbeitsyp</span>
                                     <h5>@item.Title</h5>
                                     <div class="job-details mt-2">
                                         <span>
-                                            <i class="fa fa-building"></i> <a href="#" class="text-muted">
+                                            <i class="fa fa-building"></i>
+                                            <a href="#" class="text-muted">
                                                 @foreach (var x in Company.Where(x => x.Id == item.UnternehmenProfileId))
                                                 {
                                                     @x.Name
@@ -289,10 +300,14 @@
                 </div>
             </div>
         }
-        
-           
+        else
+        {
+            <div class="alert alert-warning">
+                <h4>Keine passenden Stellenangebote gefunden</h4>
+                <p>Es wurden keine Stellenangebote gefunden, die deinen Fähigkeiten entsprechen.</p>
+            </div>
+        }
     </section>
-    
    
    
     
