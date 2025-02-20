@@ -112,14 +112,13 @@
                 text-decoration: underline;
             }
 
-        /* Centrer le bouton Lebenslauf */
+     
         .btn-outline-info {
             display: block;
             margin: 0 auto;
             margin-top: 15px;
         }
 
-        /* Ajout de marge en bas du formulaire pour espacer du footer */
         .profile-sidebar.mb-5 {
             margin-bottom: 5rem !important;
         }
@@ -132,7 +131,7 @@
         var currentStudent = student.FirstOrDefault(x => x.Id == Model.Id);
         if (currentStudent != null)
         {
-            <!-- Header Section -->
+            
             <div class="container bg-dark text-center mt-3 p-3">
                 <h1 class="display-5 text-white">Candidate Profile</h1>
                 <nav aria-label="breadcrumb">
@@ -197,23 +196,13 @@
                                     </a>
                                 </div>
 
-                                <!-- Centrer le bouton "Lebenslauf" -->
+                               
                                 <a href="/uploads/@currentStudent.Cvname" target="_blank" class="btn btn-outline-info btn-sm">
                                     Lebenslauf <i class="bi bi-file-earmark-pdf"></i>
                                 </a>
                             </div>
 
-                            <!-- Contact Form -->
-                            <div class="profile-sidebar mb-5">
-                                <h4 class="profile-title">Email an  @x.Name</h4>
-                                <form>
-                                    <div class="mb-3">
-                                        <label for="message" class="form-label">Message</label>
-                                        <textarea class="form-control" id="message" rows="3"></textarea>
-                                    </div>
-                                    <button type="submit" class="btn btn-success w-100">Send</button>
-                                </form>
-                            </div>
+                            
                         }
                     </div>
                 </div>

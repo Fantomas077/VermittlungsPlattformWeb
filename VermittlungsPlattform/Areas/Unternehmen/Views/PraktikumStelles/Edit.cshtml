@@ -122,11 +122,7 @@
                                                    name="SelectedInterests"
                                                    value="@x.Id"
                                                    autocomplete="off"
-                                            @if (isSelected)
-                                            {
-                                                <text>checked</text>
-                                            } />
-
+                                            @(isSelected ? "checked" : "") />
                                             <label class="btn btn-outline-primary rounded-pill" for="interest-@x.Id">
                                                 @x.Name
                                             </label>
@@ -134,6 +130,7 @@
                                     }
                                 </div>
                             </div>
+                            <span class="text-danger" id="interest-error"></span>
                         </div>
 
                         <!-- Save changes button -->
@@ -157,4 +154,18 @@
             toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
         });
     </script>
+    <script>
+        document.querySelector("form").addEventListener("submit", function (e) {
+            var checkedInterests = document.querySelectorAll("input[name='SelectedInterests']:checked").length;
+            var errorElement = document.getElementById("interest-error");
+
+            if (checkedInterests === 0) {
+                errorElement.innerText = "Deine Interesse fehlen noch";
+                e.preventDefault();  // Empêche la soumission du formulaire
+            } else {
+                errorElement.innerText = "";  // Efface le message d'erreur si une case est cochée
+            }
+        });
+    </script>
+    
 }

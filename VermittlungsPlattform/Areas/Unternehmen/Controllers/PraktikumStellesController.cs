@@ -143,14 +143,23 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
                     var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier)); // Par exemple, UserId de l'utilisateur connecté
                     var unternehmenProfile = await _context.UnternehmenProfiles
                         .FirstOrDefaultAsync(p => p.UserId == userId);
+                    var praktikumStelleId = await _context.PraktikumStelles
+     .Where(p => p.UnternehmenProfileId == unternehmenProfile.Id)
+     .Select(p => p.Id) // Assurez-vous que vous récupérez un seul ID
+     .FirstOrDefaultAsync();
+
 
                     if (unternehmenProfile == null)
                     {
                         // Gérer le cas où l'utilisateur n'a pas de profil d'entreprise
                         return BadRequest("No company profile found for this user.");
                     }
-                    var currentInterests = _context.CompanyInteresses.Where(si => si.UnternehmenprofilId == unternehmenProfile.Id).ToList();
+                    var currentInterests = _context.CompanyInteresses
+    .Where(si => si.UnternehmenprofilId == praktikumStelleId)
+    .ToList();
                     _context.CompanyInteresses.RemoveRange(currentInterests);
+                    await _context.SaveChangesAsync();
+
 
                     // Ajouter les nouveaux intérêts
                     if (SelectedInterests != null && SelectedInterests.Any())

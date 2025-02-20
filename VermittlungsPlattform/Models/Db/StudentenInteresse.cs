@@ -10,4 +10,6 @@ public partial class StudentenInteresse
     public int? StudentprofileId { get; set; }
 
     public string? StudentInteresse { get; set; }
+
+    
 }

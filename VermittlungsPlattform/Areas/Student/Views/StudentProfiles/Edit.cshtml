@@ -2,10 +2,34 @@
 
 @{
     ViewData["Title"] = "Edit";
+    var Interesses = ViewData["Interesses"] as List<VermittlungsPlattform.Models.Db.Interesse>;
+    var SelectedInterests = ViewData["SelectedInterests"] as List<int>;
 }
 
 <div class="container-xl px-4 mt-4">
     <style>
+        
+        .btn-check:checked + .btn {
+            background-color: #0d6efd; /* Couleur pour les intérêts sélectionnés */
+            color: white;
+            border-color: #0d6efd;
+        }
+
+        .btn-check:focus + .btn {
+            box-shadow: none !important;
+        }
+
+        .btn-outline-primary {
+            background-color: #fff;
+            color: #0d6efd;
+            border-color: #0d6efd;
+        }
+
+            .btn-outline-primary.selected {
+                background-color: #0d6efd;
+                color: white;
+            }
+    
         .img-account-profile {
         height: 10rem;
         }
@@ -130,7 +154,7 @@
                         <!-- Gender -->
                         <div class="mb-3">
                             <label class="small mb-1" asp-for="Geschlecht">Gender</label>
-                            <select class="form-control" asp-for="Geschlecht">
+                            <select class="form-control" asp-for="Geschlecht" required>
                                 <option value="">Select Gender</option>
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
@@ -155,7 +179,7 @@
                         <!-- CV name -->
                         <div class="mb-3">
                             <label class="small mb-1" asp-for="Cvname">Lebenslauf</label>
-                            <input class="form-control" asp-for="Cvname" type="file" name="pdfFile" accept="application/pdf" placeholder="Enter CV file name">
+                            <input class="form-control" asp-for="Cvname" type="file" name="pdfFile" accept="application/pdf" placeholder="Enter CV file name" required>
                             <span asp-validation-for="Cvname" class="text-danger"></span>
                         </div>
 
@@ -163,7 +187,7 @@
                         <h4>Social Media</h4>
                         <div class="mb-3">
                             <label class="small mb-1" asp-for="Instagram">Instagram</label>
-                            <input class="form-control" asp-for="Instagram" type="text" placeholder="Enter Instagram username">
+                            <input class="form-control" asp-for="Instagram" type="text" placeholder="Enter Instagram username" required>
                             <span asp-validation-for="Instagram" class="text-danger"></span>
                         </div>
                         <div class="mb-3">
@@ -187,13 +211,15 @@
                             <span asp-validation-for="Twitter" class="text-danger"></span>
                         </div>
 
+
+
                         <div class="form-group">
                             <label class="small mb-2">Deine Interesse</label>
                             <div class="container p-3 border rounded">
                                 <div class="d-flex flex-wrap gap-2">
                                     @foreach (var x in ViewBag.Interres)
                                     {
-                                        bool isSelected = ViewBag.SelectedInterests.Contains(x.Id);  
+                                        bool isSelected = ViewBag.SelectedInterests.Contains(x.Id);
                                         <div class="interest-button">
                                             <input type="checkbox"
                                                    class="btn-check"
@@ -201,10 +227,7 @@
                                                    name="SelectedInterests"
                                                    value="@x.Id"
                                                    autocomplete="off"
-                                            @if (isSelected)
-                                            {
-                                                <text>checked</text>
-                                            } />
+                                            @(isSelected ? "checked" : "") />
                                             <label class="btn btn-outline-primary rounded-pill" for="interest-@x.Id">
                                                 @x.Name
                                             </label>
@@ -212,8 +235,8 @@
                                     }
                                 </div>
                             </div>
+                            <span class="text-danger" id="interest-error"></span>
                         </div>
-
 
 
 
@@ -236,6 +259,19 @@
             selector: 'textarea',
             plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
             toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        });
+    </script>
+    <script>
+        document.querySelector("form").addEventListener("submit", function (e) {
+            var checkedInterests = document.querySelectorAll("input[name='SelectedInterests']:checked").length;
+            var errorElement = document.getElementById("interest-error");
+
+            if (checkedInterests === 0) {
+                errorElement.innerText = "Deine Interesse fehlen noch";
+                e.preventDefault();  // Empêche la soumission du formulaire
+            } else {
+                errorElement.innerText = "";  // Efface le message d'erreur si une case est cochée
+            }
         });
     </script>
 }

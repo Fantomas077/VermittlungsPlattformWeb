@@ -84,7 +84,7 @@
         <div class="card">
             @if (company != null)
             {
-                <!-- En-tête avec le logo et le nom de l'entreprise -->
+               
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="card-title">@company.Name</h5>
                     <span>Bewerbung für die Stelle @Model.Title</span>
@@ -94,7 +94,7 @@
                 </div>
             }
 
-            <!-- Corps du formulaire avec les informations utilisateur -->
+          
             <div class="card-body">
 
                 <form method="post" asp-action="Apply" asp-controller="Stelleangebote" enctype="multipart/form-data">
@@ -107,19 +107,19 @@
                         <input type="file" class="form-control" id="cv" name="cv" accept=".pdf,.doc,.docx" required>
                     </div> *@
 
-                    <!-- Zone de texte Anschreiben -->
+                   
                     <div class="mb-3">
                         <label for="anschreiben" class="form-label">Anschreiben</label>
                         <textarea class="form-control" id="anschreiben" name="anschreiben" rows="10" required>
                         </textarea>
                     </div>
 
-                    <!-- Affichage des modèles d'Anschreiben -->
+                   
 
                     <div class="mb-3">
                         <span>Hier sind Musteranschreiben, die Ihnen helfen können</span>
 
-                        <!-- Navigation des onglets (tabs) -->
+                      
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="muster1-tab" data-bs-toggle="tab" data-bs-target="#muster1" type="button" role="tab" aria-controls="muster1" aria-selected="true">Muster 1</button>
@@ -132,9 +132,8 @@
                             </li>
                         </ul>
 
-                        <!-- Contenu des onglets -->
                         <div class="tab-content" id="myTabContent">
-                            <!-- Contenu du premier tab (Muster 1) -->
+                            
                             <div class="tab-pane fade show active" id="muster1" role="tabpanel" aria-labelledby="muster1-tab">
                                 
                                 <button type="button" class="btn btn-secondary w-100" onclick="insertMuster('Sehr geehrte Damen und Herren,\n\nMit großem Interesse habe ich die Möglichkeit für ein Praktikum als @Model.Title bei Ihrer Firma xxx gesehen. Ich bin überzeugt, dass meine Fähigkeiten und meine Lernbereitschaft einen wertvollen Beitrag zu Ihrem Team leisten können.\n\nWährend meines Studiums der/des [Fachbereich] habe ich wertvolle theoretische Kenntnisse in den Bereichen [relevante Bereiche] erworben, die ich nun in einem praktischen Umfeld wie dem Ihren weiter vertiefen möchte. Besonders schätze ich die Möglichkeit, von erfahrenen Fachleuten zu lernen und aktiv an spannenden Projekten mitzuwirken.\n\nIch bin motiviert, mich schnell in neue Aufgaben einzuarbeiten und bringe eine ausgeprägte Teamfähigkeit sowie eine hohe Eigeninitiative mit. Ich freue mich darauf, meine Fähigkeiten und Erfahrungen in Ihrem Unternehmen einbringen und erweitern zu können.\n\nÜber die Einladung zu einem persönlichen Gespräch freue ich mich sehr.\n\nMit freundlichen Grüßen,\n\n[Ihr Name]')">
@@ -162,7 +161,7 @@
 
                     
 
-                    <!-- Bouton de soumission -->
+                   
                     <button type="submit" class="btn btn-primary btn-lg w-100">Bewerbung Absenden</button>
                 </form>
             </div>
@@ -170,7 +169,7 @@
     </div>
 
     <script>
-        // Fonction pour insérer le texte du modèle dans la zone de texte Anschreiben
+      
         function insertMuster(musterText) {
             document.getElementById("anschreiben").value = musterText;
         }

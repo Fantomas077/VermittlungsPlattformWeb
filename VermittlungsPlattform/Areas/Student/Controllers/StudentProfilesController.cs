@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using VermittlungsPlattform.Models.Db;
 
 namespace VermittlungsPlattform.Areas.Student.Controllers
@@ -50,11 +45,11 @@ namespace VermittlungsPlattform.Areas.Student.Controllers
         public IActionResult Create()
         {
             // Liste des intérêts disponibles pour que l'utilisateur puisse les sélectionner
-
             ViewBag.Interres = _context.Interesses.ToList();
 
-
             return View();
+
+            
         }
 
         // POST: Student/StudentProfiles/Create
@@ -62,7 +57,7 @@ namespace VermittlungsPlattform.Areas.Student.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-      
+
         public async Task<IActionResult> Create([Bind("Id,UserId,Apropos,Fachrichtung,Studiengang,Schwerpunkte,Skills,Location,Geschlecht,Abschluss,Cvname,Instagram,Github,Linkedin,Facebook,Twitter")] StudentProfile studentProfile, IFormFile pdfFile, List<int> SelectedInterests)
         {
             if (ModelState.IsValid)
@@ -91,24 +86,24 @@ namespace VermittlungsPlattform.Areas.Student.Controllers
                     }
                 }
                 //-----------------------------------
-               
-                _context.Add(studentProfile);
-                await _context.SaveChangesAsync(); 
 
-                
+                _context.Add(studentProfile);
+                await _context.SaveChangesAsync();
                 foreach (var interestId in SelectedInterests)
                 {
                     var interesse = new StudentenInteresse
                     {
-                        StudentprofileId = studentProfile.Id, 
-                        StudentInteresse = _context.Interesses.FirstOrDefault(i => i.Id == interestId)?.Name 
+                        StudentprofileId = studentProfile.Id,
+                        StudentInteresse = _context.Interesses.FirstOrDefault(i => i.Id == interestId)?.Name // Le nom de l'intérêt
                     };
                     _context.StudentenInteresses.Add(interesse);
                 }
+                await _context.SaveChangesAsync();
 
-                await _context.SaveChangesAsync(); 
+
                 return RedirectToAction(nameof(Index));
             }
+           
             return View(studentProfile);
         }
 
@@ -126,15 +121,15 @@ namespace VermittlungsPlattform.Areas.Student.Controllers
             {
                 return NotFound();
             }
-
             ViewBag.Interres = _context.Interesses.ToList();
 
-           
+            // Récupérer les intérêts déjà sélectionnés pour ce profil
             var selectedInterests = _context.StudentenInteresses
-                                             .Where(si => si.StudentprofileId == id)
+                                             .Where(si => si.StudentprofileId == studentProfile.Id)
                                              .Select(si => si.Id)
                                              .ToList();
 
+            // Passer les intérêts sélectionnés à la vue
             ViewBag.SelectedInterests = selectedInterests;
 
             return View(studentProfile);
@@ -181,11 +176,14 @@ namespace VermittlungsPlattform.Areas.Student.Controllers
                 }
                 //-----------------------------------
 
-                
+
                 try
                 {
-                    var currentInterests = _context.StudentenInteresses.Where(si => si.StudentprofileId == studentProfile.Id).ToList();
+                    var currentInterests = _context.StudentenInteresses
+   .Where(si => si.StudentprofileId == studentProfile.Id)
+   .ToList();
                     _context.StudentenInteresses.RemoveRange(currentInterests);
+
 
                     // Ajouter les nouveaux intérêts
                     if (SelectedInterests != null && SelectedInterests.Any())
@@ -198,14 +196,21 @@ namespace VermittlungsPlattform.Areas.Student.Controllers
                                 var studentInterest = new StudentenInteresse
                                 {
                                     StudentprofileId = studentProfile.Id,
-                                    StudentInteresse = interest.Name 
+                                    StudentInteresse = interest.Name
                                 };
                                 _context.StudentenInteresses.Add(studentInterest);
                             }
                         }
                     }
+
+
+
+
+
                     _context.Update(studentProfile);
                     await _context.SaveChangesAsync();
+
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -220,6 +225,7 @@ namespace VermittlungsPlattform.Areas.Student.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["Interesses"] = _context.Interesses.ToList() ?? new List<Interesse>();
             return View(studentProfile);
         }
 

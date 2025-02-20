@@ -2,7 +2,8 @@
 
 @{
     ViewData["Title"] = "Create Student Profile";
-    var Interesse = ViewData["Interesse"] as List<VermittlungsPlattform.Models.Db.Interesse>;
+   
+    var Interesses = ViewData["Interesses"] as List<VermittlungsPlattform.Models.Db.Interesse>;
 }
 
 <div class="container-xl px-4 mt-4">
@@ -166,7 +167,7 @@
                         <!-- Abschluss -->
                         <div class="mb-3">
                             <label class="small mb-1" asp-for="Abschluss">Abschluss</label>
-                            <select class="form-control" asp-for="Abschluss">
+                            <select class="form-control" asp-for="Abschluss" required>
                                 <option value="">Select Abschluss</option>
                                 <option value="Bachelor">Bachelor</option>
                                 <option value="Master">Master</option>
@@ -215,7 +216,7 @@
                             <label class="small mb-2">Interesse</label>
                             <div class="container p-3 border rounded">
                                 <div class="d-flex flex-wrap gap-2">
-                                    @foreach (var x in ViewBag.Interres )  // Liste des intérêts
+                                    @foreach (var x in ViewBag.Interres)
                                     {
                                         <div class="interest-button">
                                             <input type="checkbox"
@@ -231,9 +232,8 @@
                                     }
                                 </div>
                             </div>
+                            <span class="text-danger" id="interest-error"></span>
                         </div>
-
-
 
 
 
@@ -257,5 +257,18 @@
             toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
         });
 
+    </script>
+    <script>
+        document.querySelector("form").addEventListener("submit", function (e) {
+            var checkedInterests = document.querySelectorAll("input[name='SelectedInterests']:checked").length;
+            var errorElement = document.getElementById("interest-error");
+
+            if (checkedInterests === 0) {
+                errorElement.innerText = "Deine Interesse fehlen noch";
+                e.preventDefault();  // Empêche la soumission du formulaire
+            } else {
+                errorElement.innerText = "";  // Efface le message d'erreur si une case est cochée
+            }
+        });
     </script>
 }

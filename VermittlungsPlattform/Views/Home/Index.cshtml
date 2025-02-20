@@ -5,6 +5,7 @@
     var Student = ViewData["Student"] as List<VermittlungsPlattform.Models.Db.StudentProfile>;
     var Userr = ViewData["Userr"] as List<VermittlungsPlattform.Models.Db.User>;
     var xo = Userr.Where(xo => xo.IsStudent == true).Count();
+    bool hasStelle = Stelle.Any();
 }
 
 
@@ -24,115 +25,115 @@
     <link rel="stylesheet" href="~/css/file.css" asp-append-version="true" />
     <style>
         .job-card {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            background-color: #f8f9fa;
-            padding: 20px;
-            margin-bottom: 20px;
-            transition: transform 0.2s;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        background-color: #f8f9fa;
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: transform 0.2s;
         }
 
-            .job-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            }
+        .job-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
 
-            .job-card h5 {
-                font-size: 1.1rem;
-                font-weight: bold;
-            }
+        .job-card h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        }
 
         .badge {
-            font-size: 0.85rem;
-            padding: 5px 10px;
+        font-size: 0.85rem;
+        padding: 5px 10px;
         }
 
         .job-details {
-            font-size: 0.9rem;
-            color: #6c757d;
+        font-size: 0.9rem;
+        color: #6c757d;
         }
 
         .view-btn {
-            margin-top: 10px;
+        margin-top: 10px;
         }
 
         .card {
-            margin-bottom: 24px;
-            box-shadow: 0 2px 3px #e4e8f0;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 3px #e4e8f0;
         }
 
         .card {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-            word-wrap: break-word;
-            background-color: #fff;
-            background-clip: border-box;
-            border: 1px solid #eff0f2;
-            border-radius: 1rem;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid #eff0f2;
+        border-radius: 1rem;
         }
 
         .avatar-md {
-            height: 4rem;
-            width: 4rem;
+        height: 4rem;
+        width: 4rem;
         }
 
         .rounded-circle {
-            border-radius: 50% !important;
+        border-radius: 50% !important;
         }
 
         .img-thumbnail {
-            padding: 0.25rem;
-            background-color: #f1f3f7;
-            border: 1px solid #eff0f2;
-            border-radius: 0.75rem;
+        padding: 0.25rem;
+        background-color: #f1f3f7;
+        border: 1px solid #eff0f2;
+        border-radius: 0.75rem;
         }
 
         .avatar-title {
-            align-items: center;
-            background-color: #3b76e1;
-            color: #fff;
-            display: flex;
-            font-weight: 500;
-            height: 100%;
-            justify-content: center;
-            width: 100%;
+        align-items: center;
+        background-color: #3b76e1;
+        color: #fff;
+        display: flex;
+        font-weight: 500;
+        height: 100%;
+        justify-content: center;
+        width: 100%;
         }
 
         .bg-soft-primary {
-            background-color: rgba(59,118,225,.25) !important;
+        background-color: rgba(59,118,225,.25) !important;
         }
 
         a {
-            text-decoration: none !important;
+        text-decoration: none !important;
         }
 
         .badge-soft-danger {
-            color: #f56e6e !important;
-            background-color: rgba(245,110,110,.1);
+        color: #f56e6e !important;
+        background-color: rgba(245,110,110,.1);
         }
 
         .badge-soft-success {
-            color: #63ad6f !important;
-            background-color: rgba(99,173,111,.1);
+        color: #63ad6f !important;
+        background-color: rgba(99,173,111,.1);
         }
 
         .mb-0 {
-            margin-bottom: 0 !important;
+        margin-bottom: 0 !important;
         }
 
         .badge {
-            display: inline-block;
-            padding: 0.25em 0.6em;
-            font-size: 75%;
-            font-weight: 500;
-            line-height: 1;
-            color: #fff;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: baseline;
-            border-radius: 0.75rem;
+        display: inline-block;
+        padding: 0.25em 0.6em;
+        font-size: 75%;
+        font-weight: 500;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 0.75rem;
         }
     </style>
 
@@ -211,7 +212,7 @@
             <!-- Carousel -->
             <div id="partnerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="20000">
                 <div class="carousel-inner">
-                    <!-- Première série d'entreprises -->
+                    
                     <div class="carousel-item active">
                         <div class="row justify-content-center">
                             @foreach (var item in Company.Take(3))
@@ -230,23 +231,7 @@
                         </div>
                     </div>
 
-                    <!-- Deuxième série d'entreprises -->
-                    <div class="carousel-item">
-                        <div class="row justify-content-center">
-                            @foreach (var item in Company.Skip(3).Take(3))
-                            {
-                                <div class="col-lg-4 col-md-6 mb-3">
-                                    <input type="hidden" asp-for="@item.Id" />
-                                    <a href="/Unternehmen/CompanyDetails/@item.Id">
-                                        <div class="card">
-                                            <img class="img-fluid" src="/images/LogoCompany/@item.ImageName" alt="@item.Name" style="max-width: contain; max-height: 200px;">
-
-                                        </div>
-                                    </a>
-                                </div>
-                            }
-                        </div>
-                    </div>
+                 
                 </div>
 
 
@@ -254,8 +239,10 @@
         }
 
     </section>
-  
-        <section>
+
+    <section>
+        @if(hasStelle)
+        {
             <div class="container mt-5">
                 <div class="row align-items-center mb-4">
                     <div class="col-md-8">
@@ -271,7 +258,7 @@
                 <div class="row">
                     @foreach (var item in Stelle.Take(3))
                     {
-                        
+
                         var matchedStudents = Student.Where(x => item.Skills.Split(',').Any(skill => x.Skills.Contains(skill.Trim())));
 
 
@@ -301,7 +288,10 @@
                     }
                 </div>
             </div>
-        </section>
+        }
+        
+           
+    </section>
     
    
    

@@ -8,17 +8,20 @@
     var StelleBewerbung = ViewData["StelleBewerbung"] as List<VermittlungsPlattform.Models.Db.StelleBewerbung>;
     var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-    int userId = int.Parse(userIdString);  // Convertir le string en int
+    int userId = int.Parse(userIdString);  
     var entrepriseConnectee = Company.FirstOrDefault(x => x.UserId == userId);
 
-    // Vérifier si une entreprise est trouvée
+
+    var stellesExistantes = Stelle.Where(x => x.UserId == userId).ToList();
+    var xo = Stelle.Where(x => x.UnternehmenProfileId == entrepriseConnectee.Id);
+    bool hasStelle = stellesExistantes.Any();
     int candidaturesRecues = 0;
     if (entrepriseConnectee != null)
     {
-        // Compter le nombre de candidatures reçues pour les stages de cette entreprise
+
         candidaturesRecues = StelleBewerbung.Where(sb => sb.UnternhemenId == entrepriseConnectee.Id).Count();
     }
-    
+
 }
 
 
@@ -40,115 +43,115 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         .job-card {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            background-color: #f8f9fa;
-            padding: 20px;
-            margin-bottom: 20px;
-            transition: transform 0.2s;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        background-color: #f8f9fa;
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: transform 0.2s;
         }
 
-            .job-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            }
+        .job-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
 
-            .job-card h5 {
-                font-size: 1.1rem;
-                font-weight: bold;
-            }
+        .job-card h5 {
+        font-size: 1.1rem;
+        font-weight: bold;
+        }
 
         .badge {
-            font-size: 0.85rem;
-            padding: 5px 10px;
+        font-size: 0.85rem;
+        padding: 5px 10px;
         }
 
         .job-details {
-            font-size: 0.9rem;
-            color: #6c757d;
+        font-size: 0.9rem;
+        color: #6c757d;
         }
 
         .view-btn {
-            margin-top: 10px;
+        margin-top: 10px;
         }
 
         .card {
-            margin-bottom: 24px;
-            box-shadow: 0 2px 3px #e4e8f0;
+        margin-bottom: 24px;
+        box-shadow: 0 2px 3px #e4e8f0;
         }
 
         .card {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-            word-wrap: break-word;
-            background-color: #fff;
-            background-clip: border-box;
-            border: 1px solid #eff0f2;
-            border-radius: 1rem;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid #eff0f2;
+        border-radius: 1rem;
         }
 
         .avatar-md {
-            height: 4rem;
-            width: 4rem;
+        height: 4rem;
+        width: 4rem;
         }
 
         .rounded-circle {
-            border-radius: 50% !important;
+        border-radius: 50% !important;
         }
 
         .img-thumbnail {
-            padding: 0.25rem;
-            background-color: #f1f3f7;
-            border: 1px solid #eff0f2;
-            border-radius: 0.75rem;
+        padding: 0.25rem;
+        background-color: #f1f3f7;
+        border: 1px solid #eff0f2;
+        border-radius: 0.75rem;
         }
 
         .avatar-title {
-            align-items: center;
-            background-color: #3b76e1;
-            color: #fff;
-            display: flex;
-            font-weight: 500;
-            height: 100%;
-            justify-content: center;
-            width: 100%;
+        align-items: center;
+        background-color: #3b76e1;
+        color: #fff;
+        display: flex;
+        font-weight: 500;
+        height: 100%;
+        justify-content: center;
+        width: 100%;
         }
 
         .bg-soft-primary {
-            background-color: rgba(59,118,225,.25) !important;
+        background-color: rgba(59,118,225,.25) !important;
         }
 
         a {
-            text-decoration: none !important;
+        text-decoration: none !important;
         }
 
         .badge-soft-danger {
-            color: #f56e6e !important;
-            background-color: rgba(245,110,110,.1);
+        color: #f56e6e !important;
+        background-color: rgba(245,110,110,.1);
         }
 
         .badge-soft-success {
-            color: #63ad6f !important;
-            background-color: rgba(99,173,111,.1);
+        color: #63ad6f !important;
+        background-color: rgba(99,173,111,.1);
         }
 
         .mb-0 {
-            margin-bottom: 0 !important;
+        margin-bottom: 0 !important;
         }
 
         .badge {
-            display: inline-block;
-            padding: 0.25em 0.6em;
-            font-size: 75%;
-            font-weight: 500;
-            line-height: 1;
-            color: #fff;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: baseline;
-            border-radius: 0.75rem;
+        display: inline-block;
+        padding: 0.25em 0.6em;
+        font-size: 75%;
+        font-weight: 500;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: 0.75rem;
         }
     </style>
 
@@ -210,65 +213,86 @@
     </section>
 
 
-
     <section class="container mt-5">
-        <div class="row align-items-center mb-4">
-            <div class="col-md-8">
-                <h4 class="title mb-4">Profile, die gut zu Ihrem Stelle passen können</h4>
-                <p class="text-muted">Beginne deine Karriere mit spannenden Praktikumsstellen von führenden Unternehmen.</p>
+        @if (hasStelle)
+        {
+            <div class="row align-items-center mb-4">
+                <div class="col-md-8">
+                    <h4 class="title mb-4">Profile, die gut zu Ihrem Stelle passen können</h4>
+                    <p class="text-muted">Beginne deine Karriere mit spannenden Praktikumsstellen von führenden Unternehmen.</p>
+                </div>
             </div>
+        }
 
-        </div>
         <div class="row">
-            @foreach (var item in Student)
+            @if (hasStelle)
             {
-                <div class="col-xl-3 col-sm-6">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <!-- Profile Info -->
-                            <input type="hidden" asp-for="@item.Id" />
-                            <div class="d-flex align-items-center">
-                                <div>
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="avatar-md rounded-circle img-thumbnail" />
-                                </div>
-                                <div class="flex-1 ms-3">
-                                    <h5 class="font-size-16 mb-1">
-                                        <a href="#" class="text-dark">
-                                            @foreach (var x in Userr.Where(x => x.Id == item.UserId))
-                                            {
-                                                @x.Vorname @x.Name
-                                            }
-                                        </a>
-                                    </h5>
-                                    <span class="badge badge-soft-success mb-0">@item.Studiengang Student</span>
+                @foreach (var item in Student)
+                {
+                    @foreach (var stelle in stellesExistantes)
+                    {
+                        var stelleSkills = stelle.Skills?.Split(',').Select(s => s.Trim()).ToList() ?? new List<string>();
+                        var studentSkills = item.Skills?.Split(',').Select(s => s.Trim()).ToList() ?? new List<string>();
+
+                        if (studentSkills.Intersect(stelleSkills).Any())  
+                        {
+                            <div class="col-xl-3 col-sm-6">
+                                <div class="card shadow-sm">
+                                    <div class="card-body">
+                                        <!-- Profile Info -->
+                                        <input type="hidden" asp-for="@item.Id" />
+                                        <div class="d-flex align-items-center">
+                                            <div>
+                                                <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="avatar-md rounded-circle img-thumbnail" />
+                                            </div>
+                                            <div class="flex-1 ms-3">
+                                                <h5 class="font-size-16 mb-1">
+                                                    <a href="#" class="text-dark">
+                                                        @foreach (var x in Userr.Where(x => x.Id == item.UserId))
+                                                        {
+                                                            @x.Vorname @x.Name
+                                                        }
+                                                    </a>
+                                                </h5>
+                                                <span class="badge badge-soft-success mb-0">@item.Studiengang Student</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Skills Section -->
+                                        <div class="mt-4 text-center">
+                                            <div class="d-flex justify-content-center flex-wrap gap-2">
+                                                @foreach (var skill in studentSkills)
+                                                {
+                                                    <span class="badge bg-info text-dark">@skill</span>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <!-- Action Buttons -->
+                                        <div class="d-flex gap-2 pt-4">
+                                            <a type="button" class="btn btn-outline-primary btn-sm w-50" href="/Unternehmen/Student/Studentdetails/@item.Id">
+                                                <i class="bx bx-user me-1"></i> Profile
+                                            </a>
+
+                                            <a type="button" class="btn btn-primary btn-sm w-50">
+                                                <i class="bx bx-message-square-dots me-1"></i> Kontakt
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-
-                            <!-- Skills Section -->
-                            <div class="mt-4 text-center">
-
-                                <div class="d-flex justify-content-center flex-wrap gap-2">
-                                    @foreach (var skill in item.Skills.Split(','))
-                                    {
-                                        <span class="badge bg-info text-dark">@skill</span>
-                                    }
-                                </div>
-                            </div>
-
-                            <!-- Action Buttons -->
-                            <div class="d-flex gap-2 pt-4">
-                                <a type="button" class="btn btn-outline-primary btn-sm w-50" href="/Unternehmen/Student/Studentdetails/@item.Id">
-                                    <i class="bx bx-user me-1"></i> Profile
-                                </a>
-
-                                <a type="button" class="btn btn-primary btn-sm w-50">
-                                    <i class="bx bx-message-square-dots me-1"></i> Kontact
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                        }
+                    }
+                }
+            }
+            else
+            {
+                <div class="alert alert-warning">
+                    <h4>Keine Stellenangebote gefunden</h4>
+                    <p>Sie haben noch keine Stellenangebote erstellt. Bitte <a href="/Unternehmen/PraktikumStelles/Create">erstellen Sie eine neue Stelle</a>, um passende Kandidaten angezeigt zu bekommen.</p>
                 </div>
             }
+
         </div>
     </section>
 

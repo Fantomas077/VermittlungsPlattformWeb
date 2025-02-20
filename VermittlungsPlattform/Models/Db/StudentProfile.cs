@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace VermittlungsPlattform.Models.Db;
 
@@ -20,11 +21,12 @@ public partial class StudentProfile
     public string Skills { get; set; } = null!;
 
     public string Location { get; set; } = null!;
-
+   
     public string Geschlecht { get; set; } = null!;
 
     public string Abschluss { get; set; } = null!;
 
+    
     public string? Cvname { get; set; }
 
     public string? Instagram { get; set; }
@@ -36,4 +38,7 @@ public partial class StudentProfile
     public string? Facebook { get; set; }
 
     public string? Twitter { get; set; }
+
+    
+
 }
