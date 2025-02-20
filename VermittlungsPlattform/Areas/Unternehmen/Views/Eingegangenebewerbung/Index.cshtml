@@ -47,9 +47,9 @@
                     </td>
                     <td>
                         <span class="badge
-                            @(item.Status == "Angenommen" ? "badge-success" :
-                             item.Status == "Abgelehnt" ? "badge-danger" :
-                             item.Status == "Anstehend" ? "badge-warning" : "badge-secondary")">
+                         @(item.Status == "Angenommen" ? "bg-success" :
+                           item.Status == "Abgelehnt" ? "bg-danger" :
+                           item.Status == "Anstehend" ? "bg-warning" : "bg-secondary")">
                             @item.Status
                         </span>
                     </td>
@@ -60,10 +60,10 @@
                         </a>
                     </td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success btn-sm">
+                        <a asp-action="Zusagen" asp-route-id="@item.Id" class="btn btn-success btn-sm">
                             <i class="fas fa-check"></i> Zusagen
                         </a>
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-danger btn-sm">
+                        <a asp-action="Absagen" asp-route-id="@item.Id" class="btn btn-danger btn-sm">
                             <i class="fas fa-times"></i> Absagen
                         </a>
                     </td>

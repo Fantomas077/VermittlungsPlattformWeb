@@ -151,6 +151,28 @@
                             <input class="form-control" asp-for="Link" id="inputWebsite" type="url" placeholder="Enter Link ">
                             <span asp-validation-for="Link" class="text-danger"></span>
                         </div>
+
+                        <div class="form-group">
+                            <label class="small mb-2">Centres d'intérêt (sélection multiple)</label>
+                            <div class="container p-3 border rounded">
+                                <div class="d-flex flex-wrap gap-2">
+                                    @foreach (var x in ViewBag.Interres)  // Liste des intérêts
+                                    {
+                                        <div class="interest-button">
+                                            <input type="checkbox"
+                                                   class="btn-check"
+                                                   id="interest-@x.Id"
+                                                   name="SelectedInterests"
+                                                   value="@x.Id"
+                                                   autocomplete="off">
+                                            <label class="btn btn-outline-primary rounded-pill" for="interest-@x.Id">
+                                                @x.Name
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
                         <!-- Save changes button-->
                         <div class="">
                             <button class="btn btn-primary " type="submit">Create</button>

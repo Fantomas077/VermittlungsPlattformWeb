@@ -41,16 +41,17 @@
                             @obj2.Name
                         </a>
                     </td>
-                   
-                    
+
+
                     <td>
                         <span class="badge
-                            @(item.Status == "Angenommen" ? "badge-success" :
-                             item.Status == "Abgelehnt" ? "badge-danger" :
-                             item.Status == "Anstehend" ? "badge-warning" : "badge-secondary")">
+                             @(item.Status == "Angenommen" ? "bg-success" :
+                                 item.Status == "Abgelehnt" ? "bg-danger" :
+                                item.Status == "Anstehend" ? "bg-warning" : "bg-secondary")">
                             @item.Status
                         </span>
                     </td>
+
                     <td>@Html.DisplayFor(modelItem => item.ApplyDate)</td>
                     
                     

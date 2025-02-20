@@ -73,6 +73,7 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
         // GET: Unternehmen/UnternehmenProfiles/Create
         public IActionResult Create()
         {
+           
             return View();
         }
 
@@ -81,7 +82,7 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserId,Name,Branche,Location,Description,Webseite,Link,ImageName")] UnternehmenProfile unternehmenProfile, IFormFile? MainImage, IFormFile[]? GalleryImages)
+        public async Task<IActionResult> Create([Bind("Id,UserId,Name,Branche,Location,Description,Webseite,Link,ImageName")] UnternehmenProfile unternehmenProfile, IFormFile? MainImage, IFormFile[]? GalleryImages, List<int> SelectedInterests)
         {
             if (ModelState.IsValid)
             {
@@ -138,6 +139,18 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
                         _context.CompanyGalleries.Add(newgallery);
                     }
                 }
+                // Enregistrer les intérêts sélectionnés
+                foreach (var interestId in SelectedInterests)
+                {
+                    var interesse = new CompanyInteresse
+                    {
+                        UnternehmenprofilId = unternehmenProfile.Id, // Utiliser l'ID généré
+                        UnternehmenInteresse = _context.Interesses.FirstOrDefault(i => i.Id == interestId)?.Name // Le nom de l'intérêt
+                    };
+                    _context.CompanyInteresses.Add(interesse);
+                }
+
+              
                 await _context.SaveChangesAsync();
                 //---------------------------------
                 return RedirectToAction(nameof(Index));
@@ -286,7 +299,8 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
             {
                 _context.UnternehmenProfiles.Remove(unternehmenProfile);
             }
-
+            var currentInterests = _context.CompanyInteresses.Where(si => si.UnternehmenprofilId == unternehmenProfile.Id).ToList();
+            _context.CompanyInteresses.RemoveRange(currentInterests);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

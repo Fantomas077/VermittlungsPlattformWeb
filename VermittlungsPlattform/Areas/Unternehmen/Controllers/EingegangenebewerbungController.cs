@@ -53,5 +53,36 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
             ViewData["Company"] = Company;
             return View(bewerbungen);  // Passer les candidatures à la vue
         }
+        public async Task<IActionResult> Zusagen(int id)
+        {
+            var bewerbung = await _context.StelleBewerbungs.FindAsync(id);
+            if (bewerbung == null)
+            {
+                return NotFound();
+            }
+
+            bewerbung.Status = "Angenommen"; // Statut accepté
+            _context.Update(bewerbung);
+            await _context.SaveChangesAsync();
+
+            
+
+            return RedirectToAction(nameof(Index)); // Redirige vers la liste des candidatures
+        }
+
+        public async Task<IActionResult> Absagen(int id)
+        {
+            var bewerbung = await _context.StelleBewerbungs.FindAsync(id);
+            if (bewerbung == null)
+            {
+                return NotFound();
+            }
+
+            bewerbung.Status = "Abgelehnt"; // Statut refusé
+            _context.Update(bewerbung);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index)); // Redirige vers la liste des candidatures
+        }
     }
 }

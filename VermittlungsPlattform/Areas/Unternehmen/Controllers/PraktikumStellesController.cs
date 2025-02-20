@@ -49,6 +49,7 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
         // GET: Unternehmen/PraktikumStelles/Create
         public IActionResult Create()
         {
+            ViewBag.Interres = _context.Interesses.ToList();
             return View();
         }
 
@@ -57,7 +58,7 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserId,UnternehmenProfileId,Title,Description,Location,Branche,Dauer,Skills,CreateDate,Tags,Arbeitsyp,Gehalt")] PraktikumStelle praktikumStelle)
+        public async Task<IActionResult> Create([Bind("Id,UserId,UnternehmenProfileId,Title,Description,Location,Branche,Dauer,Skills,CreateDate,Tags,Arbeitsyp,Gehalt")] PraktikumStelle praktikumStelle, List<int> SelectedInterests)
         {
             if (ModelState.IsValid)
             {
@@ -79,6 +80,18 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
                 praktikumStelle.CreateDate=DateTime.Now;
                 _context.Add(praktikumStelle);
                 await _context.SaveChangesAsync();
+
+                // Enregistrer les intérêts sélectionnés
+                foreach (var interestId in SelectedInterests)
+                {
+                    var interesse = new CompanyInteresse
+                    {
+                        UnternehmenprofilId = praktikumStelle.Id, 
+                        UnternehmenInteresse = _context.Interesses.FirstOrDefault(i => i.Id == interestId)?.Name // Le nom de l'intérêt
+                    };
+                    _context.CompanyInteresses.Add(interesse);
+                }
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(praktikumStelle);
@@ -97,6 +110,17 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Interres = _context.Interesses.ToList();
+
+            // Récupérer les intérêts déjà sélectionnés pour ce profil
+            var selectedInterests = _context.CompanyInteresses
+                                             .Where(si => si.UnternehmenprofilId == id)
+                                             .Select(si => si.Id)
+                                             .ToList();
+
+            // Passer les intérêts sélectionnés à la vue
+            ViewBag.SelectedInterests = selectedInterests;
             return View(praktikumStelle);
         }
 
@@ -105,7 +129,7 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,UnternehmenProfileId,Title,Description,Location,Branche,Dauer,Skills,CreateDate,Tags,Arbeitsyp,Gehalt")] PraktikumStelle praktikumStelle)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,UnternehmenProfileId,Title,Description,Location,Branche,Dauer,Skills,CreateDate,Tags,Arbeitsyp,Gehalt")] PraktikumStelle praktikumStelle, List<int> SelectedInterests)
         {
             if (id != praktikumStelle.Id)
             {
@@ -125,6 +149,26 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
                         // Gérer le cas où l'utilisateur n'a pas de profil d'entreprise
                         return BadRequest("No company profile found for this user.");
                     }
+                    var currentInterests = _context.CompanyInteresses.Where(si => si.UnternehmenprofilId == unternehmenProfile.Id).ToList();
+                    _context.CompanyInteresses.RemoveRange(currentInterests);
+
+                    // Ajouter les nouveaux intérêts
+                    if (SelectedInterests != null && SelectedInterests.Any())
+                    {
+                        foreach (var interestId in SelectedInterests)
+                        {
+                            var interest = await _context.Interesses.FindAsync(interestId);
+                            if (interest != null)
+                            {
+                                var studentInterest = new CompanyInteresse
+                                {
+                                    UnternehmenInteresse =interest.Name,
+                                     UnternehmenprofilId= praktikumStelle.Id // Utilisation de l'objet `interest` déjà récupéré
+                                };
+                                _context.CompanyInteresses.Add(studentInterest);
+                            }
+                        }
+                    }
 
                     // Assigner l'ID du profil de l'entreprise
                     praktikumStelle.UnternehmenProfileId = unternehmenProfile.Id;
@@ -132,6 +176,8 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
                     praktikumStelle.CreateDate = DateTime.Now;
                     _context.Update(praktikumStelle);
                     await _context.SaveChangesAsync();
+
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {

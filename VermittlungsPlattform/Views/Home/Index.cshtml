@@ -4,6 +4,7 @@
     var Stelle = ViewData["Stelle"] as List<VermittlungsPlattform.Models.Db.PraktikumStelle>;
     var Student = ViewData["Student"] as List<VermittlungsPlattform.Models.Db.StudentProfile>;
     var Userr = ViewData["Userr"] as List<VermittlungsPlattform.Models.Db.User>;
+    var xo = Userr.Where(xo => xo.IsStudent == true).Count();
 }
 
 
@@ -169,7 +170,7 @@
                 <p>Partnerunternehmen</p>
             </div>
             <div class="col-md-4 stat-item">
-                <h3>@Student.Count</h3>
+                <h3>@xo</h3>
                 <p>Vernetzte Studierende</p>
             </div>
             <div class="col-md-4 stat-item">
@@ -272,6 +273,7 @@
                     {
                         
                         var matchedStudents = Student.Where(x => item.Skills.Split(',').Any(skill => x.Skills.Contains(skill.Trim())));
+
 
                         if (matchedStudents.Any())
                         {

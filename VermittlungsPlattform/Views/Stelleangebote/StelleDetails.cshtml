@@ -1,9 +1,19 @@
 ﻿@using VermittlungsPlattform.Models.Db
 @model VermittlungsPlattform.Models.Db.PraktikumStelle
+@using System.Security.Claims;
 @{
     ViewData["Title"] = "StelleDetails";
     var Company = ViewData["Company"] as List<VermittlungsPlattform.Models.Db.UnternehmenProfile>;
     var Stelle = ViewData["Stelle"] as List<VermittlungsPlattform.Models.Db.PraktikumStelle>;
+    var stellebewerbung = ViewData["stellebewerbung"] as List<VermittlungsPlattform.Models.Db.StelleBewerbung>;
+
+    var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+
+    int userId = int.Parse(userIdString);  // Convertir l'ID utilisateur de string à int
+
+    
+    
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -142,10 +152,23 @@
                         }
                     </div>
                     <div class="mt-4">
-                        <a href="/Stelleangebote/Apply/@Model.Id" class="btn btn-primary btn-lg">
-                            Weiter zur Bewerbung
-                        </a>
+                        @if (stellebewerbung.Any(x => x.UserId == userId && x.StelleId == Model.Id))
+                        {
+                            <a class="btn btn-secondary btn-lg" disabled>
+                                Schon beworben
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="/Stelleangebote/Apply/@Model.Id" class="btn btn-primary btn-lg">
+                                Weiter zur Bewerbung
+                            </a>
+                        }
+
+
                     </div>
+
+
                 </div>
 
             </div>

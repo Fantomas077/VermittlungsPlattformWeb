@@ -45,6 +45,11 @@ namespace VermittlungsPlattform.Controllers
             ViewData["Student"] = Student;
             var Userr = _context.Users.ToList();
             ViewData["Userr"] = Userr;
+            var stinteresse = _context.StudentenInteresses.ToList();
+            ViewData["stinteresse"] = stinteresse;
+            var companyteresse = _context.CompanyInteresses.ToList();
+            ViewData["companyteresse"] = companyteresse;
+
 
             return View();
         }

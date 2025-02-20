@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using VermittlungsPlattform.Models.Db;
 
@@ -48,10 +50,10 @@ namespace VermittlungsPlattform.Controllers
 
         public IActionResult Search(string Searchtext, string City)
         {
-            // Commence par une requête de base incluant toutes les données
+          
             var query = _context.PraktikumStelles.AsQueryable();
 
-            // Applique le filtre sur le titre, les tags ou la branche si le Searchtext n'est pas vide
+           
             if (!string.IsNullOrEmpty(Searchtext))
             {
                 query = query.Where(x =>
@@ -60,17 +62,17 @@ namespace VermittlungsPlattform.Controllers
                     EF.Functions.Like(x.Branche, "%" + Searchtext + "%"));
             }
 
-            // Applique le filtre sur la ville si la City n'est pas vide
+          
             if (!string.IsNullOrEmpty(City))
             {
                 query = query.Where(x => EF.Functions.Like(x.Location, "%" + City + "%"));
             }
 
-            // Trie les résultats par titre
+            
             var result = query.OrderBy(x => x.Title).ToList();
             var company = _context.UnternehmenProfiles.ToList();
             ViewData["Company"] = company;
-            // Renvoie la vue "Index" avec les résultats filtrés
+           
             return View("Index", result);
         }
 
@@ -84,6 +86,8 @@ namespace VermittlungsPlattform.Controllers
             var Company = _context.UnternehmenProfiles.ToList();
             ViewData["Company"] = Company;
             ViewData["Stelle"] = _context.PraktikumStelles.Where(x => x.UnternehmenProfileId == Id).ToList();
+            var stellebewerbung = _context.StelleBewerbungs.ToList();
+            ViewData["stellebewerbung"] = stellebewerbung;
             return View(obj);
         }
         [HttpGet]
@@ -105,50 +109,98 @@ namespace VermittlungsPlattform.Controllers
         [HttpPost]
         public IActionResult Apply(string anschreiben, int UnternehmenId, int StelleId)
         {
-            // Vérifie si les champs requis sont présents
+           
             if (!string.IsNullOrEmpty(anschreiben) && UnternehmenId != 0 && StelleId != 0)
             {
-                // Récupérer les informations de l'utilisateur connecté via les claims
+                
                 var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 if (userIdString == null)
                 {
-                    return Unauthorized();  // Gérer le cas où l'utilisateur n'est pas connecté
+                    return Unauthorized();  
                 }
 
-                int userId = int.Parse(userIdString);  // Convertir l'ID utilisateur de string à int
+                int userId = int.Parse(userIdString);  
 
-                // Vérifier si l'utilisateur connecté correspond au profil étudiant
+                
                 var studentProfile = _context.StudentProfiles.FirstOrDefault(x => x.UserId == userId);
                 if (studentProfile == null)
                 {
-                    return Unauthorized();  // Si l'utilisateur n'a pas de profil étudiant associé
+                    return Unauthorized();  
                 }
 
-                // Créer une nouvelle instance de StelleBewerbung (Candidature)
+              
                 StelleBewerbung newBewerbung = new StelleBewerbung
                 {
                     Anschreiben = anschreiben,
-                    UnternhemenId = UnternehmenId,   // Correctement assigné
-                    StelleId = StelleId,             // Correctement assigné
-                    StudentProfilId = studentProfile.Id,  // Utilisation de l'ID du profil étudiant
+                    UnternhemenId = UnternehmenId,   
+                    StelleId = StelleId,             
+                    StudentProfilId = studentProfile.Id,  
                     ApplyDate = DateTime.Now,
                     Cv=studentProfile.Cvname,
-                    Status = "Anstehend",            // Statut initial de la candidature
+                    Status = "Anstehend",            
                     UserId = userId     
-                    // ID de l'utilisateur connecté
+                    
                 };
 
-                // Ajoute la candidature dans la base de données
+                
                 _context.StelleBewerbungs.Add(newBewerbung);
                 _context.SaveChanges();
+                
+                var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+                if (user == null || string.IsNullOrEmpty(user.Email))
+                {
+                    return BadRequest("L'adresse e-mail de l'utilisateur n'a pas été trouvée.");
+                }
 
-                // Message de succès
-                TempData["SuccessMessage"] = "Ihre Bewerbung wurde erfolgreich eingereicht.";
+                
+                var stelle = _context.PraktikumStelles.FirstOrDefault(x => x.Id == StelleId);
+                var unternehmen = _context.UnternehmenProfiles.FirstOrDefault(x => x.Id == UnternehmenId);
+
+               
+
+                try
+                {
+                    // Configure email
+                    MailMessage mail = new MailMessage();
+                    SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+                    mail.From = new MailAddress("nheltonn@gmail.com");
+                    mail.To.Add(user.Email);  // use email user
+                    mail.Subject = "Bewerbung erfolgreich gesendet";
+                    mail.Body = $"Hallo {user.Name},\n\nIhre Bewerbung für die Stelle '{stelle.Title}' bei {unternehmen.Name} wurde erfolgreich eingereicht.\n\nMit freundlichen Grüßen,\nDas Team";
+
+                    // Configure serveur SMTP
+                    SmtpServer.Port = 587;
+                    SmtpServer.Credentials = new System.Net.NetworkCredential("nheltonn@gmail.com", "ugju meqj olao siko");
+                    SmtpServer.EnableSsl = true;
+
+                    SmtpServer.Send(mail);
+                    //---------------------------------------------
+                    var stelle1 = _context.PraktikumStelles.FirstOrDefault(x => x.Id == StelleId);
+                    var unternehmen1 = _context.UnternehmenProfiles.FirstOrDefault(x => x.Id == UnternehmenId);
+                    var xo = _context.Users.FirstOrDefault(x => x.Id == unternehmen1.UserId);
+                    MailMessage unternehmenMail = new MailMessage();
+                    unternehmenMail.From = new MailAddress("nheltonn@gmail.com");
+                    unternehmenMail.To.Add(xo.Email);  
+                    unternehmenMail.Subject = "Neue Bewerbung eingegangen";
+                    unternehmenMail.Body = $"Hallo {unternehmen1.Name},\n\nSie haben eine neue Bewerbung für die Stelle '{stelle1.Title}' erhalten.\n\nMit freundlichen Grüßen,\nDas Team";
+
+                    // send email
+                    SmtpServer.Send(unternehmenMail);
+
+
+                }
+                catch (Exception ex)
+                {
+                   
+                    TempData["ErrorMessage"] = $"Ein Fehler ist aufgetreten: {ex.Message}";
+                }
+
                 return Redirect("/Home/");
             }
 
-            // Si les champs sont manquants ou invalides
+            
             TempData["ErrorMessage"] = "Bitte füllen Sie alle erforderlichen Felder aus.";
             return View(new StelleBewerbung());
         }

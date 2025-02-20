@@ -2,56 +2,82 @@
 
 @{
     ViewData["Title"] = "Create Student Profile";
+    var Interesse = ViewData["Interesse"] as List<VermittlungsPlattform.Models.Db.Interesse>;
 }
 
 <div class="container-xl px-4 mt-4">
     <style>
         .img-account-profile {
-            height: 10rem;
+        height: 10rem;
         }
 
         .rounded-circle {
-            border-radius: 50% !important;
+        border-radius: 50% !important;
         }
 
         .card {
-            box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+        box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
         }
 
-            .card .card-header {
-                font-weight: 500;
-            }
+        .card .card-header {
+        font-weight: 500;
+        }
 
         .form-control, .dataTable-input {
-            display: block;
-            width: 100%;
-            padding: 0.875rem 1.125rem;
-            font-size: 0.875rem;
-            font-weight: 400;
-            color: #69707a;
-            background-color: #fff;
-            border: 1px solid #c5ccd6;
-            border-radius: 0.35rem;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        display: block;
+        width: 100%;
+        padding: 0.875rem 1.125rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        color: #69707a;
+        background-color: #fff;
+        border: 1px solid #c5ccd6;
+        border-radius: 0.35rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
 
         textarea.form-control {
-            resize: none;
+        resize: none;
         }
 
         .gallery-images {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
         }
 
-            .gallery-images img {
-                width: 100%;
-                max-width: 100px;
-                height: 100px;
-                object-fit: cover;
-                border-radius: 8px;
-                box-shadow: 0 0.15rem 0.5rem 0 rgb(33 40 50 / 10%);
+        .gallery-images img {
+        width: 100%;
+        max-width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 0.15rem 0.5rem 0 rgb(33 40 50 / 10%);
+        }
+
+        .interest-button {
+            position: relative;
+        }
+
+        .btn-check:checked + .btn {
+            background-color: #0d6efd;
+            color: white;
+            border-color: #0d6efd;
+        }
+
+        .btn-check:focus + .btn {
+            box-shadow: none !important;
+        }
+
+        .btn-outline-primary {
+            background-color: #fff;
+            color: #0d6efd;
+            border-color: #0d6efd;
+        }
+
+            .btn-outline-primary.selected {
+                background-color: #0d6efd;
+                color: white;
             }
     </style>
 
@@ -78,8 +104,8 @@
                     <div class="card-header">Create Student Profile</div>
                     <div class="card-body">
                         <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-                        
-                     
+
+
 
                         <!-- Apropos -->
                         <div class="mb-3">
@@ -144,9 +170,9 @@
                                 <option value="">Select Abschluss</option>
                                 <option value="Bachelor">Bachelor</option>
                                 <option value="Master">Master</option>
-                               
+
                             </select>
-                            
+
                             <span asp-validation-for="Abschluss" class="text-danger"></span>
                         </div>
 
@@ -185,6 +211,32 @@
                             <span asp-validation-for="Twitter" class="text-danger"></span>
                         </div>
 
+                        <div class="form-group">
+                            <label class="small mb-2">Interesse</label>
+                            <div class="container p-3 border rounded">
+                                <div class="d-flex flex-wrap gap-2">
+                                    @foreach (var x in ViewBag.Interres )  // Liste des intérêts
+                                    {
+                                        <div class="interest-button">
+                                            <input type="checkbox"
+                                                   class="btn-check"
+                                                   id="interest-@x.Id"
+                                                   name="SelectedInterests"
+                                                   value="@x.Id"
+                                                   autocomplete="off">
+                                            <label class="btn btn-outline-primary rounded-pill" for="interest-@x.Id">
+                                                @x.Name
+                                            </label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
                         <!-- Save changes button-->
                         <div class="">
                             <button class="btn btn-primary" type="submit">Create Profile</button>
@@ -204,5 +256,6 @@
             plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount linkchecker',
             toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
         });
+
     </script>
 }

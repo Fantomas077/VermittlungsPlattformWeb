@@ -19,8 +19,11 @@ public partial class VermittlungsplattformDbContext : DbContext
 
     public virtual DbSet<Comment> Comments { get; set; }
 
-   
     public virtual DbSet<CompanyGallery> CompanyGalleries { get; set; }
+
+    public virtual DbSet<CompanyInteresse> CompanyInteresses { get; set; }
+
+    public virtual DbSet<Interesse> Interesses { get; set; }
 
     public virtual DbSet<Menu> Menus { get; set; }
 
@@ -31,6 +34,8 @@ public partial class VermittlungsplattformDbContext : DbContext
     public virtual DbSet<StelleBewerbung> StelleBewerbungs { get; set; }
 
     public virtual DbSet<StudentProfile> StudentProfiles { get; set; }
+
+    public virtual DbSet<StudentenInteresse> StudentenInteresses { get; set; }
 
     public virtual DbSet<UnternehmenProfile> UnternehmenProfiles { get; set; }
 
@@ -77,8 +82,6 @@ public partial class VermittlungsplattformDbContext : DbContext
             entity.Property(e => e.UserId).HasColumnName("UserID");
         });
 
-       
-
         modelBuilder.Entity<CompanyGallery>(entity =>
         {
             entity.ToTable("CompanyGallery");
@@ -86,6 +89,27 @@ public partial class VermittlungsplattformDbContext : DbContext
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.CompanyProfileId).HasColumnName("CompanyProfileID");
             entity.Property(e => e.ImageName)
+                .HasMaxLength(100)
+                .IsFixedLength();
+        });
+
+        modelBuilder.Entity<CompanyInteresse>(entity =>
+        {
+            entity.ToTable("CompanyInteresse");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.UnternehmenInteresse)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.UnternehmenprofilId).HasColumnName("UnternehmenprofilID");
+        });
+
+        modelBuilder.Entity<Interesse>(entity =>
+        {
+            entity.ToTable("Interesse");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Name)
                 .HasMaxLength(100)
                 .IsFixedLength();
         });
@@ -237,6 +261,17 @@ public partial class VermittlungsplattformDbContext : DbContext
             entity.Property(e => e.Twitter)
                 .HasMaxLength(100)
                 .IsFixedLength();
+        });
+
+        modelBuilder.Entity<StudentenInteresse>(entity =>
+        {
+            entity.ToTable("StudentenInteresse");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.StudentInteresse)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.StudentprofileId).HasColumnName("StudentprofileID");
         });
 
         modelBuilder.Entity<UnternehmenProfile>(entity =>
