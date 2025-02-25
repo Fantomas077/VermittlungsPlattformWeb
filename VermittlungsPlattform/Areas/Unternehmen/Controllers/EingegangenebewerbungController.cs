@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Mail;
 using System.Security.Claims;
 using VermittlungsPlattform.Models.Db;
 
@@ -24,24 +25,24 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
 
             if (userIdString == null)
             {
-                return Unauthorized();  // Gérer le cas où l'utilisateur n'est pas connecté
+                return Unauthorized();  
             }
 
             int userId;
             if (!int.TryParse(userIdString, out userId))
             {
-                return BadRequest("Invalid user ID format.");  // Gérer le cas où l'ID utilisateur n'est pas valide
+                return BadRequest("Invalid user ID format.");  
             }
 
-            // Trouver l'entreprise associée à l'utilisateur connecté
+            
             var company = await _context.UnternehmenProfiles.FirstOrDefaultAsync(x => x.UserId == userId);
 
             if (company == null)
             {
-                return NotFound("Company profile not found.");  // Gérer le cas où l'entreprise n'est pas trouvée
+                return NotFound("Company profile not found.");  
             }
 
-            // Récupérer les candidatures reçues pour cette entreprise
+            
             var bewerbungen = await _context.StelleBewerbungs
                 .Where(x => x.UnternhemenId == company.Id)
                 .ToListAsync();
@@ -51,7 +52,7 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
             ViewData["Stelle"] = Stelle;
             var Company = _context.UnternehmenProfiles.ToList();
             ViewData["Company"] = Company;
-            return View(bewerbungen);  // Passer les candidatures à la vue
+            return View(bewerbungen);  
         }
         public async Task<IActionResult> Zusagen(int id)
         {
@@ -61,13 +62,48 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
                 return NotFound();
             }
 
-            bewerbung.Status = "Angenommen"; // Statut accepté
+            bewerbung.Status = "Angenommen"; 
             _context.Update(bewerbung);
             await _context.SaveChangesAsync();
 
-            
+            var user = _context.StudentProfiles.FirstOrDefault(x => x.Id == bewerbung.StudentProfilId);
+            var xo = _context.Users.FirstOrDefault(x => x.Id == user.UserId);
+            if (xo == null || string.IsNullOrEmpty(xo.Email))
+            {
+                return BadRequest("Email adresse nicht gefunden.");
+            }
 
-            return RedirectToAction(nameof(Index)); // Redirige vers la liste des candidatures
+
+           
+
+            try
+            {
+                // Configure email
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+                mail.From = new MailAddress("nheltonn@gmail.com");
+                mail.To.Add(xo.Email);  // use email user
+                mail.Subject = "Status Aktualisiert";
+                mail.Body = $"Hallo {xo.Name},\n Die Status Ihrer bewerbung wurde Aktualisiert.\n\nMit freundlichen Grüßen,\nDas Team";
+
+                // Configure serveur SMTP
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("nheltonn@gmail.com", "ugju meqj olao siko");
+                SmtpServer.EnableSsl = true;
+
+                SmtpServer.Send(mail);
+                
+
+
+            }
+            catch (Exception ex)
+            {
+
+                TempData["ErrorMessage"] = $"Ein Fehler ist aufgetreten: {ex.Message}";
+            }
+
+            return RedirectToAction(nameof(Index)); 
         }
 
         public async Task<IActionResult> Absagen(int id)
@@ -78,11 +114,48 @@ namespace VermittlungsPlattform.Areas.Unternehmen.Controllers
                 return NotFound();
             }
 
-            bewerbung.Status = "Abgelehnt"; // Statut refusé
+            bewerbung.Status = "Abgelehnt"; 
             _context.Update(bewerbung);
             await _context.SaveChangesAsync();
+            var user = _context.StudentProfiles.FirstOrDefault(x => x.Id == bewerbung.StudentProfilId);
+            var xo = _context.Users.FirstOrDefault(x => x.Id == user.UserId);
+            if (xo == null || string.IsNullOrEmpty(xo.Email))
+            {
+                return BadRequest("Email adresse nicht gefunden.");
+            }
 
-            return RedirectToAction(nameof(Index)); // Redirige vers la liste des candidatures
+
+
+
+            try
+            {
+                // Configure email
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+                mail.From = new MailAddress("nheltonn@gmail.com");
+                mail.To.Add(xo.Email);  // use email user
+                mail.Subject = "Status Aktualisiert";
+                mail.Body = $"Hallo {xo.Name},\n Die Status Ihrer bewerbung wurde Aktualisiert.\n\nMit freundlichen Grüßen,\nDas Team";
+
+                // Configure serveur SMTP
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("nheltonn@gmail.com", "ugju meqj olao siko");
+                SmtpServer.EnableSsl = true;
+
+                SmtpServer.Send(mail);
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                TempData["ErrorMessage"] = $"Ein Fehler ist aufgetreten: {ex.Message}";
+            }
+
+
+            return RedirectToAction(nameof(Index)); 
         }
     }
 }

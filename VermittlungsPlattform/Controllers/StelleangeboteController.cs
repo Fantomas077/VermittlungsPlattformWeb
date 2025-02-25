@@ -150,7 +150,7 @@ namespace VermittlungsPlattform.Controllers
                 var user = _context.Users.FirstOrDefault(x => x.Id == userId);
                 if (user == null || string.IsNullOrEmpty(user.Email))
                 {
-                    return BadRequest("L'adresse e-mail de l'utilisateur n'a pas été trouvée.");
+                    return BadRequest("Email adresse nicht gefunden.");
                 }
 
                 
