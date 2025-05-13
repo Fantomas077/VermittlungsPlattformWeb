@@ -25,7 +25,7 @@ Sie bietet moderne Funktionen wie **Profilverwaltung**, **intelligente Empfehlun
 ### 🔐 Authentifizierung & Registrierung
 
 - Sichere Anmeldung für beide Rollen (Student / Unternehmen)
-- E-Mail-Verifizierung und Passwortschutz mit ASP.NET Identity
+
 
 ### 📝 Bewerbungssystem
 
@@ -37,8 +37,10 @@ Sie bietet moderne Funktionen wie **Profilverwaltung**, **intelligente Empfehlun
 ## 📸 Screenshots
 
 ### 🏠 Startseite
-![Startseite Student](images/HomePageStudent.jpeg)
-![Startseite Unternehmen](images/UnternehmenSeiteView.jpeg)
+- **Studentensicht**  
+  ![Startseite Student](images/HomePageStudent.jpeg)
+- **Unternehmenssicht**  
+  ![Startseite Unternehmen](images/UnternehmenSeiteView.jpeg)
 
 ### 👤 Studentenprofil
 ![Studentenprofil](images/StudentProfile.jpeg)
@@ -47,16 +49,24 @@ Sie bietet moderne Funktionen wie **Profilverwaltung**, **intelligente Empfehlun
 ![Unternehmensprofil](images/CompanyInfoView.jpeg)
 
 ### 🔍 Praktikumsangebote
-![Praktikumsliste](images/StelleViewStudent.jpeg)
-![Stelle Details](images/StelleDetails.jpeg)
+- **Stellenübersicht**  
+  ![Stellenübersicht](images/StelleViewStudent.jpeg)
+- **Stellendetails**  
+  ![Stellendetails](images/StelleDetails.jpeg)
 
-
-### 📝 Bewerbung
+### 📝 Bewerbungssystem
 ![Bewerbung Student für Stelle](images/BewerbungStelle.jpeg)
+![Eingegangene Bewerbungen ](images/UnternehmenEingegangeneBewerbungen.jpeg)
 
 ### 🔐 Login & Registrierung
-![Login](images/Login.jpeg)
-![Registrierung](images/Register.jpeg)
+- **Login**  
+  ![Login](images/Login.jpeg)
+- **Registrierung**  
+  ![Registrierung](images/Register.jpeg)
+
+### 🛡️ Adminbereich
+- **Admin Dashboard**  
+  ![Admin Home View](images/AdminView.jpeg)
 
 ---
 
@@ -79,9 +89,7 @@ Sie bietet moderne Funktionen wie **Profilverwaltung**, **intelligente Empfehlun
 - SQL Server Express oder SQLite
 
 ### Schritte
-
-```bash
-git clone https://github.com/dein-benutzername/praktimatch.git
+git clone https://github.com/Fantomas077/praktimatch.git
 cd praktimatch
 dotnet ef database update
 dotnet run
