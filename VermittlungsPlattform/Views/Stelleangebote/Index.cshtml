@@ -95,7 +95,7 @@
                 @foreach (var item in Model)
                 {
                     var obj = Company.Where(x => x.Id == item.UnternehmenProfileId);
-                    <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="col-lg-4 col-md-12 mb-4">
                         <div class="job-card">
                             <input type="hidden" asp-for="@item.Id" />
                             <span class="badge bg-primary float-end"> @item.Arbeitsyp</span>
