@@ -99,7 +99,5 @@ Sie bietet moderne Funktionen wie **Profilverwaltung**, **intelligente Empfehlun
 - SQL Server Express oder SQLite
 
 ### Schritte
-git clone https://github.com/Fantomas077/praktimatch.git
-cd praktimatch
-dotnet ef database update
-dotnet run
+git clone (https://github.com/Fantomas077/VermittlungsPlattformWeb.git)
+
