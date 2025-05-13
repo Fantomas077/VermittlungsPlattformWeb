@@ -43,9 +43,12 @@ Sie bietet moderne Funktionen wie **Profilverwaltung**, **intelligente Empfehlun
   ![Startseite Unternehmen](images/UnternehmenSeiteView.jpeg)
 
 ### 👤 Studentenprofil
+- **Studentenprofil** 
 ![Studentenprofil](images/StudentProfile.jpeg)
 
+
 ### 🏢 Unternehmensprofil
+- **Unternehmensprofil** 
 ![Unternehmensprofil](images/CompanyInfoView.jpeg)
 
 ### 🔍 Praktikumsangebote
@@ -55,7 +58,14 @@ Sie bietet moderne Funktionen wie **Profilverwaltung**, **intelligente Empfehlun
   ![Stellendetails](images/StelleDetails.jpeg)
 
 ### 📝 Bewerbungssystem
+- **Bewerbung Student für Stelle**  
 ![Bewerbung Student für Stelle](images/BewerbungStelle.jpeg)
+
+- **Meine Bewerbung Student **  
+![Meine Bewerbung Student ](images/meinebewerbung.jpeg)
+
+
+- **Eingegangene Bewerbungen Unternehmen** 
 ![Eingegangene Bewerbungen ](images/UnternehmenEingegangeneBewerbungen.jpeg)
 
 ### 🔐 Login & Registrierung
