@@ -1,24 +1,39 @@
-Praktimatch
-Praktimatch ist eine innovative Plattform, die Studenten und Unternehmen bei der Vermittlung von Praktikumsplätzen unterstützt. Sie bietet fortschrittliche Funktionen wie die Verwaltung von Profilen, das Erstellen und Suchen von Praktikumsstellen, ein personalisiertes Empfehlungssystem sowie die Möglichkeit, sich direkt auf Stellen zu bewerben.
+PraktiMatch ist eine innovative Plattform, die **Studenten** und **Unternehmen** bei der Vermittlung von Praktikumsplätzen unterstützt.  
+Sie bietet moderne Funktionen wie **Profilverwaltung**, **intelligente Empfehlungen**, und eine integrierte **Bewerbungsfunktion**.
 
-🚀 Hauptfunktionen
-Profilverwaltung:
+---
 
-Studenten: Erstelle und personalisiere dein Profil mit deinen Fähigkeiten, Erfahrungen und Praktikumsvorlieben.
-Unternehmen: Präsentiere dein Unternehmen und veröffentliche ansprechende Praktikumsangebote.
-Praktikumsvermittlung:
+## 🚀 Hauptfunktionen
 
-Durchsuche Praktikumsangebote, die zu deinem Profil passen.
-Unternehmen können passende Studenten für ihre offenen Stellen finden.
-Empfehlungssystem:
+### 👤 Profilverwaltung
+- **Studenten:** Erstellen und personalisieren ihr Profil mit Fähigkeiten, Erfahrungen und Präferenzen
+- **Unternehmen:** Präsentieren ihre Firma und veröffentlichen attraktive Praktikumsstellen
 
-Studenten erhalten maßgeschneiderte Praktikumsvorschläge basierend auf ihren Interessen und Fähigkeiten.
-Unternehmen erhalten Vorschläge für geeignete Kandidaten.
-Login und Registrierung:
+### 🔍 Praktikumsvermittlung
+- Studenten durchsuchen relevante Praktikumsangebote
+- Unternehmen finden gezielt passende Bewerber
 
-Sichere Anmeldung für Studenten und Unternehmen.
-Einfache Registrierung mit validierten Benutzerkonten.
-Bewerbungssystem:
+### 🤖 Empfehlungssystem
+- Basierend auf Interessen und Fähigkeiten der Nutzer
+- Empfehlungen für passende Praktika oder Kandidaten
 
-Studenten können sich direkt über die Plattform auf Praktikumsstellen bewerben.
-Unternehmen können Bewerbungen einsehen und verwalten.
+### 🔐 Login & Registrierung
+- Sichere Anmeldung für beide Rollen
+- Validierte Benutzerkonten
+
+### 📝 Bewerbungssystem
+- Studenten bewerben sich direkt auf Praktikumsstellen
+- Unternehmen verwalten eingegangene Bewerbungen
+
+---
+
+## 🛠️ Verwendete Technologien
+
+- ASP.NET Core MVC
+- ASP.NET Identity
+- Entity Framework Core
+- Bootstrap / CSS
+- SQL Server
+
+---
+
