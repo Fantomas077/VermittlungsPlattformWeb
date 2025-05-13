@@ -44,7 +44,7 @@ Sie bietet moderne Funktionen wie **Profilverwaltung**, **intelligente Empfehlun
 ![Studentenprofil](images/StudentProfile.jpeg)
 
 ### 🏢 Unternehmensprofil
-![Unternehmensprofil](Assets/images/CompanyProfile.jpeg)
+![Unternehmensprofil](images/CompanyInfoView.jpeg)
 
 ### 🔍 Praktikumsangebote
 ![Praktikumsliste](images/StelleViewStudent.jpeg)
