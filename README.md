@@ -1,63 +1,63 @@
-# 🎓 PraktiMatch
+#  PraktiMatch
 
 **PraktiMatch** ist eine innovative Plattform, die **Studenten** und **Unternehmen** bei der Vermittlung von Praktikumsplätzen unterstützt.  
 Sie bietet moderne Funktionen wie **Profilverwaltung**, **intelligente Empfehlungen**, und eine integrierte **Bewerbungsfunktion**.
 
 ---
 
-## 🚀 Hauptfunktionen
+##  Hauptfunktionen
 
-### 👤 Profilverwaltung
+###  Profilverwaltung
 
 - **Studenten:** Erstellen und personalisieren ihr Profil mit Fähigkeiten, Erfahrungen und Präferenzen
 - **Unternehmen:** Präsentieren ihre Firma und veröffentlichen attraktive Praktikumsstellen
 
-### 🔍 Praktikumsvermittlung
+###  Praktikumsvermittlung
 
 - Studenten durchsuchen relevante Praktikumsangebote
 - Unternehmen finden gezielt passende Bewerber
 
-### 🤖 Empfehlungssystem
+### Empfehlungssystem
 
 - Automatische Vorschläge basierend auf Interessen und Fähigkeiten der Nutzer
 - Personalisierte Empfehlungen für passende Praktika oder Kandidaten
 
-### 🔐 Authentifizierung & Registrierung
+###  Authentifizierung & Registrierung
 
 - Sichere Anmeldung für beide Rollen (Student / Unternehmen)
 
 
-### 📝 Bewerbungssystem
+###  Bewerbungssystem
 
 - Studenten bewerben sich direkt auf Praktikumsstellen
 - Unternehmen verwalten eingegangene Bewerbungen im Dashboard
 
 ---
 
-## 📸 Screenshots
+##  Screenshots
 
-### 🏠 Startseite
+###  Startseite
 - **Studentensicht**  
   ![Startseite Student](images/HomePageStudent.jpeg)
 - **Unternehmenssicht**  
   ![Startseite Unternehmen](images/UnternehmenSeiteView.jpeg)
 
-### 👤 Studentenprofil
+###  Studentenprofil
 - **Studentenprofil** 
 ![Studentenprofil](images/StudentProfile.jpeg)
 
 
-### 🏢 Unternehmensprofil
+### Unternehmensprofil
 - **Unternehmensprofil** 
 ![Unternehmensprofil](images/CompanyInfoView.jpeg)
 
-### 🔍 Praktikumsangebote
+###  Praktikumsangebote
 - **Stellenübersicht**  
   ![Stellenübersicht](images/StelleViewStudent.jpeg)
 - **Stellendetails**  
   ![Stellendetails](images/StelleDetails.jpeg)
 
-### 📝 Bewerbungssystem
+###  Bewerbungssystem
 - **Bewerbung Student für Stelle**  
 ![Bewerbung Student für Stelle](images/BewerbungStelle.jpeg)
 
@@ -68,19 +68,19 @@ Sie bietet moderne Funktionen wie **Profilverwaltung**, **intelligente Empfehlun
 - **Eingegangene Bewerbungen Unternehmen** 
 ![Eingegangene Bewerbungen ](images/UnternehmenEingegangeneBewerbungen.jpeg)
 
-### 🔐 Login & Registrierung
+###  Login & Registrierung
 - **Login**  
   ![Login](images/Login.jpeg)
 - **Registrierung**  
   ![Registrierung](images/Register.jpeg)
 
-### 🛡️ Adminbereich
+###  Adminbereich
 - **Admin Dashboard**  
   ![Admin Home View](images/AdminView.jpeg)
 
 ---
 
-## 🛠️ Verwendete Technologien
+##  Verwendete Technologien
 
 - ASP.NET Core MVC
 - ASP.NET Identity
@@ -90,7 +90,7 @@ Sie bietet moderne Funktionen wie **Profilverwaltung**, **intelligente Empfehlun
 
 ---
 
-## 🚧 Lokale Installation
+##  Lokale Installation
 
 ### Voraussetzungen
 
